@@ -1,10 +1,10 @@
-package com.example.Fullstack;
+package com.WT.LibraryApp;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
 @SpringBootTest
-class FullstackApplicationTests {
+class LibraryApplicationTests {
 
 	@Test
 	void contextLoads() {
