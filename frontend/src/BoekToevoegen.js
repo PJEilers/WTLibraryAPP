@@ -34,7 +34,7 @@ function BoekToevoegen() {
 
                 <label>ISBN</label>
                 <input type="text" placeholder = "verplicht veld"  onChange={e => setISBN(e.target.value)} />
-
+                
                 <label>Tags</label>
                 <input type="text" placeholder = "gescheiden door komma" onChange={e => setTags(e.target.value)} />   
 
