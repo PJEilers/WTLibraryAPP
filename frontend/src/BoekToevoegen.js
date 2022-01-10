@@ -36,7 +36,7 @@ function BoekToevoegen() {
                 <input type="text" placeholder = "verplicht veld"  onChange={e => setISBN(e.target.value)} />
 
                 <label>Beschrijving</label>
-                <input type="text" onChange={e => setBeschrijving(e.target.value)} />
+                <textarea type="text" id = "beschrijving" onChange={e => setBeschrijving(e.target.value)} />
 
                 <label>Druk</label>
                 <input type="number" onChange={e => setDruk(e.target.value)} />

@@ -1,14 +1,16 @@
 div {
     text-align: left;
 }
-    div.BoekToevoegen {
-        display:grid;
-        grid-template-columns: max-content max-content;
-        grid-gap:5px;
-    }
-    div.BoekToevoegen label       { text-align:right; }
-    div.BoekToevoegen label:after { content: ":"; }
+    
+div.BoekToevoegen {
+    display:grid;
+    grid-template-columns: max-content max-content;
+    grid-gap:5px;
+}
+    
+div.BoekToevoegen label       { text-align:right; }
+div.BoekToevoegen label:after { content: ":"; }
 
-    div.BoekToevoegen #stuur:after {content:""}
+div.BoekToevoegen #stuur:after {content:""}
 
-    div.BoekToevegen #boektitel:after {content: "(*=verplicht veld)"}
+
