@@ -18,22 +18,19 @@ public class ReserveringController {
 	@Autowired
 	private ReserveringService service;
 	
-	// /persoon/1
-	// /persoon/9999
-	@RequestMapping("/persoon/{mijnid}")
+	@RequestMapping("/reservering/{mijnid}")
 	public Optional<Reservering> vindEentje(@PathVariable int mijnid) {
 		return service.vindEentje(mijnid);
 	}
 	
-	@RequestMapping(value = "/personen")
+	@RequestMapping(value = "/reserveringen")
 	public List<Reservering> vind() {
-		return service.vindAllePersonen();
-		
+		return service.vindAlleReserveringen();
 	}
 	
 	@RequestMapping(method = RequestMethod.POST, value = "/maakreserveringaan")
-	public Reservering maakPersoonAan(@RequestBody Reservering reservering) {
-		return service.maakPersoonAan(reservering);
+	public Reservering maakReserveringAan(@RequestBody Reservering reservering) {
+		return service.maakReserveringAan(reservering);
 	}
 
 }

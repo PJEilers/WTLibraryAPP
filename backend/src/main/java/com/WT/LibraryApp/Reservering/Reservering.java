@@ -15,8 +15,14 @@ public class Reservering {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int id;
 	
-	@Column(length = 100, nullable = false)
-	private String name;
+	@Column(length = 10, nullable = false)
+	private int exemplaar_id;
+
+	@Column(length = 10, nullable = false)
+	private int persoon_id;
+	
+	@Column(length = 8, nullable = false)
+	private int datum;
 
 	public int getId() {
 		return id;
@@ -26,13 +32,28 @@ public class Reservering {
 		this.id = id;
 	}
 
-	public String getName() {
-		return name;
+	public int getExemplaar_id() {
+		return exemplaar_id;
 	}
 
-	public void setName(String name) {
-		this.name = name;
+	public void setExemplaar_id(int exemplaar_id) {
+		this.exemplaar_id = exemplaar_id;
 	}
-	
-	
+
+	public int getPersoon_id() {
+		return persoon_id;
+	}
+
+	public void setPersoon_id(int persoon_id) {
+		this.persoon_id = persoon_id;
+	}
+
+	public int getDatum() {
+		return datum;
+	}
+
+	public void setDatum(int datum) {
+		this.datum = datum;
+	}
+
 }

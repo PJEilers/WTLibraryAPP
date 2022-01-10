@@ -16,13 +16,12 @@ public class ReserveringService {
 		return repository.findById(id);
 	}
 	
-	public List<Reservering> vindAllePersonen() {
+	public List<Reservering> vindAlleReserveringen() {
 		List<Reservering> reserveringen =  repository.findAll();
-		
 		return reserveringen;
 	}
 	
-	public Reservering maakPersoonAan(Reservering reservering) {
+	public Reservering maakReserveringAan(Reservering reservering) {
 		return repository.save(reservering);
 	}
 	
