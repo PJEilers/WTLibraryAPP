@@ -30,7 +30,7 @@ public class ExemplaarController {
 	}
 
 	// Optie voor toevoegen van reservatie
-	@RequestMapping(method = RequestMethod.POST, value = "/reservatie/{hoeveelheid}" /* TODO */)
+	@RequestMapping(method = RequestMethod.POST, value = "/opslaanexemplaar/{hoeveelheid}" /* TODO */)
 	public void opslaanExemplaar(@RequestBody Exemplaar exemplaar, @PathVariable int hoeveelheid) {
 
 		// Een temporary object wordt gebruikt omdat Hibernate(SQL) eenzelfde kopie van
