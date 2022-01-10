@@ -23,7 +23,7 @@ function ExemplarenToevoegen(props) {
     
     if (props.boekToegevoegd) {
         return (
-            <div key = {props.uniekID}>
+            <div>
                 <h2>Hoeveel exemplaren wil je toevoegen</h2>
                 <input type = "number" defaultValue={hoeveelheid} min={1}
                                        readOnly={alleenLezen}
@@ -35,8 +35,9 @@ function ExemplarenToevoegen(props) {
               </ul>
             </div>
         )
+    } else {
+        return null;
     }
-    return null;
 }
 
 export default ExemplarenToevoegen;

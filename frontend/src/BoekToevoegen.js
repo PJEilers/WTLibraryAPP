@@ -31,6 +31,10 @@ function BoekToevoegen() {
         setBoekToegevoegd(false)
         setAlleenLezen(false)
         setKnopUit(false)
+        setBoektitel('')
+        setAuteur('')
+        setISBN('')
+        setTags(null)
         setUniekID(uniekID+1)
     }
 
@@ -64,7 +68,8 @@ function BoekToevoegen() {
 
 
             </div>          
-            <ExemplarenToevoegen boekToegevoegd={boekToegevoegd} boektitel = {boektitel}/>
+            <ExemplarenToevoegen boekToegevoegd={boekToegevoegd} boektitel = {boektitel}
+                                 uniekID={uniekID}/>
             <button onClick={() => reset()}>Nieuw Boek</button>
         </div>
     )
