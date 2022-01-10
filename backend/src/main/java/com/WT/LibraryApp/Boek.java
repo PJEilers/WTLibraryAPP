@@ -24,12 +24,6 @@ public class Boek {
 	@Column(length = 50, nullable = false)
 	private String isbn;
 	
-	@Column(length = 20)
-	private String druk;
-	
-	@Column(length = 1000)
-	private String beschrijving;
-	
 	@Column(length = 500)
 	private String tags;
 
@@ -63,22 +57,6 @@ public class Boek {
 
 	public void setIsbn(String isbn) {
 		this.isbn = isbn;
-	}
-
-	public String getDruk() {
-		return druk;
-	}
-
-	public void setDruk(String druk) {
-		this.druk = druk;
-	}
-
-	public String getBeschrijving() {
-		return beschrijving;
-	}
-
-	public void setBeschrijving(String beschrijving) {
-		this.beschrijving = beschrijving;
 	}
 
 	public String getTags() {
