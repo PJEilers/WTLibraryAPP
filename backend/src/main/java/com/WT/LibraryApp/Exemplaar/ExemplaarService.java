@@ -19,7 +19,7 @@ public class ExemplaarService {
 		return repository.findAll();
 	}
 
-	public void reserveerExemplaar(Exemplaar exemplaar) {
+	public void opslaanExemplaar(Exemplaar exemplaar) {
 		repository.save(exemplaar);
 
 	}

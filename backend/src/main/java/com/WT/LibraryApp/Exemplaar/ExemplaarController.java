@@ -31,7 +31,7 @@ public class ExemplaarController {
 
 	// Optie voor toevoegen van reservatie
 	@RequestMapping(method = RequestMethod.POST, value = "/reservatie/{hoeveelheid}" /* TODO */)
-	public void reserveerExemplaar(@RequestBody Exemplaar exemplaar, @PathVariable int hoeveelheid) {
+	public void opslaanExemplaar(@RequestBody Exemplaar exemplaar, @PathVariable int hoeveelheid) {
 
 		// Een temporary object wordt gebruikt omdat Hibernate(SQL) eenzelfde kopie van
 		// een exemplaar niet leuk vind.
@@ -40,7 +40,7 @@ public class ExemplaarController {
 			tmpexemplaar = new Exemplaar();
 			tmpexemplaar.setBoek_id(exemplaar.getBoek_id());
 			tmpexemplaar.setReservering_id(exemplaar.getReservering_id());
-			service.reserveerExemplaar(tmpexemplaar);
+			service.opslaanExemplaar(tmpexemplaar);
 		}
 	}
 
