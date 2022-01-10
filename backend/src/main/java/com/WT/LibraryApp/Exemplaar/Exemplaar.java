@@ -7,18 +7,17 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
-
 @Entity
 @Table(name = "exemplaar")
 public class Exemplaar {
-	
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int id;
-	
+
 	@Column(nullable = false)
 	private int boek_id;
-	
+
 	@Column(nullable = true)
 	private int reservering_id;
 
@@ -46,6 +45,4 @@ public class Exemplaar {
 		this.reservering_id = reservering_id;
 	}
 
-	
-	
 }

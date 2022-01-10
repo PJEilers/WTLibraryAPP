@@ -20,12 +20,8 @@ public class ExemplaarService {
 	}
 
 	public void reserveerExemplaar(Exemplaar exemplaar) {
-		for (int i = 0; i < 4; i++) {
-			System.out.println(i);
-			repository.save(exemplaar);
-		}
-		
-		
+		repository.save(exemplaar);
+
 	}
-	
+
 }

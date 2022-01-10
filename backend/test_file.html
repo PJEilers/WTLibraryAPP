@@ -30,7 +30,7 @@
         </tbody>
     </table>
 
-    <h2>Input Exemplaar</h2>
+    <h2>Input Exemplaar</h2>  
     <input type="text" id="boekid">
     <input type="text" id="reserveringid"> 
     <input type="text" id="hoeveelheid">
@@ -49,7 +49,7 @@
                 boek_id: newboekid,
                 reservering_id: newreserveringid
             }
-
+            //for (let i =0; i <newhoeveelheid; i++) {
             fetch("http://localhost:8080/reservatie/" + newhoeveelheid, {
                 method: 'POST',
                 headers: {
@@ -63,6 +63,7 @@
                 .catch(error => {
                     alert('Er is iets fout gegaan');
                 })
+            //}
         }
 
     </script>
