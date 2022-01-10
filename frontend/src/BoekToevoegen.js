@@ -11,6 +11,7 @@ function BoekToevoegen() {
     const [alleenLezen, setAlleenLezen] = useState(false)
     const [knopUit, setKnopUit] = useState(false)
     const [boekToegevoegd, setBoekToegevoegd] = useState(false)
+    const [uniekID, setUniekID] = useState(0)
     
 
     const stuurOp = () => {
@@ -26,8 +27,15 @@ function BoekToevoegen() {
         }
     }
 
+    const reset = () => {
+        setBoekToegevoegd(false)
+        setAlleenLezen(false)
+        setKnopUit(false)
+        setUniekID(uniekID+1)
+    }
+
     return (
-        <div>            
+        <div key = {uniekID}>            
             <h1>Voeg een boek toe</h1>
             <div className='BoekToevoegen'>
 
@@ -57,6 +65,7 @@ function BoekToevoegen() {
 
             </div>          
             <ExemplarenToevoegen boekToegevoegd={boekToegevoegd} boektitel = {boektitel}/>
+            <button onClick={() => reset()}>Nieuw Boek</button>
         </div>
     )
 }

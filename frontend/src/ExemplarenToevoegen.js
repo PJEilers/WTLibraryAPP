@@ -23,9 +23,9 @@ function ExemplarenToevoegen(props) {
     
     if (props.boekToegevoegd) {
         return (
-            <div>
+            <div key = {props.uniekID}>
                 <h2>Hoeveel exemplaren wil je toevoegen</h2>
-                <input type = "number" defaultValue={1} min={1}
+                <input type = "number" defaultValue={hoeveelheid} min={1}
                                        readOnly={alleenLezen}
                                        onChange={e => setHoeveelheid(e.target.value)}/>
               <button disabled = {knopUit} onClick={() => bevestig()}>Bevestig</button>
