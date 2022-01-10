@@ -26,12 +26,12 @@ public class BoekController {
 	@RequestMapping(value = "/boeken")
 	public List<Boek> vindAlleBoeken() {
 		return service.vindAlleBoeken();
-	}
+	}*/
 	
 	@RequestMapping(method = RequestMethod.POST, value="/maakboekaan")
 	public Boek maakBoekAan(@RequestBody Boek boek) {
 		return service.maakBoekAan(boek);
-	}*/
+	}
 }
 
 

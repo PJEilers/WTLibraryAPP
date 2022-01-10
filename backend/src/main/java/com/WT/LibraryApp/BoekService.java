@@ -19,10 +19,10 @@ public class BoekService {
 	 	List<Boek> boeken = repository.findAll();
 	 	
 	 	return boeken;
-	}
+	}*/
 	
 	public Boek maakBoekAan(Boek boek) {
 		return repository.save(boek);
-	}*/
+	}
 }
 
