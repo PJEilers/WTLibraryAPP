@@ -22,7 +22,7 @@ public class Reservering {
 	private int persoon_id;
 	
 	@Column(length = 8, nullable = false)
-	private int datum;
+	private String datum;
 
 	public int getId() {
 		return id;
@@ -48,11 +48,11 @@ public class Reservering {
 		this.persoon_id = persoon_id;
 	}
 
-	public int getDatum() {
+	public String getDatum() {
 		return datum;
 	}
 
-	public void setDatum(int datum) {
+	public void setDatum(String datum) {
 		this.datum = datum;
 	}
 

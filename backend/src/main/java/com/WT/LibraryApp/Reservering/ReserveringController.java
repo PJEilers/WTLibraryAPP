@@ -18,17 +18,17 @@ public class ReserveringController {
 	@Autowired
 	private ReserveringService service;
 	
-	@RequestMapping("/reservering/{mijnid}")
+	@RequestMapping("/reservering/{mijnid}") // werkt nog niet
 	public Optional<Reservering> vindEentje(@PathVariable int mijnid) {
 		return service.vindEentje(mijnid);
 	}
 	
-	@RequestMapping(value = "/reserveringen")
+	@RequestMapping(value = "/reserveringen") // werkt nog niet
 	public List<Reservering> vind() {
 		return service.vindAlleReserveringen();
 	}
 	
-	@RequestMapping(method = RequestMethod.POST, value = "/maakreserveringaan")
+	@RequestMapping(method = RequestMethod.POST, value = "/maakreserveringaan") // deze werkt, maar datum is nu een string
 	public Reservering maakReserveringAan(@RequestBody Reservering reservering) {
 		return service.maakReserveringAan(reservering);
 	}
