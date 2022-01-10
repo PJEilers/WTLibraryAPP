@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        .id {
+            color: red;
+            background-color: yellow;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>Addressen</h1>
+    <table>
+        <thead>
+            <tr>
+                <th class="id">ID</th>
+                <th>Street</th>
+                <th>House Number</th>
+                <th>Postal Code</th>
+                <th>City</th>
+            </tr>
+        </thead>
+        <tbody id="addressTableBody">
+
+        </tbody>
+    </table>
+
+    <h2>Input Exemplaar</h2>  
+    <input type="text" id="boekid">
+    <input type="text" id="reserveringid"> 
+    <input type="text" id="hoeveelheid">
+    
+    <button onclick="maakExemplarenAan()" type="button">Opslaan</button>
+
+    <script>
+        // Response to button
+
+        function maakExemplarenAan() {
+            var newboekid = document.getElementById("boekid").value;
+            var newreserveringid = document.getElementById("reserveringid").value;
+            var newhoeveelheid = document.getElementById("hoeveelheid").value;
+
+            let newExemplaar = {
+                boek_id: newboekid,
+                reservering_id: newreserveringid
+            }
+            //for (let i =0; i <newhoeveelheid; i++) {
+            fetch("http://localhost:8080/reservatie/" + newhoeveelheid, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(newExemplaar)
+            })
+                .then(response => {
+                    alert('Is goedgegaan');
+                })
+                .catch(error => {
+                    alert('Er is iets fout gegaan');
+                })
+            //}
+        }
+
+    </script>
+
+</body>
+</html>
