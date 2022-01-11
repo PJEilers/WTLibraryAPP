@@ -19,12 +19,39 @@ function BoekToevoegen() {
             alert("Vul alle verplichte velden in")
         } else {
             const boekData = {}
+
             //TODO: POST request/response met correct json
+            maakBoekAan();
+
             setAlleenLezen(true)
             setKnopUit(true)
             setBoekToegevoegd(true)
 
         }
+    }
+
+    const maakBoekAan = () => {
+        let nieuwBoek = {
+            id: uniekID,
+            titel: boektitel,
+            auteur: auteur,
+            isbn: ISBN,
+            tags: tags,
+        }
+
+        fetch("http://localhost:8080/maakboekaan", {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(nieuwBoek)
+        })
+            .then(response => {
+                alert('Het boek is toegevoegd aan de database');
+            })
+            .catch(error => {
+                alert('Er is iets fout gegaan, het boek is niet toegevoegd aan de database')
+            });
     }
 
     const reset = () => {

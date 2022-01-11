@@ -23,6 +23,7 @@ public class BoekService {
 	
 	public Boek maakBoekAan(Boek boek) {
 		return repository.save(boek);
+		
 	}
 }
 
