@@ -1,6 +1,9 @@
 package com.WT.LibraryApp.Exemplaar;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -10,6 +13,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.WT.LibraryApp.Boek.Boek;
+import com.WT.LibraryApp.Boek.BoekService;
+import com.WT.LibraryApp.Reservering.Reservering;
+import com.WT.LibraryApp.Reservering.ReserveringService;
+
 @RestController
 @CrossOrigin(maxAge = 3600)
 public class ExemplaarController {
@@ -17,10 +25,37 @@ public class ExemplaarController {
 	@Autowired
 	private ExemplaarService service;
 
+	@Autowired
+	private BoekService serviceBoek;
+	
+	@Autowired
+	private ReserveringService serviceReservering;
+	
 	// Optie voor vragen naar alle exemplaren
 	@RequestMapping(value = "/exemplaren" /* TODO */)
-	public List<Exemplaar> vindExemplaar() {
+	public List<Exemplaar> vindExemplaren() {
 		return service.vindAlleExemplaren();
+	}
+	
+	// Optie voor vragen naar boek van exemplaar
+	@RequestMapping(value = "/exemplaarboek/{boekid}" /* TODO */)
+	public Optional<Boek> vindExemplaarBoek(@PathVariable int boekid) {
+		return serviceBoek.vindBoek(boekid);		
+	}
+	
+	// Optie voor vragen naar reservering van exemplaar
+	@RequestMapping(value = "/exemplaarreservering/{reserveringid}" /* TODO */)
+	public Optional<Reservering> vindExemplaarReservering(@PathVariable int reserveringid) {
+		return serviceReservering.vindEentje(reserveringid);		
+	}
+	
+	// Optie voor vragen naar boek en reserving van exemplaar
+	@RequestMapping(value = "/exemplaartotaal/{boekid}/{reserveringid}" /* TODO */)
+	public Map<String, Object> vindExemplaarTotaal(@PathVariable("reserveringid") int reserveringid, @PathVariable("boekid") int boekid) {
+		Map<String, Object> map = new HashMap<>();
+		map.put("Reservering", serviceReservering.vindEentje(reserveringid)) ;
+		map.put("Boek", serviceBoek.vindBoek(boekid));
+		return map;
 	}
 
 	// Optie voor toevoegen van een exemplaar
