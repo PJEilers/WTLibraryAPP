@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -28,8 +29,14 @@ public class ReserveringController {
 		return service.vindAlleReserveringen();
 	}
 	
-	@RequestMapping(method = RequestMethod.POST, value = "/maakreserveringaan") // deze werkt, maar datum is nu een string
+	/*@RequestMapping(method = RequestMethod.POST, value = "/maakreserveringaan") // oude versie met String
 	public Reservering maakReserveringAan(@RequestBody Reservering reservering) {
+		return service.maakReserveringAan(reservering);
+	}*/
+	
+	@RequestMapping(method = RequestMethod.POST, value = "/maakreserveringaan") // nieuwe versie met datum, werkt als de string yyyy-mm-dd is
+	public Reservering maakReserveringAan(@RequestBody 
+		@DateTimeFormat(iso = DateTimeFormat.ISO.DATE) Reservering reservering){
 		return service.maakReserveringAan(reservering);
 	}
 
