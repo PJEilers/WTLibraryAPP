@@ -1,4 +1,4 @@
-package com.WT.LibraryApp;
+package com.WT.LibraryApp.Boek;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 
