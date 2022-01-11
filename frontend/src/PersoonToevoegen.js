@@ -9,22 +9,10 @@ function PersoonToevoegen () {
     const [succesBericht, setSuccesBericht] = useState('');
     const [resetID, setResetID] = useState(0)
 
-    const checkEmail = (email) => {
-        if (email != '' && email.includes("@")) {
-            const afterAt = email.substring(email.indexOf("@")+1);
-            if(afterAt.includes("@") || !afterAt.includes(".")) {
-                return true;
-            }
-            
-            if (email.slice(-1) == "@" || email.slice(-1) == "." ||
-                email.slice(0,1) == "@" || email.slice(0,1) == ".") return true;
-            return false;
-        }
-        return true;
-    }
 
     const nieuwPersoon = () => {
-        if (!email.match(".+@(?!@).+\..+") || naam == '') {
+        if (!email.toLowerCase().match(/^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/) 
+        || naam == '') {
             alert('Vul een geldig e-mailadres en naam in');
         } else {
             const nieuwPersoon = {
