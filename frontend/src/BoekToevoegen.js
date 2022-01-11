@@ -46,9 +46,6 @@ function BoekToevoegen() {
             },
             body: JSON.stringify(nieuwBoek)
         })
-            .then(response => {
-                alert('Het boek is toegevoegd aan de database');
-            })
             .catch(error => {
                 alert('Er is iets fout gegaan, het boek is niet toegevoegd aan de database')
             });
