@@ -1,5 +1,6 @@
 package com.WT.LibraryApp.Boek;
 
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,17 +15,14 @@ public class BoekService {
 	public Optional<Boek> vindBoek(int id) {
 		return repository.findById(id);
 	}
-	
+
 	public Optional <Boek> vindBoek(String isbn) {
 		return repository.findByIsbn(isbn);
 	}
-
-	/*
-	 * public List<Boek> vindAlleBoeken() { List<Boek> boeken =
-	 * repository.findAll();
-	 * 
-	 * return boeken; }
-	 */
+	
+	public List<Boek> vindAlleBoeken() { 
+    return repository.findAll();
+	}
 	
 	public Boek maakBoekAan(Boek boek) {
 		return repository.save(boek);
