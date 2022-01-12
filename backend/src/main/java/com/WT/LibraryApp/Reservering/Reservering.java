@@ -16,7 +16,7 @@ public class Reservering {
 	private int id;
 	
 	@Column(length = 10, nullable = false)
-	private int exemplaar_id;
+	private int boek_id;
 
 	@Column(length = 10, nullable = false)
 	private int persoon_id;
@@ -32,12 +32,12 @@ public class Reservering {
 		this.id = id;
 	}
 
-	public int getExemplaar_id() {
-		return exemplaar_id;
+	public int getBoek_id() {
+		return boek_id;
 	}
 
-	public void setExemplaar_id(int exemplaar_id) {
-		this.exemplaar_id = exemplaar_id;
+	public void setBoek_id(int boek_id) {
+		this.boek_id = boek_id;
 	}
 
 	public int getPersoon_id() {
