@@ -24,12 +24,12 @@ public class BoekController {
 	/*@RequestMapping("/boeken/{boekid}")
 	public Optional<Boek> vindBoek(@PathVariable int boekid) {
 		return service.vindBoek(boekid);
-	}
+	}*/
 
 	@RequestMapping(value = "/boeken")
 	public List<Boek> vindAlleBoeken() {
 		return service.vindAlleBoeken();
-	}*/
+	}
 	
 	@RequestMapping(method = RequestMethod.POST, value="/maakboekaan")
 	public Map<String, Object> maakBoekAan(@RequestBody Boek boek) {
