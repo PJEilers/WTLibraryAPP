@@ -21,7 +21,7 @@ public class Uitlening {
 	@Column(length = 10, nullable = false)
 	private int persoonId;
 	
-	@Column(length = 8, nullable = false)
+	@Column(length = 10, nullable = false)
 	private String beginDatum;
 
 	public int getId() {
