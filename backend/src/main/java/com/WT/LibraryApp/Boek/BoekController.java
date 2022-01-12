@@ -32,6 +32,7 @@ public class BoekController {
 	public Boek maakBoekAan(@RequestBody Boek boek) {
 		return service.maakBoekAan(boek);
 	}
+
 }
 
 
