@@ -51,7 +51,7 @@ function BoekToevoegen() {
                 if (response.ok) {                   
                     response.json().then(nieuwBoek=> {
                         if (nieuwBoek.bestaat) {
-                            setSuccesBericht('Dit boek staat al in de database, ga verder met exemplaar toevoegen');
+                            setSuccesBericht('Dit boek staat al in de database, ga verder met exemplaren toevoegen');
                             setBoekID(nieuwBoek.bestaat.id)                           
                         } else {
                             setSuccesBericht('Boek is toegevoegd aan de database');
@@ -59,11 +59,11 @@ function BoekToevoegen() {
                         }
                     });
                 } else {
-
+                    setSuccesBericht('Er is iets fout gegaan, het boek is niet toegevoegd aan de database');
                 }
             })
             .catch(error => {
-                alert('Er is iets fout gegaan, het boek is niet toegevoegd aan de database')
+                setSuccesBericht('Er is iets fout gegaan, het boek is niet toegevoegd aan de database')
             });
     }
 
@@ -112,7 +112,7 @@ function BoekToevoegen() {
             <p>{succesBericht}</p>          
             <ExemplarenToevoegen boekToegevoegd={boekToegevoegd} boektitel = {boektitel}
                                  boekID = {boekID}/>
-            <button onClick={() => reset()}>Nieuw Boek</button>
+            <button onClick={() => reset()}>Nog een boek toevoegen</button>
         </div>
     )
 }

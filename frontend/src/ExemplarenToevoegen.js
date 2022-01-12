@@ -1,4 +1,4 @@
-import {useState, useRef} from 'react'
+import {useState} from 'react'
 
 function ExemplarenToevoegen(props) {
 
@@ -16,7 +16,6 @@ function ExemplarenToevoegen(props) {
         voegExemplarenToe("http://localhost:8080/opslaanexemplaar/" + hoeveelheid, data).then(response => {
             if (response.ok) {
                 response.json().then(aantal => {
-                    console.log(aantal)
                     let labels = [];
                     for (let h = aantal-hoeveelheid; h < aantal; h++) {
                         labels.push("WT-" + props.boekID + "." + (h+1));
