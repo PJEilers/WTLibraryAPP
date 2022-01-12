@@ -21,7 +21,7 @@ public class Reservering {
 	@Column(length = 10, nullable = false)
 	private int persoon_id;
 	
-	@Column(length = 8, nullable = false)
+	@Column(length = 100, nullable = false)
 	private String datum;
 
 	public int getId() {
