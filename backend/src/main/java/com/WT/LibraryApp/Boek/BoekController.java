@@ -1,6 +1,9 @@
 package com.WT.LibraryApp.Boek;
 
+import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,8 +32,12 @@ public class BoekController {
 	}
 	
 	@RequestMapping(method = RequestMethod.POST, value="/maakboekaan")
-	public Boek maakBoekAan(@RequestBody Boek boek) {
-		return service.maakBoekAan(boek);
+	public Map<String, Object> maakBoekAan(@RequestBody Boek boek) {
+		Optional<Boek> bestaandBoek = service.vindBoek(boek.getIsbn());
+		if (bestaandBoek.isPresent()) {
+			return Collections.singletonMap("bestaat", bestaandBoek);
+		}
+		return Collections.singletonMap("bestaatNiet", service.maakBoekAan(boek));
 	}
 
 }
