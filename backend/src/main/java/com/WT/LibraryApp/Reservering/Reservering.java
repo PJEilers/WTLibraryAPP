@@ -16,10 +16,10 @@ public class Reservering {
 	private int id;
 	
 	@Column(length = 10, nullable = false)
-	private int boek_id;
+	private int boekId;
 
 	@Column(length = 10, nullable = false)
-	private int persoon_id;
+	private int persoonId;
 	
 	@Column(length = 100, nullable = false)
 	private String datum;
@@ -32,20 +32,20 @@ public class Reservering {
 		this.id = id;
 	}
 
-	public int getBoek_id() {
-		return boek_id;
+	public int getBoekId() {
+		return boekId;
 	}
 
-	public void setBoek_id(int boek_id) {
-		this.boek_id = boek_id;
+	public void setBoekId(int boekId) {
+		this.boekId = boekId;
 	}
 
-	public int getPersoon_id() {
-		return persoon_id;
+	public int getPersoonId() {
+		return persoonId;
 	}
 
-	public void setPersoon_id(int persoon_id) {
-		this.persoon_id = persoon_id;
+	public void setPersoonId(int persoonId) {
+		this.persoonId = persoonId;
 	}
 
 	public String getDatum() {
