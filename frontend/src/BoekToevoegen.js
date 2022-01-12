@@ -12,6 +12,7 @@ function BoekToevoegen() {
     const [knopUit, setKnopUit] = useState(false)
     const [boekToegevoegd, setBoekToegevoegd] = useState(false)
     const [uniekID, setUniekID] = useState(0)
+    const [boekID, setBoekID] = useState(0)
     const [succesBericht, setSuccesBericht] = useState('')
     
 
@@ -47,10 +48,18 @@ function BoekToevoegen() {
             body: JSON.stringify(nieuwBoek)
         })
             .then(response => {
-                if (response.ok) {
-                    setSuccesBericht('Boek is toegevoegd aan de database')
+                if (response.ok) {                   
+                    response.json().then(nieuwBoek=> {
+                        if (nieuwBoek.bestaat) {
+                            setSuccesBericht('Dit boek staat al in de database, ga verder met exemplaar toevoegen');
+                            setBoekID(nieuwBoek.bestaat.id)                           
+                        } else {
+                            setSuccesBericht('Boek is toegevoegd aan de database');
+                            setBoekID(nieuwBoek.bestaatNiet.id)    
+                        }
+                    });
                 } else {
-                    setSuccesBericht('Dit boek staat al in de database, ga verder met exemplaar toevoegen')
+
                 }
             })
             .catch(error => {
@@ -102,7 +111,7 @@ function BoekToevoegen() {
             </div>
             <p>{succesBericht}</p>          
             <ExemplarenToevoegen boekToegevoegd={boekToegevoegd} boektitel = {boektitel}
-                                 uniekID={uniekID}/>
+                                 boekID = {boekID}/>
             <button onClick={() => reset()}>Nieuw Boek</button>
         </div>
     )

@@ -15,6 +15,10 @@ public class BoekService {
 		return repository.findById(id);
 	}
 	
+	public Optional <Boek> vindBoek(String isbn) {
+		return repository.findByIsbn(isbn);
+	}
+
 	/*
 	 * public List<Boek> vindAlleBoeken() { List<Boek> boeken =
 	 * repository.findAll();

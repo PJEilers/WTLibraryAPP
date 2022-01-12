@@ -9,17 +9,31 @@ function ExemplarenToevoegen(props) {
     const [knopUit, setKnopUit] = useState(false)
 
     const bevestig = () => {
-        //TODO POST request/response
+        const data = {
+            boekId: props.boekID
+        }       
 
-        let labels = [];
-        const afko = props.boektitel.substring(0,4); //Eerste 4 letters van boek voor nu
-        for (let h = 0; h < hoeveelheid; h++) {
-            labels.push("WT-" + afko + "-" + (h+1));
-        }
-        setLabels(labels);
-        setAlleenLezen(true);
-        setKnopUit(true);
+        voegExemplarenToe("http://localhost:8080/opslaanexemplaar/" + hoeveelheid, data).then(response => {
+            if (response.ok) {
+                response.json().then(aantal => {
+                    console.log(aantal)
+                    let labels = [];
+                    for (let h = aantal-hoeveelheid; h < aantal; h++) {
+                        labels.push("WT-" + props.boekID + "." + (h+1));
+                    }
+                    setLabels(labels);
+                    setAlleenLezen(true);
+                    setKnopUit(true);
+                })
+            }
+        }).catch(error => {
+            console.log(error)
+        })
+
+
     }
+
+
     
     if (props.boekToegevoegd) {
         return (
@@ -38,6 +52,17 @@ function ExemplarenToevoegen(props) {
     } else {
         return null;
     }
+}
+
+const voegExemplarenToe = async(url, boekID) =>  {
+    const response = await fetch(url, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(boekID)
+    })
+    return response;
 }
 
 export default ExemplarenToevoegen;

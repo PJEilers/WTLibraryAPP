@@ -26,6 +26,10 @@ public class ExemplaarService {
 
 	public List<Exemplaar> vindBoekExemplaren(int boekid) {
 		return repository.findByBoekId(boekid);
+	}  
+
+	public int countByBoekId(int boekid) {
+		return repository.countByBoekId(boekid);
 	}
 
 }
