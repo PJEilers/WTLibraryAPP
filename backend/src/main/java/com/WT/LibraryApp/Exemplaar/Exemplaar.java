@@ -16,10 +16,10 @@ public class Exemplaar {
 	private int id;
 
 	@Column(nullable = false)
-	private int boek_id;
+	private int boekId;
 
 	@Column(nullable = true)
-	private int reservering_id;
+	private int reserveringId;
 
 	public int getId() {
 		return id;
@@ -29,20 +29,21 @@ public class Exemplaar {
 		this.id = id;
 	}
 
-	public int getBoek_id() {
-		return boek_id;
+	public int getBoekId() {
+		return boekId;
 	}
 
-	public void setBoek_id(int boek_id) {
-		this.boek_id = boek_id;
+	public void setBoekId(int boekId) {
+		this.boekId = boekId;
 	}
 
-	public int getReservering_id() {
-		return reservering_id;
+	public int getReserveringId() {
+		return reserveringId;
 	}
 
-	public void setReservering_id(int reservering_id) {
-		this.reservering_id = reservering_id;
+	public void setReserveringId(int reserveringId) {
+		this.reserveringId = reserveringId;
 	}
+
 
 }

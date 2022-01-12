@@ -24,4 +24,8 @@ public class ExemplaarService {
 
 	}
 
+	public List<Exemplaar> vindBoekExemplaren(int boekid) {
+		return repository.findByBoekId(boekid);
+	}
+
 }

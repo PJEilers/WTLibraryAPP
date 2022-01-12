@@ -27,33 +27,40 @@ public class ExemplaarController {
 
 	@Autowired
 	private BoekService serviceBoek;
-	
+
 	@Autowired
 	private ReserveringService serviceReservering;
-	
+
+	// Optie voor vragen naar alle exemplaren van een bepaald boek
+	@RequestMapping(value = "/boekexemplaren/{boekid}" /* TODO */) 
+	public List<Exemplaar> vindBoekExemplaren(@PathVariable int boekid) { 
+		return service.vindBoekExemplaren(boekid); 
+	}
+
 	// Optie voor vragen naar alle exemplaren
 	@RequestMapping(value = "/exemplaren" /* TODO */)
 	public List<Exemplaar> vindExemplaren() {
 		return service.vindAlleExemplaren();
 	}
-	
+
 	// Optie voor vragen naar boek van exemplaar
 	@RequestMapping(value = "/exemplaarboek/{boekid}" /* TODO */)
 	public Optional<Boek> vindExemplaarBoek(@PathVariable int boekid) {
-		return serviceBoek.vindBoek(boekid);		
+		return serviceBoek.vindBoek(boekid);
 	}
-	
+
 	// Optie voor vragen naar reservering van exemplaar
 	@RequestMapping(value = "/exemplaarreservering/{reserveringid}" /* TODO */)
 	public Optional<Reservering> vindExemplaarReservering(@PathVariable int reserveringid) {
-		return serviceReservering.vindEentje(reserveringid);		
+		return serviceReservering.vindEentje(reserveringid);
 	}
-	
+
 	// Optie voor vragen naar boek en reserving van exemplaar
 	@RequestMapping(value = "/exemplaartotaal/{boekid}/{reserveringid}" /* TODO */)
-	public Map<String, Object> vindExemplaarTotaal(@PathVariable("reserveringid") int reserveringid, @PathVariable("boekid") int boekid) {
+	public Map<String, Object> vindExemplaarTotaal(@PathVariable("reserveringid") int reserveringid,
+			@PathVariable("boekid") int boekid) {
 		Map<String, Object> map = new HashMap<>();
-		map.put("Reservering", serviceReservering.vindEentje(reserveringid)) ;
+		map.put("Reservering", serviceReservering.vindEentje(reserveringid));
 		map.put("Boek", serviceBoek.vindBoek(boekid));
 		return map;
 	}
@@ -73,8 +80,8 @@ public class ExemplaarController {
 		Exemplaar tmpexemplaar;
 		for (int i = 0; i < hoeveelheid; i++) {
 			tmpexemplaar = new Exemplaar();
-			tmpexemplaar.setBoek_id(exemplaar.getBoek_id());
-			tmpexemplaar.setReservering_id(exemplaar.getReservering_id());
+			tmpexemplaar.setBoekId(exemplaar.getBoekId());
+			tmpexemplaar.setReserveringId(exemplaar.getReserveringId());
 			service.opslaanExemplaar(tmpexemplaar);
 		}
 	}
