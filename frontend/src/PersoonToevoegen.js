@@ -7,7 +7,9 @@ function PersoonToevoegen () {
     const [email, setEmail] = useState('');
     const [adminRechten, setAdminRechten] = useState(false);
     const [succesBericht, setSuccesBericht] = useState('');
-    const [resetID, setResetID] = useState(0)
+    const [alleenLezen, setAlleenLezen] = useState(false);
+    const [knopUit, setKnopUit] = useState(false);
+    const [resetID, setResetID] = useState(0);
 
 
     const nieuwPersoon = () => {
@@ -25,10 +27,12 @@ function PersoonToevoegen () {
             maakNiewPersoonAan("http://localhost:8080/maakpersoonaan", nieuwPersoon).then(response => {
                 if (response.ok) {
                     setSuccesBericht('Persoon is toegevoegd')
+                    setAlleenLezen(true)
+                    setKnopUit(true)
                 } else {
                     setSuccesBericht('E-mailadres is niet uniek')
                 }
-            })
+            }).catch(error => console.log(error))
         }       
     }
 
@@ -38,6 +42,8 @@ function PersoonToevoegen () {
         setEmail('');
         setNaam('');
         setSuccesBericht('');
+        setAlleenLezen(false);
+        setKnopUit(false)
         setResetID(resetID+1);
     }
 
@@ -48,16 +54,21 @@ function PersoonToevoegen () {
             <div className = "PersoonToevoegen">
    
                 <label>Volledige naam</label>
-                <input type = "text" onChange = {e => setNaam(e.target.value)}/>
+                <input type = "text" 
+                       readOnly = {alleenLezen}
+                       onChange = {e => setNaam(e.target.value)}/>
 
                 <label>E-mail</label>
-                <input type = "email" onChange = {e => setEmail(e.target.value)}/>
+                <input type = "email" 
+                       readOnly = {alleenLezen}
+                       onChange = {e => setEmail(e.target.value)}/>
 
                 <label>Admin rechten</label>
-                <input type = "checkbox" id = "checkbox" onChange ={e => setAdminRechten(e.target.checked)}/>
+                <input type = "checkbox" id = "checkbox" disabled={knopUit}
+                onChange ={e => setAdminRechten(e.target.checked)}/>
 
                 <label id = "stuur"></label>
-                <button onClick = {() => nieuwPersoon()}>Maak nieuw persoon aan</button>
+                <button disabled={knopUit} onClick = {() => nieuwPersoon()}>Maak nieuw persoon aan</button>
 
             </div>
             <p>{succesBericht}</p>
