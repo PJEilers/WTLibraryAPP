@@ -24,15 +24,5 @@ public class BoekService {
 	public Boek maakBoekAan(Boek boek) {
 		return repository.save(boek);
 	}
-	
-	
-	//checkt of boek al in de database staat
-	public boolean checkBoek(String isbn) {
-		if (repository.findByIsbn(isbn) == null) {
-			return false;
-		} else {
-			return true;
-		}
-	}
 }
 

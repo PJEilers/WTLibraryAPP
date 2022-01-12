@@ -30,12 +30,7 @@ public class BoekController {
 	
 	@RequestMapping(method = RequestMethod.POST, value="/maakboekaan")
 	public Boek maakBoekAan(@RequestBody Boek boek) {
-		String isbn = boek.getIsbn();
-		if (service.checkBoek(isbn)) {
-			return boek;
-		} else {
-			return service.maakBoekAan(boek);
-		}
+		return service.maakBoekAan(boek);
 	}
 
 }
