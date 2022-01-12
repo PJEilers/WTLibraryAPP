@@ -19,7 +19,7 @@ function ExemplaarInformatie(props) {
             .then((res) => res.json())
             .then(
                 (result) => {
-                    if (result.Exemplaren != null) {
+                    if (result.Hoeveelheid > 0) {
                     setIsLoaded(true);
                     setExemplaren(result.Exemplaren);
                     setHoeveelExemplaren(result.Hoeveelheid);
