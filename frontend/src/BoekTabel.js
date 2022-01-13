@@ -33,15 +33,15 @@ function MaakBoekTabel() {
             })
             .then(response => response.json())
             .then(data => {
-                if (data.bestaat) {
-                    setBoeken(data.bestaat)
+                if (data !== null) {
+                    setBoeken(data);
                 } else {
                     setSuccesBericht('Dit boek staat niet in de database');
                     setBoekTitel('');
                 }
             })
+            .catch(error => console.log("Error: " + error));
         }
-
     }
 
 
@@ -51,9 +51,8 @@ function MaakBoekTabel() {
                                        onChange={e => setBoekTitel(e.target.value)}/>
             <span>
                 <button onClick={() => { 
-                    console.log("Titel: " + boekTitel);
-                    laadData();}
-                }>
+                    laadData();
+                }}>
                     Zoek
                     </button>
                 <button onClick={() => {
@@ -64,7 +63,6 @@ function MaakBoekTabel() {
                     Reset
                 </button>
             </span>
-            {console.log(boeken)}
             <table>
                 <thead>
                     <tr>
@@ -75,10 +73,9 @@ function MaakBoekTabel() {
                         <th>Tags</th>
                     </tr>
                 </thead>
-
                 <tbody>
                     {boeken.map(boek => (
-                        <tr>
+                        <tr key={boek.id}>
                             <td>{boek.id}</td>
                             <td>{boek.titel}</td>
                             <td>{boek.auteur}</td>

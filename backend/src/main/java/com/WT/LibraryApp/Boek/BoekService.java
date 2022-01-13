@@ -28,8 +28,12 @@ public class BoekService {
 		return repository.save(boek);
 	}
 	
-	public Optional<Boek> vindOpTitel(String titel) {
+	/*public Optional<Boek> vindOpTitel(String titel) {
 		return repository.findByTitelLike(titel);
+	}*/
+	
+	public List<Boek> vindOpTitel(Boek boek) {
+		return repository.findByTitelLike(boek.getTitel());
 	}
 }
 
