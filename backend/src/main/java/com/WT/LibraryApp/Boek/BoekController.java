@@ -40,15 +40,6 @@ public class BoekController {
 		return Collections.singletonMap("bestaatNiet", service.maakBoekAan(boek));
 	}
 	
-	/*@RequestMapping(method = RequestMethod.POST, value="/zoektitel")
-	public Map<String, Object> vindOpTitel(@RequestBody Boek boek) {
-		Optional<Boek> bestaandBoek = service.vindOpTitel(boek.getTitel());
-		if (bestaandBoek.isPresent()) {
-			return Collections.singletonMap("bestaat", bestaandBoek);
-		}
-		return Collections.singletonMap("bestaatNiet", null);
-	}*/
-	
 	@RequestMapping(method = RequestMethod.POST, value="/zoektitel")
 	public List<Boek> vindOpTitel(@RequestBody Boek input) {
 		List<Boek> boek = service.vindOpTitel(input);
