@@ -14,11 +14,11 @@ function ExemplarenToevoegen(props) {
         setUit(true);
         voegExemplarenToe("http://localhost:8080/opslaanexemplaar/" + hoeveelheid, data).then(response => {
             if (response.ok) {
-                response.json().then(aantal => {
+                response.json().then(ids => {
                     let labels = [];
-                    for (let h = aantal - hoeveelheid; h < aantal; h++) {
-                        labels.push("WT-" + props.boekID + "." + (h + 1));
-                    }
+                    Array.from(ids, id=> {
+                        labels.push("WT-" + props.boekID + "." + id);
+                    })
                     setLabels(labels);
 
                 })

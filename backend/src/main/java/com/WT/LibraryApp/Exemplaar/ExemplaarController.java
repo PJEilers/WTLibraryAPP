@@ -81,7 +81,7 @@ public class ExemplaarController {
 
 	// Optie voor toevoegen van reservatie5
 	@RequestMapping(method = RequestMethod.POST, value = "/opslaanexemplaar/{hoeveelheid}" /* TODO */)
-	public int opslaanExemplaar(@RequestBody Exemplaar exemplaar, @PathVariable int hoeveelheid) {
+	public List<Integer> opslaanExemplaar(@RequestBody Exemplaar exemplaar, @PathVariable int hoeveelheid) {
 
 		// Een temporary object wordt gebruikt omdat Hibernate(SQL) eenzelfde kopie van
 		// een exemplaar niet leuk vind.
@@ -90,14 +90,12 @@ public class ExemplaarController {
 		for (int i = 0; i < hoeveelheid; i++) {
 			tmpexemplaar = new Exemplaar();
 			tmpexemplaar.setBoekId(exemplaar.getBoekId());
-			tmpexemplaar.setReserveringId(exemplaar.getReserveringId());			
-			System.out.println(service.bepaalIndividueelId(exemplaar.getBoekId(), gebruikteIds));			
+			tmpexemplaar.setReserveringId(exemplaar.getReserveringId());						
 			gebruikteIds.add(service.bepaalIndividueelId(exemplaar.getBoekId(), gebruikteIds));
-			System.out.println(gebruikteIds);
 			tmpexemplaar.setIndividueelId(gebruikteIds.get(i));
 			service.opslaanExemplaar(tmpexemplaar);
 		}
-		return service.countByBoekId(exemplaar.getBoekId());
+		return gebruikteIds;
 	}
 
 }
