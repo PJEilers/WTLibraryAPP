@@ -18,6 +18,7 @@ import com.WT.LibraryApp.Boek.Boek;
 import com.WT.LibraryApp.Boek.BoekService;
 import com.WT.LibraryApp.Reservering.Reservering;
 import com.WT.LibraryApp.Reservering.ReserveringService;
+import com.WT.LibraryApp.Uitlening.UitleningService;
 
 @RestController
 @CrossOrigin(maxAge = 3600)
@@ -31,17 +32,30 @@ public class ExemplaarController {
 
 	@Autowired
 	private ReserveringService serviceReservering;
+	
+	@Autowired
+	private UitleningService serviceUitlening;
 
 	// Optie voor vragen naar alle exemplaren van een bepaald boek
 	@RequestMapping(value = "/boekexemplaren/{boekid}" /* TODO */) 
 	public Map<String, Object> vindBoekExemplaren(@PathVariable int boekid) {
 		
 		Map<String, Object> mapexemplaren = new HashMap<>();
-		mapexemplaren.put("Exemplaren", service.vindBoekExemplaren(boekid));
+		List<ExemplaarStatus> exemplarenstatus = new ArrayList<ExemplaarStatus>();
+		List<Exemplaar> exemplaren = service.vindBoekExemplaren(boekid);
+
 		// Kan ook gewoon in frontend worden gedaan
 		mapexemplaren.put("Hoeveelheid", (Integer) service.countByBoekId(boekid));
 		// Placeholder voor status uitlenen
-		mapexemplaren.put("Status", (Boolean) true);
+		for (Exemplaar exemplaar: exemplaren) {			
+			if (serviceUitlening.vindExemplaar(exemplaar.getId()).isPresent()) {
+				exemplarenstatus.add(new ExemplaarStatus(true, exemplaar));
+			} else {
+				exemplarenstatus.add(new ExemplaarStatus(false, exemplaar));
+			}
+			
+		}
+		mapexemplaren.put("ExemplarenStatus", exemplarenstatus);
 		return mapexemplaren;
 	}
 
@@ -90,10 +104,8 @@ public class ExemplaarController {
 		for (int i = 0; i < hoeveelheid; i++) {
 			tmpexemplaar = new Exemplaar();
 			tmpexemplaar.setBoekId(exemplaar.getBoekId());
-			tmpexemplaar.setReserveringId(exemplaar.getReserveringId());			
-			System.out.println(service.bepaalIndividueelId(exemplaar.getBoekId(), gebruikteIds));			
+			tmpexemplaar.setReserveringId(exemplaar.getReserveringId());					
 			gebruikteIds.add(service.bepaalIndividueelId(exemplaar.getBoekId(), gebruikteIds));
-			System.out.println(gebruikteIds);
 			tmpexemplaar.setIndividueelId(gebruikteIds.get(i));
 			service.opslaanExemplaar(tmpexemplaar);
 		}
@@ -101,3 +113,6 @@ public class ExemplaarController {
 	}
 
 }
+
+
+
