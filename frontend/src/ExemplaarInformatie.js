@@ -17,6 +17,7 @@ function ExemplaarInformatie(props) {
         setExemplaren([]);
         setHoeveelExemplaren(0);
         setStatusExemplaren([]);
+        setSuccesBericht('');
         setBoekId(e.target.value)
     }
 
@@ -58,8 +59,8 @@ function ExemplaarInformatie(props) {
 
     return (
         <div>
-            <input type="number" defaultValue={1}
-                                       onChange={e => setBoekId(e.target.value)}/>
+            <input type="number" defaultValue={1} min = {1}
+                                       onChange={nieuwBoekId}/>
             <button onClick={() => haalExemplarenOp()}>Haal Exemplaren Op</button>
             <p>Van de {hoeveelexemplaren} boeken zijn er {hoeveelheidUitgeleend(exemplaren)} uitgeleend</p>
             <table>
