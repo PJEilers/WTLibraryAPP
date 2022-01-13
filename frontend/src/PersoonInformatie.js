@@ -8,11 +8,12 @@ function PersoonInformatie(props) {
     const [error, setError] = useState(null);
     const [isLoaded, setIsLoaded] = useState(false);
     const [personen, setPersonen] = useState([]);
+    const [gezochtePersonen, setGezochtePersonen] = useState([]);
     const [naam, setNaam] = useState('')
     const [succesBericht, setSuccesBericht] = useState('');
 
-    const haalPersonenOpNaam = () => {
-        fetch("http://localhost:8080/zoekpersoonvianaam/" + naam)
+    const haalPersonenOp = () => {
+        fetch("http://localhost:8080/personen/")
             .then((res) => res.json())
             .then(
                 (result) => {
@@ -20,6 +21,7 @@ function PersoonInformatie(props) {
                     if (Object.entries(result).length > 0) {
                         setPersonen(result);
                         setSuccesBericht("Gevonden!")
+                        setGezochtePersonen(result);
                     } else {
                         setSuccesBericht("Geen overeenkomend persoon gevonden")
                     }
@@ -32,12 +34,25 @@ function PersoonInformatie(props) {
             )
     };
 
+    const haalPersonenOpNaam = () => {
+        let filterData = personen.filter(v => v.naam.toLowerCase().includes(naam.toLowerCase()));
+        if (Object.entries(filterData).length > 0) {
+            setGezochtePersonen(filterData);
+            setSuccesBericht("Personen gevonden")
+        } else {
+            setSuccesBericht("Geen overeenkomend persoon gevonden")
+        }
+
+    };
+
 
     return (
         <div>
+            <button onClick={() => haalPersonenOp()}>Haal Personen Op</button>
+            <br />
             <input type="string" defaultValue={naam}
                 onChange={e => setNaam(e.target.value)} />
-            <button onClick={() => haalPersonenOpNaam()}>Haal Personen Op</button>
+            <button onClick={() => haalPersonenOpNaam()}>Zoek Personen</button>
             <table>
                 <thead>
                     <tr>
@@ -46,16 +61,7 @@ function PersoonInformatie(props) {
                     </tr>
                 </thead>
                 <tbody>
-                    {personen.map(persoon =>
-                        <tr>
-                            <td>
-                                {persoon.naam}
-                            </td>
-                            <td>
-                                {persoon.email}
-                            </td>
-                        </tr>
-                    )}
+                    {PersonenTabel(gezochtePersonen)}
                 </tbody>
             </table>
             <p>{succesBericht}</p>
@@ -66,3 +72,21 @@ function PersoonInformatie(props) {
 
 }
 export default PersoonInformatie;
+
+function PersonenTabel(personen) {
+    return (
+        <>
+            {personen.map(persoon =>
+                <tr>
+                    <td>
+                        {persoon.naam}
+                    </td>
+                    <td>
+                        {persoon.email}
+                    </td>
+                </tr>
+            )
+            }
+        </>
+    );
+}
