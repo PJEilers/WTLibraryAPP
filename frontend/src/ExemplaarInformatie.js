@@ -20,6 +20,18 @@ function ExemplaarInformatie(props) {
         setBoekId(e.target.value)
     }
 
+    const isUitgeleend = (b) => {
+        return (b ? "ja ":  "nee");
+    }
+
+    const hoeveelheidUitgeleend = (exemplaren) => {
+        let total = 0;
+        exemplaren.map(exemplaar => {
+            total += exemplaar.status;
+        });
+        return total;
+    }
+
 
     const haalExemplarenOp = () => {
         fetch("http://localhost:8080/boekexemplaren/" + boekId)
@@ -29,9 +41,8 @@ function ExemplaarInformatie(props) {
                     if (result.Hoeveelheid > 0) {
                     setIsLoaded(true);        
                     //Sorteer op individueel id          
-                    setExemplaren(result.Exemplaren.sort((e1, e2) => e1.individueelId > e2.individueelId)); 
+                    setExemplaren(result.ExemplarenStatus.sort((e1, e2) => e1.exemplaar.individueelId > e2.exemplaar.individueelId)); 
                     setHoeveelExemplaren(result.Hoeveelheid);
-                    setStatusExemplaren(result.Status); //Wordt nog veranderd in de backend
                     setSuccesBericht('Gelukt!')
                     } else {
                         setSuccesBericht('Geen exemplaren van boek_id')
@@ -50,26 +61,23 @@ function ExemplaarInformatie(props) {
             <input type="number" defaultValue={1}
                                        onChange={e => setBoekId(e.target.value)}/>
             <button onClick={() => haalExemplarenOp()}>Haal Exemplaren Op</button>
+            <p>Van de {hoeveelexemplaren} boeken zijn er {hoeveelheidUitgeleend(exemplaren)} uitgeleend</p>
             <table>
                 <thead>
                     <tr>
                         <th>Label</th>
-                        <th>Status Lening</th>
-                        <th>Hoeveelheid</th>
+                        <th>Uitgeleend</th>
                     </tr>
                 </thead>
 
                 {exemplaren.map(exemplaar => (
                     <>
                         <tbody>
-                            <td key={exemplaar.id}>
-                                {"WT-" + boekId + "." + exemplaar.individueelId}
+                            <td key={exemplaar.exemplaar.id}>
+                                {"WT-" + boekId + "." + exemplaar.exemplaar.individueelId}
                             </td>
                             <td>
-                                {statusexemplaren.toString()}
-                            </td>
-                            <td>
-                                {hoeveelexemplaren}
+                                {isUitgeleend(exemplaar.status)}
                             </td>
                         </tbody>
                     </>
