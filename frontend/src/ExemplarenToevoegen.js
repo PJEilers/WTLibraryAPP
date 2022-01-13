@@ -1,51 +1,53 @@
-import {useState} from 'react'
+import { useState } from 'react'
 
 function ExemplarenToevoegen(props) {
 
 
     const [hoeveelheid, setHoeveelheid] = useState(1);
     const [labels, setLabels] = useState([])
-    const [alleenLezen, setAlleenLezen] = useState(false)
-    const [knopUit, setKnopUit] = useState(false)
+    const [uit, setUit] = useState(false)
 
-    const bevestig = () => {
+    const bevestig = (e) => {
         const data = {
             boekId: props.boekID
-        }       
-
+        }
+        setUit(true);
         voegExemplarenToe("http://localhost:8080/opslaanexemplaar/" + hoeveelheid, data).then(response => {
             if (response.ok) {
                 response.json().then(aantal => {
                     let labels = [];
-                    for (let h = aantal-hoeveelheid; h < aantal; h++) {
-                        labels.push("WT-" + props.boekID + "." + (h+1));
+                    for (let h = aantal - hoeveelheid; h < aantal; h++) {
+                        labels.push("WT-" + props.boekID + "." + (h + 1));
                     }
                     setLabels(labels);
-                    setAlleenLezen(true);
-                    setKnopUit(true);
+
                 })
-            }
+            } else setUit(false);
         }).catch(error => {
             console.log(error)
+            setUit(false);
         })
 
+        e.preventDefault();
 
     }
 
 
-    
+
     if (props.boekToegevoegd) {
         return (
             <div>
-                <h2>Hoeveel exemplaren wil je toevoegen</h2>
-                <input type = "number" defaultValue={hoeveelheid} min={1}
-                                       readOnly={alleenLezen}
-                                       onChange={e => setHoeveelheid(e.target.value)}/>
-              <button disabled = {knopUit} onClick={() => bevestig()}>Bevestig</button>
-              <h3>Gegenereere labels:</h3>
-              <ul>
-                {labels.map((label,index) => <li key = {index}>{label}</li>)}
-              </ul>
+                <form onSubmit={bevestig}>
+                    <h2>Hoeveel exemplaren wil je toevoegen</h2>
+                    <input type="number" value={hoeveelheid} min={1}
+                        disabled={uit}
+                        onChange={e => setHoeveelheid(e.target.value)} />
+                    <input type ="submit" disabled={uit} value = "Bevestig"/>
+                </form>
+                <h3>Gegenereere labels:</h3>
+                <ul>
+                    {labels.map((label, index) => <li key={index}>{label}</li>)}
+                </ul>
             </div>
         )
     } else {
@@ -53,7 +55,7 @@ function ExemplarenToevoegen(props) {
     }
 }
 
-const voegExemplarenToe = async(url, boekID) =>  {
+const voegExemplarenToe = async (url, boekID) => {
     const response = await fetch(url, {
         method: 'POST',
         headers: {
