@@ -39,6 +39,11 @@ public class BoekController {
 		}
 		return Collections.singletonMap("bestaatNiet", service.maakBoekAan(boek));
 	}
+	
+	@RequestMapping(value="/zoektitel/{titel}")
+	public Boek vindOpTitel(@RequestBody String titel) {
+		return service.vindOpTitel(titel);
+	}
 
 }
 

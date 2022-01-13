@@ -1,18 +1,51 @@
 import './BoekTabel.css';
+import React from "react";
+import { useState } from "react";
 
 function MaakBoekTabel() {
-    fetch('http://localhost:8080/boeken', {mode: 'cors'})
-    .then(response => response.json())
-    .then(data => {
-        vulTabel(data);
-    })
-    .catch((error) => {
-          console.error('Error:', error);
-    });
+    const[boeken, setBoeken] = useState([]);
+    const[boekTitel, setBoekTitel] = useState('');
+    const[succesBericht, setSuccesBericht] = useState('');
+
+    const laadData = () => {
+        if (boekTitel == "") {
+            fetch('http://localhost:8080/boeken', {mode: 'cors'})
+            .then(response => response.json())
+            .then(data => {
+                setBoeken(data);
+            })
+            .catch((error) => {
+                  console.error('Error:', error);
+            });
+        } else {
+            fetch('http://localhost:8080/zoektitel/' + boekTitel, {mode: 'cors'})
+            .then(response => response.json())
+            .then(data => {
+                if (data) {
+                    setBoeken(data)
+                } else {
+                    setSuccesBericht('Dit boek staat niet in de database');
+                    setBoekTitel('');
+                }
+            })
+        }
+
+    }
+
 
     return (
         <div>
-            <h1>Boeken</h1>
+            <input type="text" defaultValue={''}
+                                       onChange={e => setBoekTitel(e.target.value)}/>
+            <span>
+                <button onClick={() => laadData()}>Zoek</button>
+                <button onClick={() => {
+                    setBoekTitel('');
+                    laadData();
+                }}>
+                    Reset
+                </button>
+            </span>
             <table>
                 <thead>
                     <tr>
@@ -21,29 +54,23 @@ function MaakBoekTabel() {
                         <th>Auteur</th>
                         <th>ISBN</th>
                         <th>Tags</th>
-                        <th>Exemplaren</th>
-                        <th>Exemplaren Beschikbaar</th>
                     </tr>
                 </thead>
-                <tbody id='boekTabelBody'></tbody>
+
+                <tbody>
+                    {boeken.map(boek => (
+                        <tr>
+                            <td>{boek.id}</td>
+                            <td>{boek.titel}</td>
+                            <td>{boek.auteur}</td>
+                            <td>{boek.isbn}</td>
+                            <td>{boek.tags}</td>
+                        </tr>
+                    ))}
+                </tbody>
             </table>
         </div>
-    )
-    function vulTabel(boeken) {
-        let boekTabelHtml = '';
-        for (let boek of boeken) {
-            boekTabelHtml += `<tr>
-                <td>${boek.id}</td>
-                <td>${boek.titel}</td>
-                <td>${boek.auteur}</td>
-                <td>${boek.isbn}</td>               
-                <td>${boek.tags}</td>
-                <td>1</td>
-                <td>2</td>
-            </tr>`
-        }
-        document.getElementById("boekTabelBody").innerHTML = boekTabelHtml;
-    }
+    );
 }
 
 export default MaakBoekTabel;

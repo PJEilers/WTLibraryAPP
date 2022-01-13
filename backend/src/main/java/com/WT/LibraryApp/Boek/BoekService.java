@@ -27,5 +27,9 @@ public class BoekService {
 	public Boek maakBoekAan(Boek boek) {
 		return repository.save(boek);
 	}
+	
+	public Boek vindOpTitel(String titel) {
+		return repository.findByTitel(titel);
+	}
 }
 
