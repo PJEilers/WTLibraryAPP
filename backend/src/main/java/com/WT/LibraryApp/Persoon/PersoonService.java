@@ -24,6 +24,10 @@ public class PersoonService {
         return repository.findById(id);
     }
 
+    public Optional<Persoon> login (LoginForm loginform) {
+        return repository.findByEmailAndWachtwoord(loginform.getEmail(), loginform.getWachtwoord());
+    }
+
 
 
 }

@@ -1,4 +1,5 @@
 import "./PersoonToevoegen.css"
+import { emailCheck } from "./Constanten";
 import {useState} from 'react'
 
 function PersoonToevoegen () {
@@ -13,7 +14,7 @@ function PersoonToevoegen () {
 
 
     const nieuwPersoon = () => {
-        if (!email.toLowerCase().match(/^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/) 
+        if (!email.toLowerCase().match(emailCheck) 
         || naam == '') {
             alert('Vul een geldig e-mailadres en naam in');
         } else {
