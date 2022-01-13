@@ -6,9 +6,10 @@ function MaakBoekTabel() {
     const[boeken, setBoeken] = useState([]);
     const[boekTitel, setBoekTitel] = useState('');
     const[succesBericht, setSuccesBericht] = useState('');
+    const[opstarten, setOpstarten] = useState(false);
 
     const laadData = () => {
-        if (boekTitel == "") {
+        if (boekTitel == '') {
             fetch('http://localhost:8080/boeken', {mode: 'cors'})
             .then(response => response.json())
             .then(data => {
@@ -44,6 +45,10 @@ function MaakBoekTabel() {
         }
     }
 
+    if (!opstarten) {
+        laadData();
+        setOpstarten(true);
+    }
 
     return (
         <div>
@@ -56,9 +61,10 @@ function MaakBoekTabel() {
                     Zoek
                     </button>
                 <button onClick={() => {
-                    setBoekTitel('');
                     setBoeken([]);
+                    setBoekTitel('');
                     laadData();
+                    console.log(boekTitel);
                 }}>
                     Reset
                 </button>
