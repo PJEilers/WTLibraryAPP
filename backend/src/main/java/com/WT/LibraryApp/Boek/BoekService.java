@@ -28,8 +28,8 @@ public class BoekService {
 		return repository.save(boek);
 	}
 	
-	public Boek vindOpTitel(String titel) {
-		return repository.findByTitel(titel);
+	public Optional<Boek> vindOpTitel(String titel) {
+		return repository.findByTitelLike(titel);
 	}
 }
 

@@ -18,11 +18,23 @@ function MaakBoekTabel() {
                   console.error('Error:', error);
             });
         } else {
-            fetch('http://localhost:8080/zoektitel/' + boekTitel, {mode: 'cors'})
+            let checkBoek = {
+                titel: boekTitel,
+                auteur: '',
+                isbn: '',
+                tags: '',
+            }
+            fetch('http://localhost:8080/zoektitel', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(checkBoek)
+            })
             .then(response => response.json())
             .then(data => {
-                if (data) {
-                    setBoeken(data)
+                if (data.bestaat) {
+                    setBoeken(data.bestaat)
                 } else {
                     setSuccesBericht('Dit boek staat niet in de database');
                     setBoekTitel('');
@@ -38,14 +50,21 @@ function MaakBoekTabel() {
             <input type="text" defaultValue={''}
                                        onChange={e => setBoekTitel(e.target.value)}/>
             <span>
-                <button onClick={() => laadData()}>Zoek</button>
+                <button onClick={() => { 
+                    console.log("Titel: " + boekTitel);
+                    laadData();}
+                }>
+                    Zoek
+                    </button>
                 <button onClick={() => {
                     setBoekTitel('');
+                    setBoeken([]);
                     laadData();
                 }}>
                     Reset
                 </button>
             </span>
+            {console.log(boeken)}
             <table>
                 <thead>
                     <tr>
