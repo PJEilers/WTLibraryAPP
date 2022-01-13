@@ -24,5 +24,11 @@ public class UitleningService {
 	public Uitlening maakUitleningAan(Uitlening uitlening) {
 		return repository.save(uitlening);
 	}
+
+	public Optional<Uitlening> vindExemplaar(int exemplaarid) {
+		return repository.findByExemplaarId(exemplaarid);
+	}
+	
+	
 	
 }
