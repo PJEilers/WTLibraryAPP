@@ -24,6 +24,11 @@ public class UitleningController {
 		return service.vindEentje(mijnid);
 	}
 	
+//	@RequestMapping("/vindexemplaar/{exemplaarid}") // werkt nog niet
+//	public Uitlening vindExemplaar(@PathVariable int exemplaarid) {
+//		return service.vindExemplaar(exemplaarid);
+//	}
+//	
 	@RequestMapping(value = "/uitleningen") // werkt nog niet
 	public List<Uitlening> vind() {
 		return service.vindAlleUitleningen();
