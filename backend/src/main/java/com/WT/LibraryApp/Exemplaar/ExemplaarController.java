@@ -78,7 +78,7 @@ public class ExemplaarController {
 		return service.maakExemplaarAan(exemplaar);
 	}
 
-	// Optie voor toevoegen van reservatie
+	// Optie voor toevoegen van reservatie5
 	@RequestMapping(method = RequestMethod.POST, value = "/opslaanexemplaar/{hoeveelheid}" /* TODO */)
 	public int opslaanExemplaar(@RequestBody Exemplaar exemplaar, @PathVariable int hoeveelheid) {
 
@@ -89,6 +89,7 @@ public class ExemplaarController {
 			tmpexemplaar = new Exemplaar();
 			tmpexemplaar.setBoekId(exemplaar.getBoekId());
 			tmpexemplaar.setReserveringId(exemplaar.getReserveringId());
+			tmpexemplaar.setIndividueelId(service.bepaalIndividueelId(exemplaar.getBoekId()));
 			service.opslaanExemplaar(tmpexemplaar);
 		}
 		return service.countByBoekId(exemplaar.getBoekId());
