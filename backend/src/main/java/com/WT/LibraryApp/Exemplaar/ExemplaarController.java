@@ -1,5 +1,6 @@
 package com.WT.LibraryApp.Exemplaar;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -85,11 +86,15 @@ public class ExemplaarController {
 		// Een temporary object wordt gebruikt omdat Hibernate(SQL) eenzelfde kopie van
 		// een exemplaar niet leuk vind.
 		Exemplaar tmpexemplaar;
+		List<Integer> gebruikteIds = new ArrayList<Integer>();
 		for (int i = 0; i < hoeveelheid; i++) {
 			tmpexemplaar = new Exemplaar();
 			tmpexemplaar.setBoekId(exemplaar.getBoekId());
-			tmpexemplaar.setReserveringId(exemplaar.getReserveringId());
-			tmpexemplaar.setIndividueelId(service.bepaalIndividueelId(exemplaar.getBoekId()));
+			tmpexemplaar.setReserveringId(exemplaar.getReserveringId());			
+			System.out.println(service.bepaalIndividueelId(exemplaar.getBoekId(), gebruikteIds));			
+			gebruikteIds.add(service.bepaalIndividueelId(exemplaar.getBoekId(), gebruikteIds));
+			System.out.println(gebruikteIds);
+			tmpexemplaar.setIndividueelId(gebruikteIds.get(i));
 			service.opslaanExemplaar(tmpexemplaar);
 		}
 		return service.countByBoekId(exemplaar.getBoekId());
