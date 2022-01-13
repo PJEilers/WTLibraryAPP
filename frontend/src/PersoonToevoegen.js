@@ -1,40 +1,35 @@
 import "./PersoonToevoegen.css"
-import { emailCheck } from "./Constanten";
-import {useState} from 'react'
+import { emailPattern } from "./Constanten";
+import { useState } from 'react'
 
-function PersoonToevoegen () {
+function PersoonToevoegen() {
 
     const [naam, setNaam] = useState('');
     const [email, setEmail] = useState('');
     const [adminRechten, setAdminRechten] = useState(false);
     const [succesBericht, setSuccesBericht] = useState('');
-    const [alleenLezen, setAlleenLezen] = useState(false);
-    const [knopUit, setKnopUit] = useState(false);
-    const [resetID, setResetID] = useState(0);
+    const [uit, setUit] = useState(false);
 
 
-    const nieuwPersoon = () => {
-        if (!email.toLowerCase().match(emailCheck) 
-        || naam == '') {
-            alert('Vul een geldig e-mailadres en naam in');
-        } else {
-            const nieuwPersoon = {
-                naam: naam,
-                email: email,
-                wachtwoord: "WT123",
-                adminRechten: adminRechten,
-            };
-            
-            maakNiewPersoonAan("http://localhost:8080/maakpersoonaan", nieuwPersoon).then(response => {
-                if (response.ok) {
-                    setSuccesBericht('Persoon is toegevoegd')
-                    setAlleenLezen(true)
-                    setKnopUit(true)
-                } else {
-                    setSuccesBericht('E-mailadres is niet uniek')
-                }
-            }).catch(error => console.log(error))
-        }       
+    const nieuwPersoon = (e) => {
+        setUit(true);
+        const nieuwPersoon = {
+            naam: naam,
+            email: email,
+            wachtwoord: "WT123",
+            adminRechten: adminRechten,
+        };
+
+        maakNiewPersoonAan("http://localhost:8080/maakpersoonaan", nieuwPersoon).then(response => {
+            if (response.ok) {
+                setSuccesBericht('Persoon is toegevoegd');
+
+            } else {
+                setUit(false);
+                setSuccesBericht('E-mailadres is niet uniek');
+            }
+        }).catch(error => console.log(error))
+        e.preventDefault();
     }
 
 
@@ -43,43 +38,50 @@ function PersoonToevoegen () {
         setEmail('');
         setNaam('');
         setSuccesBericht('');
-        setAlleenLezen(false);
-        setKnopUit(false)
-        setResetID(resetID+1);
+        setUit(false)
     }
 
 
     return (
-        <div key = {resetID}>
+        <div>
             <h1>Voeg een persoon toe</h1>
-            <div className = "PersoonToevoegen">
-   
+            <form onSubmit={nieuwPersoon} className="PersoonToevoegen">
+
                 <label>Volledige naam</label>
-                <input type = "text" 
-                       readOnly = {alleenLezen}
-                       onChange = {e => setNaam(e.target.value)}/>
+                <input type="text" required
+                    disabled = {uit}
+                    value = {naam}
+                    onChange={e => setNaam(e.target.value)}
+                    onInvalid={e => e.target.setCustomValidity("Vul iets in")}
+                    onInput={e => e.target.setCustomValidity("")}
+                />
 
                 <label>E-mail</label>
-                <input type = "email" 
-                       readOnly = {alleenLezen}
-                       onChange = {e => setEmail(e.target.value)}/>
+                <input type="email" required
+                    disabled = {uit}
+                    value = {email}
+                    onChange={e => setEmail(e.target.value)}
+                    pattern="^[^@\s]+@[^@\s]+\.[^@\s]+$"
+                    onInvalid={e => e.target.setCustomValidity("Vul een geldig e-maildres in")}
+                    onInput={e => e.target.setCustomValidity("")}
+                />
 
                 <label>Admin rechten</label>
-                <input type = "checkbox" id = "checkbox" disabled={knopUit}
-                onChange ={e => setAdminRechten(e.target.checked)}/>
+                <input type="checkbox" id="checkbox" disabled={uit} value = {adminRechten}
+                    onChange={e => setAdminRechten(e.target.checked)} />
 
-                <label id = "stuur"></label>
-                <button disabled={knopUit} onClick = {() => nieuwPersoon()}>Maak nieuw persoon aan</button>
+                <label id="stuur"></label>
+                <input type="submit" value="Voeg persoon toe" disabled={uit} />
 
-            </div>
+            </form>
             <p>{succesBericht}</p>
-            <button onClick = {() => reset()}>Nog een persoon aanmaken</button>
+            <button onClick={() => reset()}>Nog een persoon aanmaken</button>
 
         </div>
     )
 }
 
-const maakNiewPersoonAan = async(url, persoon) =>  {
+const maakNiewPersoonAan = async (url, persoon) => {
     const response = await fetch(url, {
         method: 'POST',
         headers: {

@@ -18,6 +18,9 @@ public class Exemplaar {
 	@Column(nullable = false)
 	private int boekId;
 
+	@Column(nullable = false)
+	private int individueelId;
+
 	@Column(nullable = true)
 	private int reserveringId;
 
@@ -45,5 +48,12 @@ public class Exemplaar {
 		this.reserveringId = reserveringId;
 	}
 
+	public int getIndividueelId() {
+		return individueelId;
+	}
+
+	public void setIndividueelId(int individueelId) {
+		this.individueelId = individueelId;
+	}
 
 }

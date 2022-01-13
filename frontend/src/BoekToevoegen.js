@@ -1,5 +1,5 @@
 import './BoekToevoegen.css';
-import {useState} from "react";
+import { useState } from "react";
 import ExemplarenToevoegen from './ExemplarenToevoegen';
 
 function BoekToevoegen() {
@@ -8,31 +8,25 @@ function BoekToevoegen() {
     const [auteur, setAuteur] = useState('');
     const [ISBN, setISBN] = useState('');
     const [tags, setTags] = useState(null);
-    const [alleenLezen, setAlleenLezen] = useState(false)
-    const [knopUit, setKnopUit] = useState(false)
-    const [boekToegevoegd, setBoekToegevoegd] = useState(false)
-    const [uniekID, setUniekID] = useState(0)
-    const [boekID, setBoekID] = useState(0)
-    const [succesBericht, setSuccesBericht] = useState('')
-    
+    const [uit, setUit] = useState(false);
+    const [boekToegevoegd, setBoekToegevoegd] = useState(false);
+    const [boekID, setBoekID] = useState(0);
+    const [succesBericht, setSuccesBericht] = useState('');
+    const [resetID, setResetID] = useState(1);
 
-    const stuurOp = () => {
-        if (boektitel == '' || auteur == '' || ISBN == '') {
-            alert("Vul alle verplichte velden in")
-        } else {
-            const boekData = {}
 
-            //TODO: POST request/response met correct json
-            maakBoekAan();
+    const stuurOp = (e) => {
+        const boekData = {}
+        setUit(true);
+        
+        //TODO: POST request/response met correct json
+        maakBoekAan();
 
-            setAlleenLezen(true)
-            setKnopUit(true)
-            setBoekToegevoegd(true)
 
-        }
+        e.preventDefault();
     }
 
-    const maakBoekAan = () => {
+    const maakBoekAan = (e) => {
         let nieuwBoek = {
             titel: boektitel,
             auteur: auteur,
@@ -48,70 +42,83 @@ function BoekToevoegen() {
             body: JSON.stringify(nieuwBoek)
         })
             .then(response => {
-                if (response.ok) {                   
-                    response.json().then(nieuwBoek=> {
+                if (response.ok) {
+                    response.json().then(nieuwBoek => {
                         if (nieuwBoek.bestaat) {
                             setSuccesBericht('Dit boek staat al in de database, ga verder met exemplaren toevoegen');
-                            setBoekID(nieuwBoek.bestaat.id)                           
+                            setBoekID(nieuwBoek.bestaat.id)
                         } else {
                             setSuccesBericht('Boek is toegevoegd aan de database');
-                            setBoekID(nieuwBoek.bestaatNiet.id)    
+                            setBoekID(nieuwBoek.bestaatNiet.id)
                         }
                     });
+                    setBoekToegevoegd(true);
                 } else {
+                    setUit(false);
+                    setBoekToegevoegd(false);
                     setSuccesBericht('Er is iets fout gegaan, het boek is niet toegevoegd aan de database');
                 }
             })
             .catch(error => {
+                setUit(false);
+                setBoekToegevoegd(false);
                 setSuccesBericht('Er is iets fout gegaan, het boek is niet toegevoegd aan de database')
             });
     }
 
     const reset = () => {
         setBoekToegevoegd(false)
-        setAlleenLezen(false)
-        setKnopUit(false)
+        setUit(false)
         setBoektitel('')
         setAuteur('')
         setISBN('')
         setTags(null)
-        setUniekID(uniekID+1)
         setSuccesBericht('')
+        setResetID(resetID+1)
     }
 
     return (
-        <div key = {uniekID}>            
+        <div key = {resetID}>
             <h1>Voeg een boek toe</h1>
-            <div className='BoekToevoegen'>
+            <form onSubmit={stuurOp} className='BoekToevoegen'>
 
                 <label>Boektitel</label>
-                <input type="text" placeholder = "verplicht veld" 
-                                   onChange={e => setBoektitel(e.target.value)}
-                                   readOnly={alleenLezen}/>
+                <input type="text" required
+                    value={boektitel}
+                    onChange={e => setBoektitel(e.target.value)}
+                    disabled={uit}
+                    onInvalid={e => e.target.setCustomValidity("Vul iets in")}
+                    onInput={e => e.target.setCustomValidity("")} />
 
                 <label>Auteur</label>
-                <input type="text" placeholder = "verplicht veld"  
-                                   onChange={e => setAuteur(e.target.value)} 
-                                   readOnly = {alleenLezen}/>
+                <input type="text" required
+                    value={auteur}
+                    onChange={e => setAuteur(e.target.value)}
+                    disabled={uit}
+                    onInvalid={e => e.target.setCustomValidity("Vul iets in")}
+                    onInput={e => e.target.setCustomValidity("")} />
 
                 <label>ISBN</label>
-                <input type="text" placeholder = "verplicht veld"  
-                                   onChange={e => setISBN(e.target.value)} 
-                                   readOnly = {alleenLezen}/>
+                <input type="text" required
+                    value={ISBN}
+                    onChange={e => setISBN(e.target.value)}
+                    disabled={uit}
+                    onInvalid={e => e.target.setCustomValidity("Vul iets in")}
+                    onInput={e => e.target.setCustomValidity("")} />
 
                 <label>Tags</label>
-                <input type="text" placeholder = "gescheiden door komma" 
-                                   onChange={e => setTags(e.target.value)} 
-                                   readOnly = {alleenLezen}/>   
+                <input type="text" placeholder="gescheiden door komma"
+                    onChange={e => setTags(e.target.value)}
+                    disabled={uit} />
 
-                <label id = "stuur"></label>
-                <button disabled = {knopUit} onClick = {() => stuurOp()}>Maak nieuw boek aan</button>
+                <label id="stuur"></label>
+                <input type="submit" disabled={uit} value="Maak nieuw boek aan" />
 
 
-            </div>
-            <p>{succesBericht}</p>          
-            <ExemplarenToevoegen boekToegevoegd={boekToegevoegd} boektitel = {boektitel}
-                                 boekID = {boekID}/>
+            </form>
+            <p>{succesBericht}</p>
+            <ExemplarenToevoegen boekToegevoegd={boekToegevoegd} boektitel={boektitel}
+                boekID={boekID} />
             <button onClick={() => reset()}>Nog een boek toevoegen</button>
         </div>
     )
