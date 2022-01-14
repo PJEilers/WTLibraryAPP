@@ -32,19 +32,31 @@ class Navbar extends Component {
                     <NavLink className = 'nav-links' to="/Boeken">Boeken</NavLink>
                 </li>
                 <li>
-                    <NavLink className = 'nav-links' to='/Reserveringen'>Reserveringen</NavLink>
+                    <NavLink className = 'nav-links' to="/BoekTabel">Boek Tabel</NavLink>
                 </li>
+                {/* <li>
+                    <NavLink className = 'nav-links' to='/Reserveringen'>Reserveringen</NavLink>
+                </li> */}
                 <li>
                     <NavLink className = 'nav-links' to='/Uitleningen'>Uitleningen</NavLink>
                 </li>
                 <li>
-                <NavLink  className = 'nav-links' to='/Trainees'>Trainees</NavLink>
+                <NavLink  className = 'nav-links' to='/Persooninformatie'>Persoonsinformatie</NavLink>
+                </li>
+                <li>
+                <NavLink  className = 'nav-links' to='/BoekToevoegen'>Boek Toevoegen</NavLink>
+                </li>
+                <li>
+                <NavLink  className = 'nav-links' to='/Exemplaarinfo'>Exemplaarinformatie</NavLink>
+                </li>
+                <li>
+                <NavLink  className = 'nav-links' to='/Persoontoevoegen'>Persoon Toevoegen</NavLink>
                 </li>
                 <li>
                 <NavLink className = 'nav-links-mobile' to='/Login'>LogIn</NavLink>
                 </li>
                 </ul>
-                <Button>Log In</Button>
+                <NavLink to = '/login'><Button>Log In</Button></NavLink>
             </nav>
          )
     }
