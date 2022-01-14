@@ -1,12 +1,27 @@
 export const MenuItems = [
     {
-        title: 'Home',
-        url: 'https://www.google.com/',
+        title: 'Boek Toevoegen',
+        url: '/BoekToevoegen', //here you put the link
         cName: 'nav-links',
     },
     {
-        title: 'Boekenlijst',
-        url: '/Boekenlijst', //here you put the link
+        title: 'Boek Tabel',
+        url: '/BoekTabel', //here you put the link
+        cName: 'nav-links',
+    },
+    {
+        title: 'Exemplaar Informatie',
+        url: 'ExemplaarInformatie', //here you put the link
+        cName: 'nav-links',
+    },
+    {
+        title: 'Persoon Toevoegen',
+        url: '/PersoonToevoegen', //here you put the link
+        cName: 'nav-links',
+    },
+    {
+        title: 'Persoon Informatie',
+        url: '/Persooninformatie', //here you put the link
         cName: 'nav-links',
     },
     {
@@ -16,12 +31,12 @@ export const MenuItems = [
     },
     {
         title: 'Uitleningen',
-        url: 'Uitleningen', //here you put the link
+        url: '/Uitleningen', //here you put the link
         cName: 'nav-links',
     },
     {
-        title: 'Trainees',
-        url: '/Trainees', //here you put the link
+        title: 'Contact',
+        url: '/Contact', //here you put the link
         cName: 'nav-links',
     },
     {

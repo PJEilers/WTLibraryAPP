@@ -2,22 +2,18 @@ import React from 'react';
 import Navbar from './components/Navbar/Navbar';
 import './App.css';
 import {BrowserRouter as Router, Route,Routes} from 'react-router-dom';
+
+// Imports for routing
 import Home from "./pages/Home";
-//import Boekenlijst from "./pages/Boekenlijst";
 import BoekToevoegen from './BoekToevoegen'
 import MaakBoekTabel from './BoekTabel'
 import ExemplaarInformatie from './ExemplaarInformatie'
-
-// import BoekToevoegen from './BoekToevoegen'
-// import BoekToevoegen from './BoekToevoegen'
-
 import PersoonToevoegen from './PersoonToevoegen';
 import PersoonInformatie from './PersoonInformatie';
 import Reserveringen from "./pages/Reserveringen";
-import Trainees from "./pages/Trainees";
 import Uitleningen from "./pages/Uitleningen";
-import Login from "./Login";
-
+import Contact from './pages/Contact'
+import Login from './Login'
 
 
 function App() {
@@ -26,14 +22,14 @@ function App() {
       <Navbar />
       <Routes>
         <Route path = '/' element = {<Home />} />
-        <Route path = 'Boeken' element = {<BoekToevoegen />} />
-        <Route path = '/Reserveringen' element = {<Reserveringen />} />
-        <Route path = '/Trainees' element = {<Trainees />} />
-        <Route path = '/Uitleningen' element = {<Uitleningen />} />
+        <Route path = 'BoekToevoegen' element = {<BoekToevoegen />} />
         <Route path = '/BoekTabel' element = {<MaakBoekTabel />} />
-        <Route path = '/Exemplaarinfo' element = {<ExemplaarInformatie />} />
+        <Route path = '/ExemplaarInformatie' element = {<ExemplaarInformatie />} />
         <Route path = '/PersoonToevoegen' element = {<PersoonToevoegen />} />
         <Route path = '/Persooninformatie' element = {<PersoonInformatie />} />
+        <Route path = '/Reserveringen' element = {<Reserveringen />} />
+        <Route path = '/Uitleningen' element = {<Uitleningen />} />
+        <Route path = '/Contact' element = {<Contact />} />
         <Route path = '/Login' element = {<Login/>} />
       </Routes>
     </Router>
