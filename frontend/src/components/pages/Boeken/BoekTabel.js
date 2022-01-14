@@ -1,7 +1,7 @@
 import './BoekTabel.css';
 import React from "react";
 import { useState } from "react";
-import Reserveren from './Reserveren';
+import Reserveren from '../Reserveringen/Reserveren';
 
 function MaakBoekTabel() {
     const[boeken, setBoeken] = useState([]);

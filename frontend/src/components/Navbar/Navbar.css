@@ -10,6 +10,8 @@
 .navbar-logo {
     color: #25f025;
     justify-self: start;
+    width: 230px;
+    height:100px;
     margin-left: 10px;
     cursor: pointer;
 }
@@ -19,15 +21,15 @@
     font-size: 1.8rem;
 }
 
-{/*This is to modify the layout of the menu in the navbar, i.e. position of Home, Services,
-    Products, etc. This is what is in the <ul> in the Navbar.js*/}
+/*This is to modify the layout of the menu in the navbar, i.e. position of Home, Services,
+    Products, etc. This is what is in the <ul> in the Navbar.js*/
 .nav-menu {
     display: grid;
-    grid-template-columns: repeat(6, auto);
-    grid-gap: 5px;
+    grid-template-columns: repeat(auto-fit, minmax(85px, 1fr)); /*makes sure that the navbar items do not overlap with the navbar logo*/
+    grid-gap: 15px;
     list-style: none;
     text-align: center;
-    width: 70vw;
+    width: 65vw;
     justify-content: right;
     margin-right: 2rem;
 }
@@ -37,7 +39,7 @@
 .nav-links {
     color: #fff;
     text-decoration: none;
-    padding: 0.5rem 1rem; {/*The padding is only for when you hover over the items*/}
+    padding: 1rem 1rem; {/*The padding is only for when you hover over the items*/}
 }
 
 .nav-links:hover {
@@ -64,36 +66,43 @@
         position: relative;
     }
 
-    .nav-menu{
-        display:flex;
+     .nav-menu{ /* Styling and positioning of the drop down hamburger menu */
+        display: flex;
         flex-direction: column;
-        width: 100%;
-        height: 600px;
+        width: 25%;
+        height: 500px;
         position: absolute;
+        justify-content: right;
         top: 84px;
-        left: -120%;
+        left: -150%;
         opacity: 1;
-        transition: all 0.5s ease-in-out;
+        transition: all 0.3s ease-in-out;
+        /*float: right; /* Float is ignored when setting position to absolute!*/
     }
 
     .nav-menu.active{
-        background: #050505; /*background-color of the drop down hamburger menu*/
+        background: #000000; /*background-color of the drop down hamburger menu*/
         left: 0;
         opacity:1;
         transition: all 0.2s ease;
         z-index: 1;
+        border-radius: 0px;
     }
 
-    .nav-links{
+    .nav-links{ /*This is to change styling of the drop down hamburger menu! */
         text-align: center;
-        padding: 2rem; /*thickness of the hamburger menu items*/
-        width: 100%;
+        padding: 0.75rem; /*thickness of the hamburger menu items*/
+        width: 85%;
         display: table;
     }
 
     .nav-links:hover{
         background-color: #25f025; /*Color of the menuItem box when you hover over it in the hamburger menu*/
-        width: 90%;/* border-radius: 0; */
+        /* right: 1; */
+        position: center;
+        border-radius: 4px;
+        width: 80%;/* border-radius: 0; */
+        font-size: 1rem;
        color: rgb(2, 2, 2);
     }
 
@@ -101,7 +110,7 @@
         position: absolute;
         top: 0;
         left:0;
-        transform: translate(5%, 75%);
+        transform: translate(10%, 0%);
     }
 
     .menu-icon {
@@ -122,10 +131,11 @@
     .nav-links-mobile {
         display:block;
         text-align: center;
-        padding: 1.5rem;
-        margin: 2rem auto;
+        padding: 0.5rem;
+        margin: 0.5rem auto;
         border-radius: 4px;
-        width: 80%;
+        width: 70%;
+        position: absolute;
         background: #25f025;
         text-decoration: none;
         color: white;

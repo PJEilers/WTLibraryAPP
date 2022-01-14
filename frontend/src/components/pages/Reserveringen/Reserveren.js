@@ -1,4 +1,4 @@
-import {connectieString, postRequest} from "./Constanten.js"
+import {connectieString, postRequest} from "../../../Constanten.js"
 import {useState} from "react"
 
 function Reserveren (props) {
