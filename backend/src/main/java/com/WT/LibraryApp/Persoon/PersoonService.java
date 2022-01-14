@@ -28,6 +28,10 @@ public class PersoonService {
         return repository.findByEmailAndWachtwoord(loginform.getEmail(), loginform.getWachtwoord());
     }
 
+	public List<Persoon> zoekPersoonViaNaam(String naam) {
+		return repository.findAllByNaam(naam);
+	}
+
 
 
 }
