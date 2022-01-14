@@ -22,7 +22,7 @@ function ExemplaarInformatie(props) {
     }
 
     const isUitgeleend = (b) => {
-        return (b ? "ja ":  "nee");
+        return (b ? "ja " : "nee");
     }
 
     const hoeveelheidUitgeleend = (exemplaren) => {
@@ -40,11 +40,11 @@ function ExemplaarInformatie(props) {
             .then(
                 (result) => {
                     if (result.Hoeveelheid > 0) {
-                    setIsLoaded(true);        
-                    //Sorteer op individueel id          
-                    setExemplaren(result.ExemplarenStatus.sort((e1, e2) => e1.exemplaar.individueelId > e2.exemplaar.individueelId)); 
-                    setHoeveelExemplaren(result.Hoeveelheid);
-                    setSuccesBericht('Gelukt!')
+                        setIsLoaded(true);
+                        //Sorteer op individueel id          
+                        setExemplaren(result.ExemplarenStatus.sort((e1, e2) => e1.exemplaar.individueelId > e2.exemplaar.individueelId));
+                        setHoeveelExemplaren(result.Hoeveelheid);
+                        setSuccesBericht('Gelukt!')
                     } else {
                         setSuccesBericht('Geen exemplaren van boek_id')
                     }
@@ -59,8 +59,8 @@ function ExemplaarInformatie(props) {
 
     return (
         <div>
-            <input type="number" defaultValue={1} min = {1}
-                                       onChange={nieuwBoekId}/>
+            <input type="number" defaultValue={1} min={1}
+                onChange={nieuwBoekId} />
             <button onClick={() => haalExemplarenOp()}>Haal Exemplaren Op</button>
             <p>Van de {hoeveelexemplaren} boeken zijn er {hoeveelheidUitgeleend(exemplaren)} uitgeleend</p>
             <table>
@@ -70,23 +70,21 @@ function ExemplaarInformatie(props) {
                         <th>Uitgeleend</th>
                     </tr>
                 </thead>
-
-                {exemplaren.map(exemplaar => (
-                    <>
-                        <tbody>
+                <tbody>
+                    {exemplaren.map(exemplaar => (
+                        <tr>
                             <td key={exemplaar.exemplaar.id}>
                                 {"WT-" + boekId + "." + exemplaar.exemplaar.individueelId}
                             </td>
                             <td>
                                 {isUitgeleend(exemplaar.status)}
                             </td>
-                        </tbody>
-                    </>
-
-                ))}
+                        </tr>
+                    ))}
+                </tbody>
 
             </table>
-            <p>{succesBericht}</p> 
+            <p>{succesBericht}</p>
 
 
 

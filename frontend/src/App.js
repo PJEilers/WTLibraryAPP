@@ -11,7 +11,6 @@ import Trainees from "./pages/Trainees";
 import Uitleningen from "./pages/Uitleningen";
 import LogIn from "./pages/Login";
 
-
 function App() {
   return (
     <Router>
