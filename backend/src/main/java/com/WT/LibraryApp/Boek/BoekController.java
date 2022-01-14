@@ -54,7 +54,7 @@ public class BoekController {
 	public Map<String, Object> maakBoekAan(@RequestBody Boek boek) {
 		Optional<Boek> bestaandBoek = service.vindBoek(boek.getIsbn());
 		if (bestaandBoek.isPresent()) {
-			return Collections.singletonMap("bestaat", bestaandBoek);
+			return Collections.singletonMap("bestaat", bestaandBoek.get());
 		}
 		return Collections.singletonMap("bestaatNiet", service.maakBoekAan(boek));
 	}

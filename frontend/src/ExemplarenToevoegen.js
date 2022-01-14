@@ -9,7 +9,8 @@ function ExemplarenToevoegen(props) {
 
     const bevestig = (e) => {
         const data = {
-            boekId: props.boekID
+            boekId: props.boekID,
+            exemplaarId: null
         }
         setUit(true);
         voegExemplarenToe("http://localhost:8080/opslaanexemplaar/" + hoeveelheid, data).then(response => {
