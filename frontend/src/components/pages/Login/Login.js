@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import './Login.css'
-import { emailPattern } from './Constanten.js'
+import { emailPattern } from '../../../Constanten.js'
 
 function Login() {
 

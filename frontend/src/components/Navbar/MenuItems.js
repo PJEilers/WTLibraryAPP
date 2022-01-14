@@ -30,8 +30,8 @@ export const MenuItems = [
         cName: 'nav-links',
     },
     {
-        title: 'Uitleningen',
-        url: '/Uitleningen', //here you put the link
+        title: 'UitleningToevoegen',
+        url: '/UitleningToevoegen', //here you put the link
         cName: 'nav-links',
     },
     {

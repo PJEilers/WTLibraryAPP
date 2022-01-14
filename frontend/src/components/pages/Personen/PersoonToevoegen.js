@@ -1,5 +1,5 @@
 import "./PersoonToevoegen.css"
-import { emailPattern } from "./Constanten";
+import { emailPattern } from "../../../Constanten";
 import { useState } from 'react'
 
 function PersoonToevoegen() {

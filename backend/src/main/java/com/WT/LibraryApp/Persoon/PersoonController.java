@@ -1,5 +1,6 @@
 package com.WT.LibraryApp.Persoon;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -34,7 +35,17 @@ public class PersoonController {
     @RequestMapping(method = RequestMethod.POST, value = "/maakpersoonaan")
     public Persoon maakPersoonAan(@RequestBody Persoon persoon) {
         return service.maakPersoonAan(persoon);
-    } 
+    }
+    
+    // Meerdere personen aanmaken voor testing.
+    @RequestMapping(method = RequestMethod.POST, value = "/maakpersonenaan")
+    public List<Persoon> maakPersonenAan(@RequestBody List<Persoon> personen) {
+    	List<Persoon> gebruikers = new ArrayList<>();
+    	for (Persoon persoon: personen) {
+    		gebruikers.add(service.maakPersoonAan(persoon));
+    	}
+    	return gebruikers;
+    }
 
     @RequestMapping(value = "/persoon/{id}") 
     public Optional<Persoon> vindPersoon(@PathVariable int id) {

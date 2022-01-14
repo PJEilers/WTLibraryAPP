@@ -2,18 +2,21 @@ import React from 'react';
 import Navbar from './components/Navbar/Navbar';
 import './App.css';
 import {BrowserRouter as Router, Route,Routes} from 'react-router-dom';
-
-// Imports for routing
 import Home from "./pages/Home";
-import BoekToevoegen from './BoekToevoegen'
-import MaakBoekTabel from './BoekTabel'
-import ExemplaarInformatie from './ExemplaarInformatie'
-import PersoonToevoegen from './PersoonToevoegen';
-import PersoonInformatie from './PersoonInformatie';
+//import Boekenlijst from "./pages/Boekenlijst";
+import BoekToevoegen from './components/pages/Boeken/BoekToevoegen'
+import MaakBoekTabel from './components/pages/Boeken/BoekTabel'
+import ExemplaarInformatie from './components/pages/Boeken/ExemplaarInformatie'
+
+// import BoekToevoegen from './BoekToevoegen'
+// import BoekToevoegen from './BoekToevoegen'
+
+import PersoonToevoegen from './components/pages/Personen/PersoonToevoegen';
+import PersoonInformatie from './components/pages/Personen/PersoonInformatie';
 import Reserveringen from "./pages/Reserveringen";
-import Uitleningen from "./pages/Uitleningen";
-import Contact from './pages/Contact'
-import Login from './Login'
+import UitleningToevoegen from "./components/pages/Reserveringen/UitleningToevoegen"
+import Login from "./components/pages/Login/Login";
+
 
 
 function App() {
@@ -22,14 +25,13 @@ function App() {
       <Navbar />
       <Routes>
         <Route path = '/' element = {<Home />} />
-        <Route path = 'BoekToevoegen' element = {<BoekToevoegen />} />
+        <Route path = '/BoekToevoegen' element = {<BoekToevoegen />} />
+        <Route path = '/Reserveringen' element = {<Reserveringen />} />
         <Route path = '/BoekTabel' element = {<MaakBoekTabel />} />
-        <Route path = '/ExemplaarInformatie' element = {<ExemplaarInformatie />} />
+        <Route path = '/Exemplaarinformatie' element = {<ExemplaarInformatie />} />
         <Route path = '/PersoonToevoegen' element = {<PersoonToevoegen />} />
         <Route path = '/Persooninformatie' element = {<PersoonInformatie />} />
-        <Route path = '/Reserveringen' element = {<Reserveringen />} />
-        <Route path = '/Uitleningen' element = {<Uitleningen />} />
-        <Route path = '/Contact' element = {<Contact />} />
+        <Route path = '/UitleningToevoegen' element = {<UitleningToevoegen/>} />
         <Route path = '/Login' element = {<Login/>} />
       </Routes>
     </Router>
