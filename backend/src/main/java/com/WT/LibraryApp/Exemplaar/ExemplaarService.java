@@ -32,6 +32,10 @@ public class ExemplaarService {
 		return repository.countByBoekId(boekid);
 	}
 
+	public int countBeschikbaar(int boekid) {
+		return repository.countByBoekIdAndReserveringIdIsNull(boekid);
+	}
+
 	public int bepaalIndividueelId(int boekId) {
 		int hoeveelheid = countByBoekId(boekId);
 		List<Integer> individueleIds = vindBoekIndividueleIds(boekId);
@@ -58,5 +62,4 @@ public class ExemplaarService {
 		}
 		return individueleIds;
 	}
-
 }
