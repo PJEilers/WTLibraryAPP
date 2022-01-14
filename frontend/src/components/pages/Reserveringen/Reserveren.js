@@ -1,5 +1,6 @@
 import {connectieString, postRequest} from "../../../Constanten.js"
 import {useState} from "react"
+import { Button } from '../../Styling/Button'
 
 function Reserveren (props) {
 
@@ -33,7 +34,7 @@ function Reserveren (props) {
     
     return (
         <div>
-            <button onClick={() => maakReservering()}>Reserveer</button> <span>{succesBericht}</span>
+            <Button buttonSize = 'btn--small' onClick={() => maakReservering()}>Reserveer</Button> <span>{succesBericht}</span>
         </div>
     )
 }
