@@ -1,4 +1,4 @@
-export const connectieString = "localhost:8080";
+export const connectieString = "http://localhost:8080";
 
 export const postRequest = async(url,data) => {
     const response = await fetch(url, {
