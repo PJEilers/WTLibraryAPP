@@ -17,7 +17,7 @@ class Navbar extends Component {
         return(
             <nav className = "NavbarItems">
                
-           {/*} <NavLink to= "/">
+           {/* } <NavLink to= "/">
                 <img src={require('../../Images/LogoWTblack.png')} alt='WTlogo' />
         </NavLink> */}
             <h1 className = "navbar-logo">WT Library<i className = "fab fa-react"></i></h1>
@@ -29,13 +29,13 @@ class Navbar extends Component {
                     <NavLink className = 'nav-links' to='/'>Home</NavLink>
                 </li>
                 <li>
-                    <NavLink className = 'nav-links' to='/Boekenlijst'>Boekenlijst</NavLink>
+                    <NavLink className = 'nav-links' to="/Boeken">Boeken</NavLink>
                 </li>
                 <li>
-                    <NavLink className = 'nav-links' to='/Reserveringen'> Reserveringen</NavLink>
+                    <NavLink className = 'nav-links' to='/Reserveringen'>Reserveringen</NavLink>
                 </li>
                 <li>
-                    <NavLink className = 'nav-links' to='/Uitleningen'> Uitleningen</NavLink>
+                    <NavLink className = 'nav-links' to='/Uitleningen'>Uitleningen</NavLink>
                 </li>
                 <li>
                 <NavLink  className = 'nav-links' to='/Trainees'>Trainees</NavLink>

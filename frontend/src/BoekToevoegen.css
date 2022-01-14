@@ -1,7 +1,7 @@
 div {
     text-align: left;
 }
-    
+
 .BoekToevoegen {
     display:grid;
     grid-template-columns: max-content max-content;
