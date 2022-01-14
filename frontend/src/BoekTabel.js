@@ -1,6 +1,7 @@
 import './BoekTabel.css';
 import React from "react";
 import { useState } from "react";
+import Reserveren from './Reserveren';
 
 function MaakBoekTabel() {
     const[boeken, setBoeken] = useState([]);
@@ -81,6 +82,7 @@ function MaakBoekTabel() {
                         <th>Tags</th>
                         <th>Exemplaren Totaal</th>
                         <th>Exemplaren Beschikbaar</th>
+                        <th></th>
                     </tr>
                 </thead>
                 <tbody>
@@ -93,6 +95,7 @@ function MaakBoekTabel() {
                             <td>{boek.tags}</td>
                             <td>{boek.exemplarenTotaal}</td>
                             <td>{boek.beschikbaar}</td>
+                            <td><Reserveren boekId = {boek.id} persoonId = {1}/></td> 
                         </tr>
                     ))}
                 </tbody>

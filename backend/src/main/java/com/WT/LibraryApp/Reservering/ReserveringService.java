@@ -24,5 +24,9 @@ public class ReserveringService {
 	public Reservering maakReserveringAan(Reservering reservering) {
 		return repository.save(reservering);
 	}
+
+	public Optional<Reservering> vindReserveringMetPersoonIdEnBoekId (Reservering reservering) {
+		return repository.findByPersoonIdAndBoekId(reservering.getPersoonId(), reservering.getBoekId());
+	} 
 	
 }

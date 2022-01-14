@@ -1,7 +1,9 @@
 package com.WT.LibraryApp.Reservering;
 
+import java.util.Collections;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,19 +31,27 @@ public class ReserveringController {
 	public List<Reservering> vind() {
 		return service.vindAlleReserveringen();
 	}
+	
+	/*@RequestMapping(method = RequestMethod.POST, value = "/maakreserveringaan") // oude versie met String
+	public Reservering maakReserveringAan(@RequestBody Reservering reservering) {
+		return service.maakReserveringAan(reservering);
+	}*/
+	
+	@RequestMapping(method = RequestMethod.POST, value = "/maakreserveringaan") // nieuwe versie met datum, werkt als de string yyyy-mm-dd is
+	public Map<String, Object> maakReserveringAan(@RequestBody 
+		@DateTimeFormat(iso = DateTimeFormat.ISO.DATE) Reservering reservering){
+		Optional<Reservering> reserveringBestaat = service.vindReserveringMetPersoonIdEnBoekId(reservering);
+		if (reserveringBestaat.isPresent()) {
+			return Collections.singletonMap("bestaat", reserveringBestaat.get());
+		}
+		return Collections.singletonMap("bestaatNiet", service.maakReserveringAan(reservering));
+  }
 
 	/*
 	 * @RequestMapping(method = RequestMethod.POST, value = "/maakreserveringaan")
 	 * // oude versie met String public Reservering maakReserveringAan(@RequestBody
 	 * Reservering reservering) { return service.maakReserveringAan(reservering); }
 	 */
-
-	// nieuwe versie met datum, werkt als de string yyyy-mm-dd is
-	@RequestMapping(method = RequestMethod.POST, value = "/maakreserveringaan")
-	public Reservering maakReserveringAan(
-			@RequestBody @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) Reservering reservering) {
-		return service.maakReserveringAan(reservering);
-	}
 
 	// Meerdere Reservering toepassen voor testen
 	@RequestMapping(method = RequestMethod.POST, value = "/maakreserveringenaan")

@@ -104,7 +104,7 @@ public class ExemplaarController {
 		for (int i = 0; i < hoeveelheid; i++) {
 			tmpexemplaar = new Exemplaar();
 			tmpexemplaar.setBoekId(exemplaar.getBoekId());
-			tmpexemplaar.setReserveringId(exemplaar.getReserveringId());										
+			tmpexemplaar.setUitleningId(exemplaar.getUitleningId());										
 			gebruikteIds.add(service.bepaalIndividueelId(exemplaar.getBoekId()));
 			tmpexemplaar.setIndividueelId(gebruikteIds.get(i));
 			service.opslaanExemplaar(tmpexemplaar);
