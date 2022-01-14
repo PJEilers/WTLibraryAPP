@@ -1,3 +1,4 @@
+import "./UitleningToevoegen.css"
 import {useState} from 'react'
 
 function UitleningToevoegen () {
@@ -36,7 +37,7 @@ function UitleningToevoegen () {
                 value={beginDatum}
                 onChange={e => setBeginDatum(e.target.value)}
             />
-            <button onclick={() => stuurOp()}>Maak uitlening aan</button>
+            <button onClick={() => stuurOp()}>Maak uitlening aan</button>
         </div>
     )
 }
