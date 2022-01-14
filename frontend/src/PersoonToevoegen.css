@@ -2,14 +2,14 @@ div {
     text-align: left;
 }
     
-div.PersoonToevoegen {
+.PersoonToevoegen {
     display:grid;
     grid-template-columns: max-content max-content;
     grid-gap:5px;
 }
     
-div.PersoonToevoegen label       { text-align:right; }
-div.PersoonToevoegen label:after { content: ":"; }
-div.PersoonToevoegen #checkbox   {vertical-align:left}
+.PersoonToevoegen label       { text-align:right; }
+.PersoonToevoegen label:after { content: ":"; }
+.PersoonToevoegen #checkbox   {vertical-align:left}
 
-div.PersoonToevoegen #stuur:after {content:""}
+.PersoonToevoegen #stuur:after {content:""}

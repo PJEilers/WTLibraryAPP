@@ -1,5 +1,6 @@
 package com.WT.LibraryApp.Exemplaar;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,7 +22,44 @@ public class ExemplaarService {
 
 	public void opslaanExemplaar(Exemplaar exemplaar) {
 		repository.save(exemplaar);
-
 	}
 
+	public List<Exemplaar> vindBoekExemplaren(int boekid) {
+		return repository.findByBoekId(boekid);
+	}
+
+	public int countByBoekId(int boekid) {
+		return repository.countByBoekId(boekid);
+	}
+
+	public int countBeschikbaar(int boekid) {
+		return repository.countByBoekIdAndReserveringIdIsNull(boekid);
+	}
+
+	public int bepaalIndividueelId(int boekId) {
+		int hoeveelheid = countByBoekId(boekId);
+		List<Integer> individueleIds = vindBoekIndividueleIds(boekId);
+		int individueelId = hoeveelheid + 1;
+
+		// Check of er een lege plek is
+		int index = 0;
+		for (Integer eenId : individueleIds) {
+			index++;
+			if (!individueleIds.contains(index)) {
+				individueelId = index;
+				return individueelId;
+			}
+		}
+
+		return individueelId;
+	}
+
+	public List<Integer> vindBoekIndividueleIds(int boekId) {
+		List<Exemplaar> exemplaren = repository.findByBoekId(boekId);
+		List<Integer> individueleIds = new ArrayList<Integer>();
+		for (Exemplaar exemplaar : exemplaren) {
+			individueleIds.add(exemplaar.getIndividueelId());
+		}
+		return individueleIds;
+	}
 }

@@ -1,0 +1,1 @@
+export const connectieString = "localhost:8080";

@@ -1,0 +1,15 @@
+div {
+    text-align: left;
+}
+    
+.Login {
+    display:grid;
+    grid-template-columns: max-content max-content;
+    grid-gap:5px;
+}
+    
+.Login label       { text-align:right; }
+.Login label:after { content: ":"; }
+
+.Login #stuur:after {content:""}
+
