@@ -9,3 +9,4 @@ public interface IExemplaarRepository extends JpaRepository<Exemplaar, Integer> 
 		int countByBoekId(int boekId);
 		int countByBoekIdAndReserveringIdIsNull(int boekid);
 }
+

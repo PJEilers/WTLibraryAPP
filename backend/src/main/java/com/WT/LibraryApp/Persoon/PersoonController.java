@@ -40,6 +40,11 @@ public class PersoonController {
     public Optional<Persoon> vindPersoon(@PathVariable int id) {
         return service.vindPersoon(id);
     }
+    
+    @RequestMapping(value = "/zoekpersoonvianaam/{naam}") 
+    public List<Persoon> zoekPersoonViaNaam(@PathVariable String naam) {
+        return service.zoekPersoonViaNaam(naam);
+    }
 
     @RequestMapping(value = "/login") 
     public Persoon login (@RequestBody LoginForm loginform) {
