@@ -93,7 +93,7 @@ public class ExemplaarController {
 		return service.maakExemplaarAan(exemplaar);
 	}
 
-	// Optie voor toevoegen van reservatie5
+	// Optie voor toevoegen van meerdere exemplaren
 	@RequestMapping(method = RequestMethod.POST, value = "/opslaanexemplaar/{hoeveelheid}" /* TODO */)
 	public List<Integer> opslaanExemplaar(@RequestBody Exemplaar exemplaar, @PathVariable int hoeveelheid) {
 

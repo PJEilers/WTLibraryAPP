@@ -27,8 +27,6 @@ public class UitleningService {
 
 	public Optional<Uitlening> vindExemplaar(int exemplaarid) {
 		return repository.findByExemplaarId(exemplaarid);
-	}
-	
-	
+  }
 	
 }
