@@ -10,7 +10,7 @@ function MaakBoekTabel() {
     const[opstarten, setOpstarten] = useState(false);
 
     const laadData = () => {
-        if (boekTitel == '') {
+        if (boekTitel === '') {
             fetch('http://localhost:8080/boeken', {mode: 'cors'})
             .then(response => response.json())
             .then(data => {
