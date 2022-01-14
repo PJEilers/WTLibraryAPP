@@ -3,9 +3,9 @@ import {useState} from 'react'
 function UitleningToevoegen () {
     const [exemplaarId, setExemplaarId] = useState(1)
     const [persoonId, setPersoonId] = useState(1)
-    const [beginDatum, setBeginDatum] = useState(2000_01_01)
+    const [beginDatum, setBeginDatum] = useState("2000-01-01")
 
-    const stuurOp = () => {
+    const stuurOp = (e) => {
         const nieuwUitlening = {
             exemplaarId: exemplaarId,
             persoonId: persoonId,
@@ -24,9 +24,19 @@ function UitleningToevoegen () {
     return (
         <div>
             Uitlening: exemplaar id, persoon id, begin datum (yyyy-mm-dd)<br/>
-            <input type="number" id="exemplaar_id"/><input type="number" id="persoon_id"/><input type="text" id="begin_datum"/>
+            <input type="number"
+                value={exemplaarId}
+                onChange={e => setExemplaarId(e.target.value)}
+            />
+            <input type="number"
+                value={persoonId}
+                onChange={e => setPersoonId(e.target.value)}
+            />
+            <input type="text"
+                value={beginDatum}
+                onChange={e => setBeginDatum(e.target.value)}
+            />
             <button onclick={() => stuurOp()}>Maak uitlening aan</button>
-
         </div>
     )
 }
