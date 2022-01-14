@@ -1,5 +1,6 @@
 package com.WT.LibraryApp.Uitlening;
 
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -16,7 +17,6 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @CrossOrigin(maxAge = 3600)
 public class UitleningController {
-
 	@Autowired
 	private UitleningService service;
 
@@ -34,9 +34,10 @@ public class UitleningController {
 	public List<Uitlening> vind() {
 		return service.vindAlleUitleningen();
 	}
-
+	
 	@RequestMapping(method = RequestMethod.POST, value = "/maakuitleningaan") // Werkt als de string yyyy-mm-dd is
-	public Uitlening maakUitleningAan(@RequestBody @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) Uitlening uitlening) {
+	public Uitlening maakUitleningAan(@RequestBody
+			@DateTimeFormat(iso = DateTimeFormat.ISO.DATE) Uitlening uitlening){
 		return service.maakUitleningAan(uitlening);
 	}
 
@@ -49,5 +50,4 @@ public class UitleningController {
 		}
 		return opgeslagenUitleningen;
 	}
-
 }
