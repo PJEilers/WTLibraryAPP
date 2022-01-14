@@ -33,8 +33,21 @@ public class BoekController {
 	}*/
 
 	@RequestMapping(value = "/boeken")
-	public List<Boek> vindAlleBoeken() {
-		return service.vindAlleBoeken();
+	public List<Map<String, Object>> vindAlleBoeken() {
+		List<Boek> boeken = service.vindAlleBoeken();
+		List<Map<String, Object>> output = new ArrayList<Map<String, Object>>();
+		for (Boek boek : boeken) {//deze for loop is identiek als die van vindOpTitel, beter in een aparte functie
+			Map<String, Object> map = new HashMap<>();
+			map.put("id", boek.getId());
+			map.put("titel", boek.getTitel());
+			map.put("auteur", boek.getAuteur());
+			map.put("isbn", boek.getIsbn());
+			map.put("tags", boek.getTags());
+			map.put("exemplarenTotaal", serviceExemplaar.countByBoekId(boek.getId()));
+			map.put("beschikbaar", serviceExemplaar.countBeschikbaar(boek.getId()));
+			output.add(map);
+		}
+		return output;
 	}
 	
 	@RequestMapping(method = RequestMethod.POST, value="/maakboekaan")
@@ -46,16 +59,6 @@ public class BoekController {
 		return Collections.singletonMap("bestaatNiet", service.maakBoekAan(boek));
 	}
 	
-	/*@RequestMapping(method = RequestMethod.POST, value="/zoektitel")
-	public List<Boek> vindOpTitel(@RequestBody Boek input) {
-		List<Boek> boek = service.vindOpTitel(input);
-		if (boek.isEmpty()) {
-			return null;
-		} else {
-			return boek;
-		}
-	}*/
-	
 	@RequestMapping(method = RequestMethod.POST, value="/zoektitel")
 	public List<Map<String, Object>> vindOpTitel(@RequestBody Boek input) {
 		List<Boek> boeken = service.vindOpTitel(input);
@@ -65,7 +68,7 @@ public class BoekController {
 			List<Map<String, Object>> output = new ArrayList<Map<String, Object>>();
 			for (Boek boek : boeken) {
 				Map<String, Object> map = new HashMap<>();
-				map.put("boekid", boek.getId());
+				map.put("id", boek.getId());
 				map.put("titel", boek.getTitel());
 				map.put("auteur", boek.getAuteur());
 				map.put("isbn", boek.getIsbn());
