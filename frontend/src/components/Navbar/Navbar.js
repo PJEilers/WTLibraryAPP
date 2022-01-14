@@ -53,6 +53,9 @@ class Navbar extends Component {
                 <NavLink  className = 'nav-links' to='/Persoontoevoegen'>Persoon Toevoegen</NavLink>
                 </li>
                 <li>
+                <NavLink  className = 'nav-links' to='/UitleningToevoegen'>Uitlening Toevoegen</NavLink>
+                </li>
+                <li>
                 <NavLink className = 'nav-links-mobile' to='/Login'>LogIn</NavLink>
                 </li>
                 </ul>

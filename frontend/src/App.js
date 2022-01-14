@@ -16,6 +16,7 @@ import PersoonInformatie from './PersoonInformatie';
 import Reserveringen from "./pages/Reserveringen";
 import Trainees from "./pages/Trainees";
 import Uitleningen from "./pages/Uitleningen";
+import UitleningToevoegen from "./UitleningToevoegen"
 import Login from "./Login";
 
 
@@ -34,6 +35,7 @@ function App() {
         <Route path = '/Exemplaarinfo' element = {<ExemplaarInformatie />} />
         <Route path = '/PersoonToevoegen' element = {<PersoonToevoegen />} />
         <Route path = '/Persooninformatie' element = {<PersoonInformatie />} />
+        <Route path = '/UitleningToevoegen' element = {<UitleningToevoegen/>} />
         <Route path = '/Login' element = {<Login/>} />
       </Routes>
     </Router>
