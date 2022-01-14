@@ -33,7 +33,7 @@ function Reserveren (props) {
     
     return (
         <div>
-            <button onClick={() => maakReservering()}>Reserveer boek</button> <span>{succesBericht}</span>
+            <button onClick={() => maakReservering()}>Reserveer</button> <span>{succesBericht}</span>
         </div>
     )
 }

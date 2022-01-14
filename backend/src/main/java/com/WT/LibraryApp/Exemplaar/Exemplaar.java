@@ -22,7 +22,7 @@ public class Exemplaar {
 	private int individueelId;
 
 	@Column(nullable = true)
-	private int reserveringId;
+	private Integer uitleningId;
 
 	public int getId() {
 		return id;
@@ -40,12 +40,12 @@ public class Exemplaar {
 		this.boekId = boekId;
 	}
 
-	public int getReserveringId() {
-		return reserveringId;
+	public Integer getUitleningId() {
+		return uitleningId;
 	}
 
-	public void setReserveringId(int reserveringId) {
-		this.reserveringId = reserveringId;
+	public void setUitleningId(Integer uitleningId) {
+		this.uitleningId = uitleningId;
 	}
 
 	public int getIndividueelId() {

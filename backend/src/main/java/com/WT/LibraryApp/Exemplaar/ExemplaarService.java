@@ -33,7 +33,7 @@ public class ExemplaarService {
 	}
 
 	public int countBeschikbaar(int boekid) {
-		return repository.countByBoekIdAndReserveringIdIsNull(boekid);
+		return repository.countByBoekIdAndUitleningIdIsNull(boekid);
 	}
 
 	public int bepaalIndividueelId(int boekId) {
