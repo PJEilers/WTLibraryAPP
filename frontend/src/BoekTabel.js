@@ -45,6 +45,13 @@ function MaakBoekTabel() {
         }
     }
 
+    const reset = () => {
+        setBoeken([]);
+        setBoekTitel('');
+        setSuccesBericht('');
+        setOpstarten(false);
+    }
+
     if (!opstarten) {
         laadData();
         setOpstarten(true);
@@ -52,7 +59,7 @@ function MaakBoekTabel() {
 
     return (
         <div>
-            <input type="text" defaultValue={''}
+            <input type="text" placeholder='Zoek op titel' value={boekTitel}
                                        onChange={e => setBoekTitel(e.target.value)}/>
             <span>
                 <button onClick={() => { 
@@ -60,12 +67,7 @@ function MaakBoekTabel() {
                 }}>
                     Zoek
                     </button>
-                <button onClick={() => {
-                    setBoeken([]);
-                    setBoekTitel('');
-                    laadData();
-                    console.log(boekTitel);
-                }}>
+                <button onClick={() => reset()}>
                     Reset
                 </button>
             </span>
