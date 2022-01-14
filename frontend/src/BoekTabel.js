@@ -79,6 +79,8 @@ function MaakBoekTabel() {
                         <th>Auteur</th>
                         <th>ISBN</th>
                         <th>Tags</th>
+                        <th>Exemplaren Totaal</th>
+                        <th>Exemplaren Beschikbaar</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -89,6 +91,8 @@ function MaakBoekTabel() {
                             <td>{boek.auteur}</td>
                             <td>{boek.isbn}</td>
                             <td>{boek.tags}</td>
+                            <td>{boek.exemplarenTotaal}</td>
+                            <td>{boek.beschikbaar}</td>
                         </tr>
                     ))}
                 </tbody>

@@ -32,4 +32,7 @@ public class ExemplaarService {
 		return repository.countByBoekId(boekid);
 	}
 
+	public int countBeschikbaar(int boekid) {
+		return repository.countByBoekIdAndReserveringIdIsNull(boekid);
+	}
 }
