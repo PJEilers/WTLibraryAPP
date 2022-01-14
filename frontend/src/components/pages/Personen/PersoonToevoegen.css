@@ -1,0 +1,15 @@
+div {
+    text-align: left;
+}
+    
+.PersoonToevoegen {
+    display:grid;
+    grid-template-columns: max-content max-content;
+    grid-gap:5px;
+}
+    
+.PersoonToevoegen label       { text-align:right; }
+.PersoonToevoegen label:after { content: ":"; }
+.PersoonToevoegen #checkbox   {vertical-align:left}
+
+.PersoonToevoegen #stuur:after {content:""}
