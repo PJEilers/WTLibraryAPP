@@ -1,34 +1,36 @@
 import { useState } from 'react';
 import './Login.css'
 import { emailPattern } from '../../../Constanten.js'
+import Cookies from 'universal-cookie'
 
-function Login() {
+function Login({setPersoonInfo}) {
 
     const [email, setEmail] = useState('');
     const [wachtwoord, setWachtwoord] = useState('');
     const [succesBericht, setSuccesBericht] = useState('');
-    const [persoonID, setpersoonID] = useState(0);
-    const [adminRechten, setAdminRechten] = useState(false);
+
+    const cookies = new Cookies();
 
 
-    const login = () => {
+    const login = (e) => {
         postLogin("http://localhost:8080/login", {
             email: email,
             wachtwoord: wachtwoord
         }).then(response => {
             if (response.ok) {
                 response.json().then(persoon => {
-                    setpersoonID(persoon.id);
-                    setAdminRechten(persoon.adminRechten);
                     setEmail('');
                     setWachtwoord('');
-                    setSuccesBericht(`Succesvol ingelogd (id=${persoon.id}, admin = ${persoon.adminRechten}) 
-                                            (en dan wordt je doorgestuurd naar de homepagina oid)`);
+                    setPersoonInfo({persoonId: persoon.id, adminRechten: persoon.adminRechten});
+                    cookies.set('persoonId', persoon.id, {path: '/'});
+                    cookies.set('adminRechten', persoon.adminRechten, {path: '/'});
                 })
             } else {
                 setSuccesBericht("E-mailadres of wachtwoord onjuist");
             }
         })
+
+        e.preventDefault();
     }
 
     return (

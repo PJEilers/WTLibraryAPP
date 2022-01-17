@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import { MenuItems } from './MenuItems';
-import { Button } from '../Styling/Button';
+import  Logout  from '../pages/Login/Logout'
 import './Navbar.css';
 import { NavLink} from 'react-router-dom';
 //import {Nav, NavLink, Bars, NavMenu, NavBtn, NavBtnLink} from './NavbarElements'
@@ -35,7 +35,7 @@ class Navbar extends Component {
                         )
                     })}
                 </ul>
-                <NavLink to = '/login'><Button buttonSize='btn--medium'>Log In</Button></NavLink>
+                <Logout setPersoonInfo = {this.props.setPersoonInfo}/>
             </nav>
          )
     }
