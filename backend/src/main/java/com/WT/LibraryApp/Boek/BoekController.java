@@ -58,28 +58,6 @@ public class BoekController {
 		}
 		return Collections.singletonMap("bestaatNiet", service.maakBoekAan(boek));
 	}
-	
-	@RequestMapping(method = RequestMethod.POST, value="/zoektitel")
-	public List<Map<String, Object>> vindOpTitel(@RequestBody Boek input) {
-		List<Boek> boeken = service.vindOpTitel(input);
-		if (boeken.isEmpty()) {
-			return null;
-		} else {
-			List<Map<String, Object>> output = new ArrayList<Map<String, Object>>();
-			for (Boek boek : boeken) {
-				Map<String, Object> map = new HashMap<>();
-				map.put("id", boek.getId());
-				map.put("titel", boek.getTitel());
-				map.put("auteur", boek.getAuteur());
-				map.put("isbn", boek.getIsbn());
-				map.put("tags", boek.getTags());
-				map.put("exemplarenTotaal", serviceExemplaar.countByBoekId(boek.getId()));
-				map.put("beschikbaar", serviceExemplaar.countBeschikbaar(boek.getId()));
-				output.add(map);
-			}
-			return output;
-		}
-	}
 
 	// Optie op de database te vullen met array van boeken.
 	@RequestMapping(method = RequestMethod.POST, value = "/maakboekenaan")
