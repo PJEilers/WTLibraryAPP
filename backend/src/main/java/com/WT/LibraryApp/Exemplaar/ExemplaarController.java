@@ -39,25 +39,9 @@ public class ExemplaarController {
 
 	// Optie voor vragen naar alle exemplaren van een bepaald boek
 	@RequestMapping(value = "/boekexemplaren/{boekid}" /* TODO */) 
-	public Map<String, Object> vindBoekExemplaren(@PathVariable int boekid) {
-		
-		Map<String, Object> mapexemplaren = new HashMap<>();
-		List<ExemplaarStatus> exemplarenstatus = new ArrayList<ExemplaarStatus>();
+	public List<Exemplaar> vindBoekExemplaren(@PathVariable int boekid) {
 		List<Exemplaar> exemplaren = service.vindBoekExemplaren(boekid);
-
-		// Kan ook gewoon in frontend worden gedaan
-		mapexemplaren.put("Hoeveelheid", (Integer) service.countByBoekId(boekid));
-		// Placeholder voor status uitlenen
-		for (Exemplaar exemplaar: exemplaren) {			
-			if (serviceUitlening.vindExemplaar(exemplaar.getId()).isPresent()) {
-				exemplarenstatus.add(new ExemplaarStatus(true, exemplaar));
-			} else {
-				exemplarenstatus.add(new ExemplaarStatus(false, exemplaar));
-			}
-			
-		}
-		mapexemplaren.put("ExemplarenStatus", exemplarenstatus);
-		return mapexemplaren;
+		return exemplaren;
 	}
 
 	// Optie voor vragen naar alle exemplaren
@@ -113,6 +97,7 @@ public class ExemplaarController {
 		}
 		return gebruikteIds;
 	}
+	
 	
 
 }
