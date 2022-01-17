@@ -8,54 +8,55 @@ import Popup from 'reactjs-popup';
 import '../../Styling/Popup.css'
 
 function MaakBoekTabel() {
-    const [boeken, setBoeken] = useState([]);
-    const [boekTitel, setBoekTitel] = useState('');
+    const[boeken, setBoeken] = useState([]);
+    const[boekenWeergeven, setBoekenWeergeven] = useState([]);
     const [nieuweExemplaren, setNieuweExemplaren] = useState(false)
-    const [succesBericht, setSuccesBericht] = useState('');
-    const [opstarten, setOpstarten] = useState(false);
+    const[boekTitel, setBoekTitel] = useState('');
+    const[boekTags, setBoekTags] = useState('');
+    const[opstarten, setOpstarten] = useState(false);
     const [boekId, setBoekId] = useState(1);
 
     const laadData = () => {
-        if (boekTitel === '') {
-            fetch('http://localhost:8080/boeken', { mode: 'cors' })
-                .then(response => response.json())
-                .then(data => {
-                    setBoeken(data);
-                })
-                .catch((error) => {
-                    console.error('Error:', error);
-                });
-        } else {
-            let checkBoek = {
-                titel: boekTitel,
-                auteur: '',
-                isbn: '',
-                tags: '',
+        fetch('http://localhost:8080/boeken', {mode: 'cors'})
+        .then(response => response.json())
+        .then(data => {
+            setBoeken(data);
+            setBoekenWeergeven(data);
+        })
+        .catch((error) => {
+            console.error('Error:', error);
+        });
+    }
+
+    const boekenFilter = () => {
+        let filterData = boeken.filter(v => {
+            if(v.tags !== null) {
+                if (v.tags.toLowerCase().includes(boekTags.toLowerCase()) 
+                    && v.titel.toLowerCase().includes(boekTitel.toLowerCase())) {
+                    return true;
+                }
+            } else if (v.tags === null && boekTags === '' 
+                && v.titel.toLowerCase().includes(boekTitel.toLowerCase())) {
+                return true;
             }
-            fetch('http://localhost:8080/zoektitel', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify(checkBoek)
-            })
-                .then(response => response.json())
-                .then(data => {
-                    if (data !== null) {
-                        setBoeken(data);
-                    } else {
-                        setSuccesBericht('Dit boek staat niet in de database');
-                        setBoekTitel('');
-                    }
-                })
-                .catch(error => console.log("Error: " + error));
+            return false;
+        });
+        setBoekenWeergeven(filterData);
+    }
+
+    const zoekBoek = (watVeranderd, waarde) => {
+        if (watVeranderd === 'titel') {
+            setBoekTitel(waarde);
+        } else {
+            setBoekTags(waarde);
         }
+        boekenFilter();
     }
 
     const reset = () => {
-        setBoeken([]);
+        setBoekenWeergeven(boeken);
         setBoekTitel('');
-        setSuccesBericht('');
+        setBoekTags('');
         setOpstarten(false);
     }
 
@@ -71,23 +72,19 @@ function MaakBoekTabel() {
 
     if (!opstarten) {
         laadData();
+        setBoekenWeergeven(boeken);
         setOpstarten(true);
     }
 
     return (
         <div>
             <input type="text" placeholder='Zoek op titel' value={boekTitel}
-                onChange={e => setBoekTitel(e.target.value)} />
-            <span>
-                <button onClick={() => {
-                    laadData();
-                }}>
-                    Zoek
-                </button>
-                <button onClick={() => reset()}>
-                    Reset
-                </button>
-            </span>
+                                       onChange={e => zoekBoek('titel', e.target.value)}/>
+            <input type="text" placeholder='Zoek op tags' value={boekTags}
+                                       onChange={e => zoekBoek('tags', e.target.value)}/>
+            <button onClick={() => reset()}>
+                Reset
+            </button>
             <table>
                 <thead>
                     <tr>
@@ -102,7 +99,7 @@ function MaakBoekTabel() {
                     </tr>
                 </thead>
                 <tbody>
-                    {boeken.map(boek => (
+                    {boekenWeergeven.map(boek => (
                         <tr key={boek.id}>
                             <td>{boek.id}</td>
                             <td>{boek.titel}</td>
