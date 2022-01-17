@@ -22,18 +22,29 @@ function MaakBoekTabel() {
         });
     }
 
-    const boekenOpTitel = () => {
-        let filterData = boeken.filter(v => v.titel.toLowerCase().includes(boekTitel.toLowerCase()));
+    const boekenFilter = () => {
+        let filterData = boeken.filter(v => {
+            if(v.tags !== null) {
+                if (v.tags.toLowerCase().includes(boekTags.toLowerCase()) 
+                    && v.titel.toLowerCase().includes(boekTitel.toLowerCase())) {
+                    return true;
+                }
+            } else if (v.tags === null && boekTags === '' 
+                && v.titel.toLowerCase().includes(boekTitel.toLowerCase())) {
+                return true;
+            }
+            return false;
+        });
         setBoekenWeergeven(filterData);
     }
 
-    const boekenOpTags = () => {
-        let filterData = boeken.filter(v => {
-            if(v.tags !== null) {
-                return v.tags.toLowerCase().includes(boekTags.toLowerCase());
-            }
-        });
-        setBoekenWeergeven(filterData);
+    const zoekBoek = (watVeranderd, waarde) => {
+        if (watVeranderd === 'titel') {
+            setBoekTitel(waarde);
+        } else {
+            setBoekTags(waarde);
+        }
+        boekenFilter();
     }
 
     const reset = () => {
@@ -52,15 +63,9 @@ function MaakBoekTabel() {
     return (
         <div>
             <input type="text" placeholder='Zoek op titel' value={boekTitel}
-                                       onChange={e => {
-                                            setBoekTitel(e.target.value);
-                                            boekenOpTitel();
-                                       }}/>
+                                       onChange={e => zoekBoek('titel', e.target.value)}/>
             <input type="text" placeholder='Zoek op tags' value={boekTags}
-                                       onChange={e => {
-                                            setBoekTags(e.target.value);
-                                            boekenOpTags();
-                                       }}/>
+                                       onChange={e => zoekBoek('tags', e.target.value)}/>
             <button onClick={() => reset()}>
                 Reset
             </button>
