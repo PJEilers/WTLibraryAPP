@@ -1,6 +1,10 @@
 import './ExemplaarInformatie.css';
 import React from "react";
 import { useState } from "react";
+import { Button } from "../../Styling/Button"
+import Popup from 'reactjs-popup';
+import PersoonInformatie from '../Personen/PersoonInformatie';
+import { connectieString, postRequest } from '../../../Constanten.js'
 
 
 function ExemplaarInformatie(props) {
@@ -9,20 +13,34 @@ function ExemplaarInformatie(props) {
     const [isLoaded, setIsLoaded] = useState(false);
     const [exemplaren, setExemplaren] = useState([]);
     const [hoeveelexemplaren, setHoeveelExemplaren] = useState(0);
-    const [statusexemplaren, setStatusExemplaren] = useState([]);
+    const [nieuweUitlening, setNieuweUitlening] = useState(false);
     const [succesBericht, setSuccesBericht] = useState('');
     const [boekId, setBoekId] = useState(1);
+    const [uitleningToegevoegd, setUitleningToegevoegd] = useState(false);
+    const [huidigExemplaar, setHuidigExemplaar] =useState(null);
 
     const nieuwBoekId = (e) => {
         setExemplaren([]);
         setHoeveelExemplaren(0);
-        setStatusExemplaren([]);
         setSuccesBericht('');
         setBoekId(e.target.value)
     }
 
+    const setUitleningInfo =  (exemplaar) => {
+        setNieuweUitlening(true);
+        setHuidigExemplaar(exemplaar);
+        setUitleningToegevoegd(false);
+    }
+
     const isUitgeleend = (b) => {
         return (b ? "ja " : "nee");
+    }
+
+    const uitleningBericht = (exemplaar) => {
+        if (uitleningToegevoegd && exemplaar === huidigExemplaar) {
+            return <><br/>Uitlening toegevoegd</>;
+        } 
+        return null;
     }
 
     const hoeveelheidUitgeleend = (exemplaren) => {
@@ -31,6 +49,27 @@ function ExemplaarInformatie(props) {
             total += exemplaar.status;
         });
         return total;
+    }
+
+    const nieuweUitleningToevoegen = (persoonId, exemplaar) => {
+        const nieuweUitlening = {
+            exemplaarId: exemplaar.exemplaar.id,
+            persoonId: persoonId,
+            beginDatum: new Date().toISOString().split('T')[0]
+        }
+        postRequest(connectieString + '/maakuitleningaan', nieuweUitlening).then(response => {
+            if (response.ok) {
+                response.json().then(uitlening => {
+                    console.log(uitlening);
+                    setUitleningToegevoegd(true);
+                    setNieuweUitlening(false);
+                })
+            } else {
+                console.log("mislukt");
+            }
+        }).catch(error => console.log(error));
+
+
     }
 
 
@@ -68,16 +107,28 @@ function ExemplaarInformatie(props) {
                     <tr>
                         <th>Label</th>
                         <th>Uitgeleend</th>
+                        <th></th>
                     </tr>
                 </thead>
                 <tbody>
                     {exemplaren.map(exemplaar => (
-                        <tr>
-                            <td key={exemplaar.exemplaar.id}>
+                        <tr key={exemplaar.exemplaar.id}>
+                            <td >
                                 {"WT-" + boekId + "." + exemplaar.exemplaar.individueelId}
                             </td>
                             <td>
                                 {isUitgeleend(exemplaar.status)}
+                            </td>
+                            <td >
+                                <Button onClick={() => setUitleningInfo(exemplaar)}>Uitlenen</Button>
+                                <Popup open={nieuweUitlening} modal>
+                                    <div className="modal">
+                                        <button className="close" onClick={() => setNieuweUitlening(false)}> &times; </button>
+                                        <PersoonInformatie nieuweUitleningToevoegen={nieuweUitleningToevoegen}
+                                            exemplaar={huidigExemplaar} />
+                                    </div>
+                                </Popup>
+                                {uitleningBericht(exemplaar)}
                             </td>
                         </tr>
                     ))}

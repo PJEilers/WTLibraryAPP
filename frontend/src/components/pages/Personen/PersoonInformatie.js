@@ -1,6 +1,6 @@
 import './PersoonInformatie.css';
-import React from "react";
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import {Button} from '../../Styling/Button'
 
 
 function PersoonInformatie(props) {
@@ -11,6 +11,7 @@ function PersoonInformatie(props) {
     const [gezochtePersonen, setGezochtePersonen] = useState([]);
     const [naam, setNaam] = useState('')
     const [succesBericht, setSuccesBericht] = useState('');
+  
 
     const haalPersonenOp = () => {
         fetch("http://localhost:8080/personen/")
@@ -33,6 +34,10 @@ function PersoonInformatie(props) {
                 }
             )
     };
+
+    useEffect(() => {
+        haalPersonenOp();
+    },[]);
 
     const haalPersonenOpNaam = () => {
         let filterData = personen.filter(v => v.naam.toLowerCase().includes(naam.toLowerCase()));
@@ -58,10 +63,11 @@ function PersoonInformatie(props) {
                     <tr>
                         <th>Naam</th>
                         <th>Email</th>
+                      {props.exemplaar ? <th></th> : null}
                     </tr>
                 </thead>
                 <tbody>
-                    {PersonenTabel(gezochtePersonen)}
+                    {PersonenTabel(gezochtePersonen, props.nieuweUitleningToevoegen, props.exemplaar)}
                 </tbody>
             </table>
             <p>{succesBericht}</p>
@@ -73,7 +79,19 @@ function PersoonInformatie(props) {
 }
 export default PersoonInformatie;
 
-function PersonenTabel(personen) {
+const leenUitTabel = (persoon, nieuweUitleningToevoegen, exemplaar) => {
+    if (exemplaar) {
+        return (
+
+           <td>
+               <Button onClick = {() => nieuweUitleningToevoegen(persoon.id, exemplaar)}>Leen uit</Button>
+           </td>
+        );
+    }
+    return null;
+}
+
+function PersonenTabel(personen,nieuweUitleningToevoegen, exemplaar) {
     return (
         <>
             {personen.map(persoon =>
@@ -84,6 +102,7 @@ function PersonenTabel(personen) {
                     <td>
                         {persoon.email}
                     </td>
+                    {leenUitTabel(persoon, nieuweUitleningToevoegen, exemplaar)}
                 </tr>
             )
             }
