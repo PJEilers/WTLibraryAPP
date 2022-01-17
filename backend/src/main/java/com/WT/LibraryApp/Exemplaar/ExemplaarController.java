@@ -114,11 +114,6 @@ public class ExemplaarController {
 		return gebruikteIds;
 	}
 	
-	// Optie voor aanpassen Status van exemplaar
-		@RequestMapping(value = "/exemplaarstatus/{boekId}/{individueelId}" /* TODO */)
-		public Optional<Boek> vindExemplaarBoek(@PathVariable int boekId, @PathVariable int individueelId) {
-			return serviceBoek.vindBoek(boekId);
-		}
 
 }
 
