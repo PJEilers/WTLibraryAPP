@@ -30,7 +30,12 @@ export const MenuItems = [
         cName: 'nav-links',
     },
     {
-        title: 'UitleningToevoegen',
+        title: 'Reservering Tabel',
+        url: '/ReserveringTabel', //here you put the link
+        cName: 'nav-links',
+    },
+    {
+        title: 'Uitlening Toevoegen',
         url: '/UitleningToevoegen', //here you put the link
         cName: 'nav-links',
     },
