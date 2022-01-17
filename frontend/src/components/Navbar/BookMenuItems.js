@@ -12,7 +12,7 @@ export const BookMenuItems = [
     {
         title: 'Exemplaar Informatie',
         url: 'exemplaar-informatie', //here you put the link
-        cName: 'nav-links',
+        cName: 'dropdown-link',
     },
     // {
     //     title: 'Gebruiker Toevoegen',

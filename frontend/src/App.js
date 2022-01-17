@@ -1,6 +1,4 @@
 import React from 'react';
-import Dropdown from './components/Navbar/BookDropdown'
-
 import Navbar from './components/Navbar/Navbar';
 import './App.css';
 import {BrowserRouter as Router, Route,Routes} from 'react-router-dom';

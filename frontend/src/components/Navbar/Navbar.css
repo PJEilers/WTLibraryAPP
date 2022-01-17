@@ -25,27 +25,33 @@
     Products, etc. This is what is in the <ul> in the Navbar.js*/
 .nav-menu {
     display: grid;
-    grid-template-columns: repeat(4, minmax(80px, 2fr)); /*makes sure that the navbar items do not overlap with the navbar logo*/
+    grid-template-columns: repeat(5, auto); /*makes sure that the navbar items do not overlap with the navbar logo*/
     grid-gap: 15px;
     list-style: none;
     text-align: center;
     width: 65vw;
-    justify-content: right;
-    margin-right: 2rem;
+    justify-content: end;
+    margin-right: 1rem;
 }
+
+.nav-item {
+    display: flex;
+    align-items: left;
+    height: 100px;
+  }
 
 {/*nav-links was defined as a classname in the MenuItems.js. Here we style the 
     menuitems in the navbar.*/}
 .nav-links {
     color: #fff;
     text-decoration: none;
-    padding: 2rem 2rem; /*The padding is only for when you hover over the items*/
+    padding: 2.25rem 1rem; /*The padding is only for when you hover over the items*/
 }
 
 .nav-links:hover {
     color:#25f025;
     /* background: #e95c1b; */
-    transition: all 0.2s ease-out;
+    transition: all 0.2s ease-in-out;
 }
 
 .fa-bars {
@@ -94,6 +100,7 @@
         text-align: center;
         padding: 0.75rem; /*thickness of the hamburger menu items*/
         width: 85%;
+        height: 10%;
         display: table;
     }
 
@@ -103,8 +110,9 @@
         position: center;
         border-radius: 4px;
         width: 80%;/* border-radius: 0; */
+        height: 40%;
         font-size: 1rem;
-       color: rgb(2, 2, 2);
+        color: rgb(2, 2, 2);
     }
 
     .navbar-logo {

@@ -1,13 +1,51 @@
 import React, { useState } from 'react';
-import { BookMenuItems } from './BookMenuItems';
+
 import { Button } from '../Styling/Button';
 import './Navbar.css';
 import { Link, NavLink } from 'react-router-dom';
-import Dropdown from './BookDropdown'
-import GebruikerDropdown from './GebruikerDropdown'
+import Dropdown from './Dropdown'
 import { GebruikerMenuItems } from './GebruikerMenuItems';
-//import {Nav, NavLink, Bars, NavMenu, NavBtn, NavBtnLink} from './NavbarElements'
+import { BookMenuItems } from './BookMenuItems';
+import { ReserveringMenuItems } from './ReserveringMenuItems'
+const DropDownMenu = ({navItem, url1 , menuItems1 }) => {
+    
+    const [click, setClick] = useState(false);
+    const [dropdown, setDropdown] = useState(false);
 
+    const closeMobileMenu = () => setClick(false);
+    
+    const [url, setUrl] = useState('');
+    const [menuItems, setMenuItems] = useState([]);
+
+    const onMouseEnter = () => {
+        if (window.innerWidth < 960) {
+            setDropdown(false);
+        } else {
+            setDropdown(true);
+        }
+    };
+
+    const onMouseLeave = () => {
+        if (window.innerwidth < 960) {
+            setDropdown(false);
+        } else {
+            setDropdown(false);
+        }
+    };
+
+    return (
+        <div>
+            <li className='nav-item' onMouseEnter={onMouseEnter} onMouseLeave={onMouseLeave}>
+                <Link to={url1} className='nav-links' onClick={closeMobileMenu}>
+                  {navItem}  <i className='fas fa-caret-down' />
+                </Link>
+                {dropdown && <Dropdown props={menuItems1} />}
+            </li>
+        </div>
+
+    )
+
+}
 
 function Navbar() {
     const [click2, setClick2] = useState(false);
@@ -42,29 +80,9 @@ function Navbar() {
             </div>
             <ul className={click2 ? 'nav-menu active' : 'nav-menu'}>
 
-                <li className='nav-item' onMouseEnter={onMouseEnter} onMouseLeave={onMouseLeave}>
-                    <Link to='/boeken' className='nav-links' onClick={closeMobileMenu}>
-                        Boeken <i className='fas fa-caret-down' />
-                    </Link>
-                    {dropdown && <Dropdown props={BookMenuItems} />}
-                </li>
-
-                <li className='nav-item' onMouseEnter={onMouseEnter} onMouseLeave={onMouseLeave}>
-                    <Link to='/reserveringen' className='nav-links' onClick={closeMobileMenu}>
-                        Reserveringen <i className='fas fa-caret-down' />
-                    </Link>
-                    {dropdown && <Dropdown props={GebruikerMenuItems} />}
-                </li>
-                
-                <DropDownMenu url1={'/reserveringen'} menuItems1={GebruikerMenuItems} />
-                <DropDownMenu url1={'/boeken'} menuItems1={GebruikerMenuItems} />
-
-                <li className='nav-item'>
-                    <Link to='/gebruikers' className='nav-links' onClick={closeMobileMenu}>
-                        Gebruikers
-                    </Link>
-                </li>
-
+                <DropDownMenu navItem = 'Boeken' url1={'/boeken'} menuItems1={BookMenuItems} />
+                <DropDownMenu navItem = 'Reserveringen' url1={'/reserveringen'} menuItems1={ReserveringMenuItems} />
+                <DropDownMenu navItem = 'Gebruikers' url1={'/gebruikers'} menuItems1={GebruikerMenuItems} />
                 <li className='nav-item'>
                     <Link to='/contact' className='nav-links' onClick={closeMobileMenu}>
                         Contact
@@ -78,40 +96,3 @@ function Navbar() {
 }
 
 export default Navbar;
-
-const DropDownMenu = ({ url1 , menuItems1 }) => {
-    const [click, setClick] = useState(false);
-    const [dropdown, setDropdown] = useState(false);
-    const closeMobileMenu = () => setClick(false);
-    const [url, setUrl] = useState('');
-    const [menuItems, setMenuItems] = useState([]);
-
-    const onMouseEnter = () => {
-        if (window.innerWidth < 960) {
-            setDropdown(false)
-        } else {
-            setDropdown(true)
-        }
-    }
-
-    const onMouseLeave = () => {
-        if (window.innerwidth < 960) {
-            setDropdown(false);
-        } else {
-            setDropdown(false);
-        }
-    };
-
-    return (
-        <div>
-            <li className='nav-item' onMouseEnter={onMouseEnter} onMouseLeave={onMouseLeave}>
-                <Link to={url1} className='nav-links' onClick={closeMobileMenu}>
-                    Placeholder <i className='fas fa-caret-down' />
-                </Link>
-                {dropdown && <Dropdown props={menuItems1} />}
-            </li>
-        </div>
-
-    )
-
-}

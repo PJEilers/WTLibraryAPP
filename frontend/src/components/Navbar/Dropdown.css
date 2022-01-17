@@ -1,5 +1,6 @@
 .dropdown-menu{
-    width:200px;
+    background: rgb(0, 0, 0);
+    width: 230px;
     position: absolute;
     top: 100px;
     list-style: none;
@@ -7,15 +8,15 @@
 }
 
 .dropdown-menu li {
-    background: rgb(7, 7, 7);
-    padding: 6px;
+    background: rgb(0, 0, 0);
+    location: center;
+    padding: 10px;
     cursor: pointer;
 }
 
 .dropdown-menu li:hover{
-    background: #25f025;
-    color: black;
-}
+    color: #25f025;
+    }
 
 .dropdown-menu.clicked {
     display: none;
@@ -23,9 +24,20 @@
 
 .dropdown-link {
     display: block;
+    color: #25f025;
     width: 100%;
     height: 100%;
     text-decoration: none;
     color: #fff;
     padding: 10px;
 }
+
+.dropdown-link:hover{
+    color: #25f025;
+}
+
+@media screen and (max-width: 960px) {
+    .fa-caret-down {
+      display: none;
+    }
+  }
