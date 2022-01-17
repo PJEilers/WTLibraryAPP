@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.WT.LibraryApp.Boek.Boek;
 import com.WT.LibraryApp.Boek.BoekService;
+import com.WT.LibraryApp.Exemplaar.Exemplaar.Status;
 import com.WT.LibraryApp.Reservering.Reservering;
 import com.WT.LibraryApp.Reservering.ReserveringService;
 import com.WT.LibraryApp.Uitlening.UitleningService;
@@ -107,10 +108,17 @@ public class ExemplaarController {
 			tmpexemplaar.setUitleningId(exemplaar.getUitleningId());										
 			gebruikteIds.add(service.bepaalIndividueelId(exemplaar.getBoekId()));
 			tmpexemplaar.setIndividueelId(gebruikteIds.get(i));
+			tmpexemplaar.setStatus(Status.BESCHIKBAAR);
 			service.opslaanExemplaar(tmpexemplaar);
 		}
 		return gebruikteIds;
 	}
+	
+	// Optie voor aanpassen Status van exemplaar
+		@RequestMapping(value = "/exemplaarstatus/{boekId}/{individueelId}" /* TODO */)
+		public Optional<Boek> vindExemplaarBoek(@PathVariable int boekId, @PathVariable int individueelId) {
+			return serviceBoek.vindBoek(boekId);
+		}
 
 }
 
