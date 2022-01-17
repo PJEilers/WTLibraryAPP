@@ -67,9 +67,7 @@ function MaakBoekTabel() {
 
     }
 
-    const closePopup = () => {
-
-    }
+    const closePopup = () => setNieuweExemplaren(false)
 
     if (!opstarten) {
         laadData();
@@ -115,20 +113,19 @@ function MaakBoekTabel() {
                             <td>{boek.beschikbaar}</td>
                             <td><Reserveren boekId={boek.id} persoonId={1} /></td>
                             <td>
-                                <Popup trigger={<Button>Exemplaren Toevoegen</Button>} modal closeOnEscape>
+                                <Button onClick ={() => {setNieuweExemplaren(true); setBoekId(boek.id);}}>Exemplaren Toevoegen</Button>
+                                <Popup open={nieuweExemplaren} modal closeOnEscape>
                                     <div className="modal">
                                         <button className="close" onClick={closePopup}> &times; </button>
-                                        {boek.id}
-                                        {NieuweExemplarenToevoegen(boek.id)}
+                                        {NieuweExemplarenToevoegen(boekId)}
                                     </div>
-                                </Popup>
+                                </Popup>                                
                             </td>
 
                         </tr>
                     ))}
                 </tbody>
             </table>
-
 
 
         </div>
