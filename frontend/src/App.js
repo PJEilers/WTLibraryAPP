@@ -1,4 +1,6 @@
 import React from 'react';
+import Dropdown from './components/Navbar/BookDropdown'
+
 import Navbar from './components/Navbar/Navbar';
 import './App.css';
 import {BrowserRouter as Router, Route,Routes} from 'react-router-dom';
@@ -18,16 +20,17 @@ function App() {
   return (
     <Router>
       <Navbar />
-      <Routes>
-        <Route path = '/' element = {<Home />} />
-        <Route path = '/BoekToevoegen' element = {<BoekToevoegen />} />
-        <Route path = '/BoekTabel' element = {<MaakBoekTabel />} />
-        <Route path = '/Exemplaarinformatie' element = {<ExemplaarInformatie />} />
-        <Route path = '/PersoonToevoegen' element = {<PersoonToevoegen />} />
-        <Route path = '/Persooninformatie' element = {<PersoonInformatie />} />
-        <Route path = '/UitleningToevoegen' element = {<UitleningToevoegen/>} />
-        <Route path = '/Login' element = {<Login/>} />
-        <Route path = '/Contact' element = {<Contact/>}/>
+    
+          <Routes>
+        <Route path = '/' exact element = {<Home />} />
+        <Route path = '/boek-toevoegen' element = {<BoekToevoegen />} />
+        <Route path = '/boekenlijst' element = {<MaakBoekTabel />} />
+        <Route path = '/exemplaar-informatie' element = {<ExemplaarInformatie />} />
+        <Route path = '/gebruiker-toevoegen' element = {<PersoonToevoegen />} />
+        <Route path = '/persoonsinformatie' element = {<PersoonInformatie />} />
+        <Route path = '/uitlening-toevoegen' element = {<UitleningToevoegen/>} />
+        <Route path = '/login' element = {<Login/>} />
+        <Route path = '/contact' element = {<Contact/>}/>
       </Routes>
     </Router>
   );

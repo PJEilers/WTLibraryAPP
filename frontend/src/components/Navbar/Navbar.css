@@ -25,7 +25,7 @@
     Products, etc. This is what is in the <ul> in the Navbar.js*/
 .nav-menu {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(85px, 1fr)); /*makes sure that the navbar items do not overlap with the navbar logo*/
+    grid-template-columns: repeat(4, minmax(80px, 2fr)); /*makes sure that the navbar items do not overlap with the navbar logo*/
     grid-gap: 15px;
     list-style: none;
     text-align: center;
@@ -39,11 +39,12 @@
 .nav-links {
     color: #fff;
     text-decoration: none;
-    padding: 1rem 1rem; {/*The padding is only for when you hover over the items*/}
+    padding: 2rem 2rem; /*The padding is only for when you hover over the items*/
 }
 
 .nav-links:hover {
     color:#25f025;
+    /* background: #e95c1b; */
     transition: all 0.2s ease-out;
 }
 
@@ -51,17 +52,17 @@
     color: #ffff;
 }
 
-{/*we chose not to display sign in*/}
+/*we chose not to display sign in*/
 .nav-links-mobile {
     display: none;
 }
 
-{/*Here we decide to not show the hamburger drop down menu!!!*/}
+/*Here we decide to not show the hamburger drop down menu!!!*/
 .menu-icon {
     display: none;
 }
 
-@media screen and (max-width:1100px) { {/*This is done to show the menu when browser is in mobile*/}
+@media screen and (max-width:960px) { /*This is done to show the menu when browser is in mobile*/
     .NavbarItems {
         position: relative;
     }
