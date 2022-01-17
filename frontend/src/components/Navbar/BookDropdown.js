@@ -3,7 +3,7 @@ import { BookMenuItems } from './BookMenuItems';
 import { Link } from 'react-router-dom';
 import './Dropdown.css'
 
-function Dropdown (props) {
+const Dropdown = ({props}) => {
 
     const [click, setClick] = useState(false);
     const handleClick = () => setClick(!click);
