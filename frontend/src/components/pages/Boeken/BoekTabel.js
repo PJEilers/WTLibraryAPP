@@ -114,7 +114,7 @@ function MaakBoekTabel() {
                             <td><Reserveren boekId={boek.id} persoonId={1} /></td>
                             <td>
                                 <Button onClick ={() => {setNieuweExemplaren(true); setBoekId(boek.id);}}>Exemplaren Toevoegen</Button>
-                                <Popup open={nieuweExemplaren} modal closeOnEscape>
+                                <Popup open={nieuweExemplaren} modal closeOnEscape onClose={closePopup}>
                                     <div className="modal">
                                         <button className="close" onClick={closePopup}> &times; </button>
                                         {NieuweExemplarenToevoegen(boekId)}
