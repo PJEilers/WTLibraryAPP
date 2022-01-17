@@ -1,5 +1,7 @@
 package com.WT.LibraryApp.Reservering;
 
+import java.sql.Date;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -22,7 +24,7 @@ public class Reservering {
 	private int persoonId;
 	
 	@Column(length = 100, nullable = false)
-	private String datum;
+	private Date datum;
 
 	public int getId() {
 		return id;
@@ -48,11 +50,11 @@ public class Reservering {
 		this.persoonId = persoonId;
 	}
 
-	public String getDatum() {
+	public Date getDatum() {
 		return datum;
 	}
 
-	public void setDatum(String datum) {
+	public void setDatum(Date datum) {
 		this.datum = datum;
 	}
 
