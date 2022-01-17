@@ -30,10 +30,9 @@ function MaakBoekTabel() {
     const boekenOpTags = () => {
         let filterData = boeken.filter(v => {
             if(v.tags !== null) {
-                v.tags.toLowerCase().includes(boekTags.toLowerCase());
+                return v.tags.toLowerCase().includes(boekTags.toLowerCase());
             }
         });
-        console.log(filterData);
         setBoekenWeergeven(filterData);
     }
 
