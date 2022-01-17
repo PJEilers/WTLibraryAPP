@@ -36,22 +36,10 @@ public class ExemplaarService {
 		return repository.countByBoekIdAndUitleningIdIsNull(boekid);
 	}
 
+	// Hierbij wordt aangenomen dat er geen exemplaren worden verwijdert maar dat de status dan wordt aangepast
 	public int bepaalIndividueelId(int boekId) {
 		int hoeveelheid = countByBoekId(boekId);
-		List<Integer> individueleIds = vindBoekIndividueleIds(boekId);
-		int individueelId = hoeveelheid + 1;
-
-		// Check of er een lege plek is
-		int index = 0;
-		for (Integer eenId : individueleIds) {
-			index++;
-			if (!individueleIds.contains(index)) {
-				individueelId = index;
-				return individueelId;
-			}
-		}
-
-		return individueelId;
+		return hoeveelheid + 1;
 	}
 
 	public List<Integer> vindBoekIndividueleIds(int boekId) {
