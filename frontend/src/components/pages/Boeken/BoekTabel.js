@@ -2,23 +2,29 @@ import './BoekTabel.css';
 import React from "react";
 import { useState } from "react";
 import Reserveren from '../Reserveringen/Reserveren';
+import ExemplarenToevoegen from './ExemplarenToevoegen';
+import { Button } from '../../Styling/Button'
+import Popup from 'reactjs-popup';
+import '../../Styling/Popup.css'
 
 function MaakBoekTabel() {
-    const[boeken, setBoeken] = useState([]);
-    const[boekTitel, setBoekTitel] = useState('');
-    const[succesBericht, setSuccesBericht] = useState('');
-    const[opstarten, setOpstarten] = useState(false);
+    const [boeken, setBoeken] = useState([]);
+    const [boekTitel, setBoekTitel] = useState('');
+    const [nieuweExemplaren, setNieuweExemplaren] = useState(false)
+    const [succesBericht, setSuccesBericht] = useState('');
+    const [opstarten, setOpstarten] = useState(false);
+    const [boekId, setBoekId] = useState(1);
 
     const laadData = () => {
         if (boekTitel === '') {
-            fetch('http://localhost:8080/boeken', {mode: 'cors'})
-            .then(response => response.json())
-            .then(data => {
-                setBoeken(data);
-            })
-            .catch((error) => {
-                  console.error('Error:', error);
-            });
+            fetch('http://localhost:8080/boeken', { mode: 'cors' })
+                .then(response => response.json())
+                .then(data => {
+                    setBoeken(data);
+                })
+                .catch((error) => {
+                    console.error('Error:', error);
+                });
         } else {
             let checkBoek = {
                 titel: boekTitel,
@@ -33,16 +39,16 @@ function MaakBoekTabel() {
                 },
                 body: JSON.stringify(checkBoek)
             })
-            .then(response => response.json())
-            .then(data => {
-                if (data !== null) {
-                    setBoeken(data);
-                } else {
-                    setSuccesBericht('Dit boek staat niet in de database');
-                    setBoekTitel('');
-                }
-            })
-            .catch(error => console.log("Error: " + error));
+                .then(response => response.json())
+                .then(data => {
+                    if (data !== null) {
+                        setBoeken(data);
+                    } else {
+                        setSuccesBericht('Dit boek staat niet in de database');
+                        setBoekTitel('');
+                    }
+                })
+                .catch(error => console.log("Error: " + error));
         }
     }
 
@@ -53,6 +59,18 @@ function MaakBoekTabel() {
         setOpstarten(false);
     }
 
+    function NieuweExemplarenToevoegen(props) {
+        return (
+            <ExemplarenToevoegen boekToegevoegd={true} boektitel={boekTitel}
+                boekID={props} />
+        )
+
+    }
+
+    const closePopup = () => {
+
+    }
+
     if (!opstarten) {
         laadData();
         setOpstarten(true);
@@ -61,13 +79,13 @@ function MaakBoekTabel() {
     return (
         <div>
             <input type="text" placeholder='Zoek op titel' value={boekTitel}
-                                       onChange={e => setBoekTitel(e.target.value)}/>
+                onChange={e => setBoekTitel(e.target.value)} />
             <span>
-                <button onClick={() => { 
+                <button onClick={() => {
                     laadData();
                 }}>
                     Zoek
-                    </button>
+                </button>
                 <button onClick={() => reset()}>
                     Reset
                 </button>
@@ -95,11 +113,24 @@ function MaakBoekTabel() {
                             <td>{boek.tags}</td>
                             <td>{boek.exemplarenTotaal}</td>
                             <td>{boek.beschikbaar}</td>
-                            <td><Reserveren boekId = {boek.id} persoonId = {1}/></td> 
+                            <td><Reserveren boekId={boek.id} persoonId={1} /></td>
+                            <td>
+                                <Popup trigger={<Button>Exemplaren Toevoegen</Button>} modal closeOnEscape>
+                                    <div className="modal">
+                                        <button className="close" onClick={closePopup}> &times; </button>
+                                        {boek.id}
+                                        {NieuweExemplarenToevoegen(boek.id)}
+                                    </div>
+                                </Popup>
+                            </td>
+
                         </tr>
                     ))}
                 </tbody>
             </table>
+
+
+
         </div>
     );
 }
