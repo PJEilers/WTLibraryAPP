@@ -1,5 +1,7 @@
 package com.WT.LibraryApp.Uitlening;
 
+import java.sql.Date;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -22,7 +24,7 @@ public class Uitlening {
 	private int persoonId;
 	
 	@Column(length = 10, nullable = false)
-	private String beginDatum;
+	private Date beginDatum;
 
 	public int getId() {
 		return id;
@@ -48,11 +50,11 @@ public class Uitlening {
 		this.persoonId = persoonId;
 	}
 
-	public String getBeginDatum() {
+	public Date getBeginDatum() {
 		return beginDatum;
 	}
 
-	public void setBeginDatum(String beginDatum) {
+	public void setBeginDatum(Date beginDatum) {
 		this.beginDatum = beginDatum;
 	}
 
