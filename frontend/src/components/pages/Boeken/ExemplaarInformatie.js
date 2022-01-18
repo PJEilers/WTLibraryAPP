@@ -135,7 +135,6 @@ function ExemplaarInformatie(props) {
                                             exemplaar={huidigExemplaar} />
                                     </div>
                                 </Popup>
-                                {uitleningBericht(exemplaar)}
                             </td> : uitleningBericht(exemplaar)}
                         </tr>
                     ))}
