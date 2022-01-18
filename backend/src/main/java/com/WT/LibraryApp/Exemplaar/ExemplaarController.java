@@ -40,8 +40,7 @@ public class ExemplaarController {
 	// Optie voor vragen naar alle exemplaren van een bepaald boek
 	@RequestMapping(value = "/boekexemplaren/{boekid}" /* TODO */) 
 	public List<Exemplaar> vindBoekExemplaren(@PathVariable int boekid) {
-		List<Exemplaar> exemplaren = service.vindBoekExemplaren(boekid);
-		return exemplaren;
+		return service.vindBoekExemplaren(boekid);
 	}
 
 	// Optie voor vragen naar alle exemplaren
