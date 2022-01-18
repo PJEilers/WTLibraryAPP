@@ -32,28 +32,31 @@ function ExemplaarInformatie(props) {
         setUitleningToegevoegd(false);
     }
 
-    const isUitgeleend = (b) => {
-        return (b ? "ja " : "nee");
+    const isUitgeleend = (status) => {
+        return status.charAt(0) + status.slice(1).toLowerCase();
     }
 
     const uitleningBericht = (exemplaar) => {
         if (uitleningToegevoegd && exemplaar === huidigExemplaar) {
-            return <><br/>Uitlening toegevoegd</>;
+            return <td>Uitlening toegevoegd</td>;
         } 
-        return null;
+        return <td></td>;
     }
 
     const hoeveelheidUitgeleend = (exemplaren) => {
         let total = 0;
         exemplaren.map(exemplaar => {
-            total += exemplaar.status;
+            if (exemplaar.status === "UITGELEEND") {
+                total += 1;
+            }
+            
         });
         return total;
     }
 
     const nieuweUitleningToevoegen = (persoonId, exemplaar) => {
         const nieuweUitlening = {
-            exemplaarId: exemplaar.exemplaar.id,
+            exemplaarId: exemplaar.id,
             persoonId: persoonId,
             beginDatum: new Date().toISOString().split('T')[0]
         }
@@ -61,6 +64,7 @@ function ExemplaarInformatie(props) {
             if (response.ok) {
                 response.json().then(uitlening => {
                     console.log(uitlening);
+                    exemplaar.status = "UITGELEEND";
                     setUitleningToegevoegd(true);
                     setNieuweUitlening(false);
                 })
@@ -78,14 +82,16 @@ function ExemplaarInformatie(props) {
             .then((res) => res.json())
             .then(
                 (result) => {
-                    if (result.Hoeveelheid > 0) {
+                    if (result.length > 0) {
                         setIsLoaded(true);
+
                         //Sorteer op individueel id          
-                        setExemplaren(result.ExemplarenStatus.sort((e1, e2) => e1.exemplaar.individueelId > e2.exemplaar.individueelId));
-                        setHoeveelExemplaren(result.Hoeveelheid);
-                        setSuccesBericht('Gelukt!')
+                        setExemplaren(result);
+                        console.log(result)
+                        setSuccesBericht('Gelukt!');
+                        setHoeveelExemplaren(result.length);
                     } else {
-                        setSuccesBericht('Geen exemplaren van boek_id')
+                        setSuccesBericht('Geen exemplaren van boekId: ' + boekId)
                     }
                 },
                 (error) => {
@@ -106,20 +112,20 @@ function ExemplaarInformatie(props) {
                 <thead>
                     <tr>
                         <th>Label</th>
-                        <th>Uitgeleend</th>
+                        <th>Status</th>
                         <th></th>
                     </tr>
                 </thead>
                 <tbody>
                     {exemplaren.map(exemplaar => (
-                        <tr key={exemplaar.exemplaar.id}>
-                            <td >
-                                {"WT-" + boekId + "." + exemplaar.exemplaar.individueelId}
+                        <tr>
+                            <td key={exemplaar.id}>
+                                {"WT-" + boekId + "." + exemplaar.individueelId}
                             </td>
                             <td>
                                 {isUitgeleend(exemplaar.status)}
                             </td>
-                            {!exemplaar.status ?
+                            {exemplaar.status === 'BESCHIKBAAR' ?
                             <td >
                                 <Button onClick={() => setUitleningInfo(exemplaar)}>Uitlenen</Button>
                                 <Popup open={nieuweUitlening} modal>
@@ -130,7 +136,7 @@ function ExemplaarInformatie(props) {
                                     </div>
                                 </Popup>
                                 {uitleningBericht(exemplaar)}
-                            </td> : null}
+                            </td> : uitleningBericht(exemplaar)}
                         </tr>
                     ))}
                 </tbody>
