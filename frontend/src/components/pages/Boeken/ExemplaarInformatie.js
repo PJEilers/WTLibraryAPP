@@ -119,6 +119,7 @@ function ExemplaarInformatie(props) {
                             <td>
                                 {isUitgeleend(exemplaar.status)}
                             </td>
+                            {!exemplaar.status ?
                             <td >
                                 <Button onClick={() => setUitleningInfo(exemplaar)}>Uitlenen</Button>
                                 <Popup open={nieuweUitlening} modal>
@@ -129,7 +130,7 @@ function ExemplaarInformatie(props) {
                                     </div>
                                 </Popup>
                                 {uitleningBericht(exemplaar)}
-                            </td>
+                            </td> : null}
                         </tr>
                     ))}
                 </tbody>
