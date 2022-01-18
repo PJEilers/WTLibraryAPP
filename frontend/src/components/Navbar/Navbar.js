@@ -48,7 +48,7 @@ const DropDownMenu = ({navItem, url1 , menuItems1 }) => {
 
 }
 
-function Navbar() {
+function Navbar(props) {
     const [click2, setClick2] = useState(false);
     const handleClick2 = () => setClick2(!click2);
 
@@ -91,7 +91,7 @@ function Navbar() {
                 </li>
 
             </ul>
-            <Logout setPersoonInfo = {this.props.setPersoonInfo}/>
+            <Logout setPersoonInfo = {props.setPersoonInfo}/>
         </nav>
     );
 }
