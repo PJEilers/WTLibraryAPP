@@ -9,26 +9,27 @@ function ExemplaarInformatie(props) {
     const [isLoaded, setIsLoaded] = useState(false);
     const [exemplaren, setExemplaren] = useState([]);
     const [hoeveelexemplaren, setHoeveelExemplaren] = useState(0);
-    const [statusexemplaren, setStatusExemplaren] = useState([]);
     const [succesBericht, setSuccesBericht] = useState('');
     const [boekId, setBoekId] = useState(1);
 
     const nieuwBoekId = (e) => {
         setExemplaren([]);
         setHoeveelExemplaren(0);
-        setStatusExemplaren([]);
         setSuccesBericht('');
         setBoekId(e.target.value)
     }
 
-    const isUitgeleend = (b) => {
-        return (b ? "ja " : "nee");
+    const isUitgeleend = (status) => {
+        return status.charAt(0) + status.slice(1).toLowerCase();
     }
 
     const hoeveelheidUitgeleend = (exemplaren) => {
         let total = 0;
         exemplaren.map(exemplaar => {
-            total += exemplaar.status;
+            if (exemplaar.status === "UITGELEEND") {
+                total += 1;
+            }
+            
         });
         return total;
     }
@@ -39,14 +40,15 @@ function ExemplaarInformatie(props) {
             .then((res) => res.json())
             .then(
                 (result) => {
-                    if (result.Hoeveelheid > 0) {
+                    if (result.length > 0) {
                         setIsLoaded(true);
+
                         //Sorteer op individueel id          
-                        setExemplaren(result.ExemplarenStatus.sort((e1, e2) => e1.exemplaar.individueelId > e2.exemplaar.individueelId));
-                        setHoeveelExemplaren(result.Hoeveelheid);
-                        setSuccesBericht('Gelukt!')
+                        setExemplaren(result);
+                        setSuccesBericht('Gelukt!');
+                        setHoeveelExemplaren(result.length);
                     } else {
-                        setSuccesBericht('Geen exemplaren van boek_id')
+                        setSuccesBericht('Geen exemplaren van boekId: ' + boekId)
                     }
                 },
                 (error) => {
@@ -67,14 +69,14 @@ function ExemplaarInformatie(props) {
                 <thead>
                     <tr>
                         <th>Label</th>
-                        <th>Uitgeleend</th>
+                        <th>Status</th>
                     </tr>
                 </thead>
                 <tbody>
                     {exemplaren.map(exemplaar => (
                         <tr>
-                            <td key={exemplaar.exemplaar.id}>
-                                {"WT-" + boekId + "." + exemplaar.exemplaar.individueelId}
+                            <td key={exemplaar.id}>
+                                {"WT-" + boekId + "." + exemplaar.individueelId}
                             </td>
                             <td>
                                 {isUitgeleend(exemplaar.status)}

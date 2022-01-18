@@ -5,6 +5,7 @@ import { useState } from "react";
 function MaakReserveringTabel() {
     const[reserveringen, setReserveringen] = useState([]);
     const[opstarten, setOpstarten] = useState(false);
+    const[personen, setPersonen] = useState([]);
 
     const laadData = () => {
 
@@ -12,6 +13,15 @@ function MaakReserveringTabel() {
         .then(response => response.json())
         .then(data => {
             setReserveringen(data);
+        })
+        .catch((error) => {
+            console.error('Error:', error);
+        })
+
+        fetch('http://localhost:8080/personen', {mode: 'cors'})
+        .then(response => response.json())
+        .then(data => {
+            setPersonen(data);
         })
         .catch((error) => {
             console.error('Error:', error);

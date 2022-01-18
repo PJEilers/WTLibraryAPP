@@ -1,7 +1,7 @@
-import React from 'react';
+import { createContext, useState } from 'react';
 import Navbar from './components/Navbar/Navbar';
 import './App.css';
-import {BrowserRouter as Router, Route,Routes} from 'react-router-dom';
+import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import BoekToevoegen from './components/pages/Boeken/BoekToevoegen'
 import MaakBoekTabel from './components/pages/Boeken/BoekTabel'
 import ExemplaarInformatie from './components/pages/Boeken/ExemplaarInformatie'
@@ -13,28 +13,52 @@ import UitleningToevoegen from "./components/pages/Reserveringen/UitleningToevoe
 import Login from "./components/pages/Login/Login";
 import Home from './components/pages/Home';
 import Contact from './components/pages/Contact';
+import Cookies from 'universal-cookie';
 
+
+export const persoonContext = createContext({});
 
 
 function App() {
-  return (
-    <Router>
-      <Navbar />
-      <Routes>
-        <Route path = '/' element = {<Home />} />
-        <Route path = '/BoekToevoegen' element = {<BoekToevoegen />} />
-        <Route path = '/BoekTabel' element = {<MaakBoekTabel />} />
-        <Route path = '/Exemplaarinformatie' element = {<ExemplaarInformatie />} />
-        <Route path = '/PersoonToevoegen' element = {<PersoonToevoegen />} />
-        <Route path = '/Persooninformatie' element = {<PersoonInformatie />} />
-        <Route path = '/Reserveringen' element = {<Reserveren />} />
-        <Route path = '/ReserveringTabel' element = {<ReserveringTabel />} />
-        <Route path = '/UitleningToevoegen' element = {<UitleningToevoegen/>} />
-        <Route path = '/Login' element = {<Login/>} />
-        <Route path = '/Contact' element = {<Contact/>}/>
-      </Routes>
-    </Router>
-  );
+
+  const cookies = new Cookies();
+
+
+  const [persoonInfo, setPersoonInfo] = useState(() => {
+    if(cookies.get('persoonId')) {
+      return {persoonId: cookies.get('persoonId'), adminRechten: cookies.get('adminRechten')};
+    }
+    return null;
+    
+  });
+  
+  if (persoonInfo) {
+    return (
+      <Router>
+        <Navbar setPersoonInfo={setPersoonInfo}/>
+        <persoonContext.Provider value={persoonInfo}>
+          <Routes>
+
+            <Route path = '/' exact element = {<Home />} />
+            <Route path = '/boek-toevoegen' element = {<BoekToevoegen />} />
+            <Route path = '/boekenlijst' element = {<MaakBoekTabel />} />
+            <Route path = '/exemplaar-informatie' element = {<ExemplaarInformatie />} />
+            <Route path = '/gebruiker-toevoegen' element = {<PersoonToevoegen />} />
+            <Route path = '/persoonsinformatie' element = {<PersoonInformatie />} />
+            <Route path = '/Reserveringen' element = {<Reserveren />} />
+            <Route path = '/ReserveringTabel' element = {<ReserveringTabel />} />
+            <Route path = '/uitlening-toevoegen' element = {<UitleningToevoegen/>} />
+            <Route path = '/contact' element={<Contact />} />
+          </Routes>
+        </persoonContext.Provider>
+      </Router>
+
+    );
+  } else {
+    return (
+      <Login setPersoonInfo={setPersoonInfo} />
+    )
+  }
 }
 
 export default App;
