@@ -2,9 +2,11 @@ package com.WT.LibraryApp.Exemplaar;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
 
 @Service
 public class ExemplaarService {
@@ -36,7 +38,7 @@ public class ExemplaarService {
 		return repository.countByBoekIdAndUitleningIdIsNull(boekid);
 	}
 
-	// Hierbij wordt aangenomen dat er geen exemplaren worden verwijdert maar dat de status dan wordt aangepast
+	// Hierbij wordt aangenomen dat er geen exemplaren worden verwijderd maar dat de status dan wordt aangepast
 	public int bepaalIndividueelId(int boekId) {
 		int hoeveelheid = countByBoekId(boekId);
 		return hoeveelheid + 1;
@@ -49,5 +51,23 @@ public class ExemplaarService {
 			individueleIds.add(exemplaar.getIndividueelId());
 		}
 		return individueleIds;
+	}
+	
+	public int vindIndividueelId(int id) {
+		Optional<Exemplaar> optionalExemplaar = repository.findById(id);
+		if (optionalExemplaar.isPresent()) {
+			Exemplaar exemplaar = optionalExemplaar.get();
+			return exemplaar.getIndividueelId();
+		}
+		return 0;
+	}
+	
+	public int vindBoekId(int id) {
+		Optional<Exemplaar> optionalExemplaar = repository.findById(id);
+		if (optionalExemplaar.isPresent()) {
+			Exemplaar exemplaar = optionalExemplaar.get();
+			return exemplaar.getBoekId();
+		}
+		return 0;
 	}
 }

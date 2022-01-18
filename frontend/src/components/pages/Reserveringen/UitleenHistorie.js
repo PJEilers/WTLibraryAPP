@@ -6,8 +6,8 @@ function UitleenHistorieTabel() {
     const [uitleningen, setUitleningen] = useState([]);
     const [firstBoot, setFirstBoot] = useState(true);
 
-    const laadData = () => {
-        fetch('http://localhost:8080/uitleningen', { mode: 'cors' })
+    const uitleenData = () => {
+        fetch('http://localhost:8080/historie', { mode: 'cors' })
             .then(response => response.json())
             .then(data => {
                 setUitleningen(data);
@@ -18,10 +18,19 @@ function UitleenHistorieTabel() {
     }
 
     if (firstBoot) {
-        laadData();
+        uitleenData();
         setFirstBoot(false);
     }
 
+    /*
+    in de backend de juiste info verzamelen in uitleningen controller, en dan als 1 object naar de frontend
+    ipv id uit de exemplaar tabel moet boekid.exemplaarid getoond worden
+        -in exemplaar functie die
+            -id, exemplaarid, boekid geeft
+    ipv persoon id de naam van de persoon tonen
+        -in persoon functie die
+            -id, naam geeft
+    */
     return (
         <div>
             <table>
@@ -29,7 +38,7 @@ function UitleenHistorieTabel() {
                     <tr>
                         <th>ID</th>
                         <th>Exemplaar ID</th>
-                        <th>Persoon ID</th>
+                        <th>Persoon</th>
                         <th>Begin Datum</th>
                         <th>Eind Datum</th>
                     </tr>
@@ -38,10 +47,10 @@ function UitleenHistorieTabel() {
                     {uitleningen.map(uitlening => (
                         <tr key={uitlening.id}>
                             <td>{uitlening.id}</td>
-                            <td>{uitlening.exemplaarId}</td>
-                            <td>{uitlening.persoonId}</td>
+                            <td>WT-{uitlening.boekId}.{uitlening.exemplaarId}</td>
+                            <td>{uitlening.persoon}</td>
                             <td>{uitlening.beginDatum}</td>
-                            <td>n.n.b.</td>
+                            <td>{uitlening.eindDatum}</td>
                         </tr>
                     ))}
                 </tbody>
