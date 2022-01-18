@@ -2,6 +2,8 @@ package com.WT.LibraryApp.Exemplaar;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -24,6 +26,16 @@ public class Exemplaar {
 	@Column(nullable = true)
 	private Integer uitleningId;
 
+	@Column
+	@Enumerated(EnumType.STRING)
+	private Status status;
+	
+	public enum Status {
+		BESCHIKBAAR,
+		UITGELEEND,
+		ONBRUIKBAAR
+	}
+	
 	public int getId() {
 		return id;
 	}
@@ -55,5 +67,13 @@ public class Exemplaar {
 	public void setIndividueelId(int individueelId) {
 		this.individueelId = individueelId;
 	}
+
+	public Status getStatus() {
+		return status;
+	}
+
+	public void setStatus(Status status) {
+		this.status = status;
+	}	
 
 }
