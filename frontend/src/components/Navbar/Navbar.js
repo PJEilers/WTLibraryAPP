@@ -1,44 +1,99 @@
-import React, {Component} from 'react';
-import { MenuItems } from './MenuItems';
+
+import { useState, Component } from 'react';
+import { Button } from '../Styling/Button';
 import  Logout  from '../pages/Login/Logout'
 import './Navbar.css';
-import { NavLink} from 'react-router-dom';
-//import {Nav, NavLink, Bars, NavMenu, NavBtn, NavBtnLink} from './NavbarElements'
+import { Link, NavLink } from 'react-router-dom';
+import Dropdown from './Dropdown'
+import { GebruikerMenuItems } from './GebruikerMenuItems';
+import { BookMenuItems } from './BookMenuItems';
+import { ReserveringMenuItems } from './ReserveringMenuItems'
+const DropDownMenu = ({navItem, url1 , menuItems1 }) => {
+    
+    const [click, setClick] = useState(false);
+    const [dropdown, setDropdown] = useState(false);
 
+    const closeMobileMenu = () => setClick(false);
+    
+    const [url, setUrl] = useState('');
+    const [menuItems, setMenuItems] = useState([]);
 
-class Navbar extends Component {
-    state = { clicked: false }
+    const onMouseEnter = () => {
+        if (window.innerWidth < 960) {
+            setDropdown(false);
+        } else {
+            setDropdown(true);
+        }
+    };
 
-    handleClick = () => {
-        this.setState({ clicked: !this.state.clicked})
+    const onMouseLeave = () => {
+        if (window.innerwidth < 960) {
+            setDropdown(false);
+        } else {
+            setDropdown(false);
+        }
+    };
+
+    return (
+        <div>
+            <li className='nav-item' onMouseEnter={onMouseEnter} onMouseLeave={onMouseLeave}>
+                <Link to={url1} className='nav-links' onClick={closeMobileMenu}>
+                  {navItem}  <i className='fas fa-caret-down' />
+                </Link>
+                {dropdown && <Dropdown props={menuItems1} />}
+            </li>
+        </div>
+
+    )
+
+}
+
+function Navbar(props) {
+    const [click2, setClick2] = useState(false);
+    const handleClick2 = () => setClick2(!click2);
+
+    const closeMobileMenu = () => setClick2(false);
+    const [dropdown, setDropdown] = useState(false);
+
+    const onMouseEnter = () => {
+        if (window.innerWidth < 960) {
+            setDropdown(false)
+        } else {
+            setDropdown(true)
+        }
     }
 
-    render() {
-        return(
-            <nav className = "NavbarItems">
-               
-         <NavLink to= "/">
-                <img src={require('../../images/LogoWT.PNG')} alt='WTlogo' className = 'navbar-logo' />
-        </NavLink>
-            {/* <h1 className = "navbar-logo">WT Library<i className = "fab fa-react"></i></h1> */}
-                <div className = "menu-icon" onClick={this.handleClick}>
-                    <i className={this.state.clicked ? 'fas fa-times' : 'fas fa-bars'}></i>
-                </div>
-                <ul className={this.state.clicked ? 'nav-menu active' : 'nav-menu'}>
-                {MenuItems.map((item, index) => {
-                        return (
-                            <li key ={index}>
-                                <a className = {item.cName} href = {item.url}> 
-                                    {item.title}
-                                </a>
-                            </li>
-                        )
-                    })}
-                </ul>
-                <Logout setPersoonInfo = {this.props.setPersoonInfo}/>
-            </nav>
-         )
-    }
+    const onMouseLeave = () => {
+        if (window.innerwidth < 960) {
+            setDropdown(false);
+        } else {
+            setDropdown(false);
+        }
+    };
+
+    return (
+        <nav className="NavbarItems">
+            <NavLink to="/">
+                <img src={require('../../images/LogoWT.PNG')} alt='WTlogo' className='navbar-logo' />
+            </NavLink>
+            <div className="menu-icon" onClick={handleClick2}>
+                <i className={click2 ? 'fas fa-times' : 'fas fa-bars'} />
+            </div>
+            <ul className={click2 ? 'nav-menu active' : 'nav-menu'}>
+
+                <DropDownMenu navItem = 'Boeken' url1={'/boeken'} menuItems1={BookMenuItems} />
+                <DropDownMenu navItem = 'Reserveringen' url1={'/reserveringen'} menuItems1={ReserveringMenuItems} />
+                <DropDownMenu navItem = 'Gebruikers' url1={'/gebruikers'} menuItems1={GebruikerMenuItems} />
+                <li className='nav-item'>
+                    <Link to='/contact' className='nav-links' onClick={closeMobileMenu}>
+                        Contact
+                    </Link>
+                </li>
+
+            </ul>
+            <Logout setPersoonInfo = {props.setPersoonInfo}/>
+        </nav>
+    );
 }
 
 export default Navbar;
