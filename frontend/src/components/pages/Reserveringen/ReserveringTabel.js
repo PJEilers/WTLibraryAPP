@@ -9,7 +9,7 @@ function MaakReserveringTabel() {
 
     const laadData = () => {
 
-        fetch('http://localhost:8080/reserveringen', {mode: 'cors'})
+        fetch('http://localhost:8080/reserveringMetPersoonEnBoek', {mode: 'cors'})
         .then(response => response.json())
         .then(data => {
             setReserveringen(data);
@@ -18,14 +18,6 @@ function MaakReserveringTabel() {
             console.error('Error:', error);
         })
 
-        fetch('http://localhost:8080/personen', {mode: 'cors'})
-        .then(response => response.json())
-        .then(data => {
-            setPersonen(data);
-        })
-        .catch((error) => {
-            console.error('Error:', error);
-        })
     }
 
     if (!opstarten) {
@@ -41,6 +33,8 @@ function MaakReserveringTabel() {
                         <th>Reservering ID</th>
                         <th>Boek ID</th>
                         <th>Persoon ID</th>
+                        <th>Naam</th>
+                        <th>Email</th>
                         <th>Datum</th>
                         <th></th>
                     </tr>
@@ -51,6 +45,8 @@ function MaakReserveringTabel() {
                             <td>{reservering.id}</td>
                             <td>{reservering.boekId}</td>
                             <td>{reservering.persoonId}</td>
+                            <td>{reservering.naam}</td>
+                            <td>{reservering.email}</td>
                             <td>{reservering.datum}</td>
                         </tr>
                     ))}

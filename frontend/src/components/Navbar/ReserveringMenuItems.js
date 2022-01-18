@@ -5,6 +5,11 @@ export const ReserveringMenuItems = [
         cName: 'dropdown-link',
     },
     {
+        title: 'Reserveringen Tabel',
+        url: '/ReserveringTabel', //here you put the link
+        cName: 'dropdown-link',
+    },
+    {
         title: 'Uitlening Toevoegen',
         url: '/uitlening-toevoegen', //here you put the link
         cName: 'dropdown-link',

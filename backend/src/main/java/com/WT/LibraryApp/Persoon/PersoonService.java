@@ -1,6 +1,8 @@
 package com.WT.LibraryApp.Persoon;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,6 +34,18 @@ public class PersoonService {
 		return repository.findAllByNaam(naam);
 	}
 
-
+    public Map<String, String> vindPersoonNaamEmail(int id) {
+        Optional<Persoon> optionalPersoon = repository.findById(id);
+        Map<String, String> naamEmailMap = new HashMap<>();
+        if (optionalPersoon.isPresent()) {
+        	Persoon persoon = optionalPersoon.get();
+        	naamEmailMap.put("naam", persoon.getNaam());
+        	naamEmailMap.put("email", persoon.getEmail());
+        	return naamEmailMap;
+        }
+        naamEmailMap.put("naam", null);
+    	naamEmailMap.put("email", null);
+    	return naamEmailMap;
+    }
 
 }
