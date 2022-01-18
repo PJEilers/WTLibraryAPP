@@ -1,6 +1,7 @@
-import React, { useState } from 'react';
 
+import { useState, Component } from 'react';
 import { Button } from '../Styling/Button';
+import  Logout  from '../pages/Login/Logout'
 import './Navbar.css';
 import { Link, NavLink } from 'react-router-dom';
 import Dropdown from './Dropdown'
@@ -90,7 +91,7 @@ function Navbar() {
                 </li>
 
             </ul>
-            <NavLink to='/login'><Button buttonSize='btn--medium'>Log In</Button></NavLink>
+            <Logout setPersoonInfo = {this.props.setPersoonInfo}/>
         </nav>
     );
 }
