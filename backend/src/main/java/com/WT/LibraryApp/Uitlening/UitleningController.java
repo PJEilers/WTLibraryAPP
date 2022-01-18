@@ -30,7 +30,7 @@ public class UitleningController {
 //		return service.vindExemplaar(exemplaarid);
 //	}
 //	
-	@RequestMapping(value = "/uitleningen") // werkt nog niet
+	@RequestMapping(value = "/uitleningen")
 	public List<Uitlening> vind() {
 		return service.vindAlleUitleningen();
 	}

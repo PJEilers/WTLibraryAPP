@@ -8,6 +8,7 @@ import ExemplaarInformatie from './components/pages/Boeken/ExemplaarInformatie'
 import PersoonToevoegen from './components/pages/Personen/PersoonToevoegen';
 import PersoonInformatie from './components/pages/Personen/PersoonInformatie';
 import UitleningToevoegen from "./components/pages/Reserveringen/UitleningToevoegen";
+import UitleenHistorieTabel from './components/pages/Reserveringen/UitleenHistorie';
 import Login from "./components/pages/Login/Login";
 import Home from './components/pages/Home';
 import Contact from './components/pages/Contact';
@@ -44,6 +45,7 @@ function App() {
             <Route path = '/gebruiker-toevoegen' element = {<PersoonToevoegen />} />
             <Route path = '/persoonsinformatie' element = {<PersoonInformatie />} />
             <Route path = '/uitlening-toevoegen' element = {<UitleningToevoegen/>} />
+            <Route path = '/uitleen-historie' element = {<UitleenHistorieTabel/>} />
             <Route path = '/contact' element={<Contact />} />
           </Routes>
         </persoonContext.Provider>

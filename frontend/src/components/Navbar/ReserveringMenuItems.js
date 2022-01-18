@@ -9,4 +9,9 @@ export const ReserveringMenuItems = [
         url: '/uitlening-toevoegen', //here you put the link
         cName: 'dropdown-link',
     },
+    {
+        title: 'Uitleen Historie',
+        url: '/uitleen-historie',
+        cName: 'dropdown-link',
+    },
 ]
