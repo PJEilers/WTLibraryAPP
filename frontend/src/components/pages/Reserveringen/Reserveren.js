@@ -1,18 +1,23 @@
 import {connectieString, postRequest} from "../../../Constanten.js"
-import {useState} from "react"
+import {useState, useContext} from "react"
+import {persoonContext} from "../../../App.js"
 import { Button } from '../../Styling/Button'
 
 function Reserveren (props) {
 
     const [succesBericht, setSuccesBericht] = useState('')
 
+    const persoonInfo = useContext(persoonContext);
+    
     const maakReservering = () => {
         
         const reserveringData = {
             boekId : props.boekId,
-            persoonId : props.persoonId,
+            persoonId : persoonInfo.persoonId,
             datum : new Date().toISOString().split('T')[0]
         }
+
+        console.log(reserveringData);
 
         postRequest(connectieString + "/maakreserveringaan", reserveringData).then(response => {
             if (response.ok) {

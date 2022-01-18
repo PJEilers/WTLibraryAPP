@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.WT.LibraryApp.Boek.Boek;
 import com.WT.LibraryApp.Boek.BoekService;
+import com.WT.LibraryApp.Exemplaar.Exemplaar.Status;
 import com.WT.LibraryApp.Reservering.Reservering;
 import com.WT.LibraryApp.Reservering.ReserveringService;
 import com.WT.LibraryApp.Uitlening.UitleningService;
@@ -38,25 +39,8 @@ public class ExemplaarController {
 
 	// Optie voor vragen naar alle exemplaren van een bepaald boek
 	@RequestMapping(value = "/boekexemplaren/{boekid}" /* TODO */) 
-	public Map<String, Object> vindBoekExemplaren(@PathVariable int boekid) {
-		
-		Map<String, Object> mapexemplaren = new HashMap<>();
-		List<ExemplaarStatus> exemplarenstatus = new ArrayList<ExemplaarStatus>();
-		List<Exemplaar> exemplaren = service.vindBoekExemplaren(boekid);
-
-		// Kan ook gewoon in frontend worden gedaan
-		mapexemplaren.put("Hoeveelheid", (Integer) service.countByBoekId(boekid));
-		// Placeholder voor status uitlenen
-		for (Exemplaar exemplaar: exemplaren) {			
-			if (serviceUitlening.vindExemplaar(exemplaar.getId()).isPresent()) {
-				exemplarenstatus.add(new ExemplaarStatus(true, exemplaar));
-			} else {
-				exemplarenstatus.add(new ExemplaarStatus(false, exemplaar));
-			}
-			
-		}
-		mapexemplaren.put("ExemplarenStatus", exemplarenstatus);
-		return mapexemplaren;
+	public List<Exemplaar> vindBoekExemplaren(@PathVariable int boekid) {
+		return service.vindBoekExemplaren(boekid);
 	}
 
 	// Optie voor vragen naar alle exemplaren
@@ -107,6 +91,7 @@ public class ExemplaarController {
 			tmpexemplaar.setUitleningId(exemplaar.getUitleningId());										
 			gebruikteIds.add(service.bepaalIndividueelId(exemplaar.getBoekId()));
 			tmpexemplaar.setIndividueelId(gebruikteIds.get(i));
+			tmpexemplaar.setStatus(Status.BESCHIKBAAR);
 			service.opslaanExemplaar(tmpexemplaar);
 		}
 		return gebruikteIds;
