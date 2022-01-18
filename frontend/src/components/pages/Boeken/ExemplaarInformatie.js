@@ -19,14 +19,8 @@ function ExemplaarInformatie(props) {
         setBoekId(e.target.value)
     }
 
-    const isUitgeleend = (b) => {
-        if (b === "BESCHIKBAAR"){
-            return "Beschikbaar";
-        } else if (b === "ONBRUIKBAAR") {
-            return "Onbruikbaar";
-        } else {
-            return "Uitgeleend";
-        }
+    const isUitgeleend = (status) => {
+        return status.charAt(0) + status.slice(1).toLowerCase();
     }
 
     const hoeveelheidUitgeleend = (exemplaren) => {
