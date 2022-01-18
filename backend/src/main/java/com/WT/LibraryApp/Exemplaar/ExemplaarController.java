@@ -96,8 +96,6 @@ public class ExemplaarController {
 		}
 		return gebruikteIds;
 	}
-	
-	
 
 }
 

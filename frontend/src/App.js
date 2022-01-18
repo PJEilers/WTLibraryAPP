@@ -37,15 +37,14 @@ function App() {
         <persoonContext.Provider value={persoonInfo}>
           <Routes>
 
-            <Route path='/' element={<Home />} />
-            <Route path='/BoekToevoegen' element={<BoekToevoegen />} />
-            <Route path='/BoekTabel' element={<MaakBoekTabel />} />
-            <Route path='/Exemplaarinformatie' element={<ExemplaarInformatie />} />
-            <Route path='/PersoonToevoegen' element={<PersoonToevoegen />} />
-            <Route path='/Persooninformatie' element={<PersoonInformatie />} />
-            <Route path='/UitleningToevoegen' element={<UitleningToevoegen />} />
-            <Route path='/Logout' element={<Login setPersoonInfo={setPersoonInfo} />} />
-            <Route path='/Contact' element={<Contact />} />
+            <Route path = '/' exact element = {<Home />} />
+            <Route path = '/boek-toevoegen' element = {<BoekToevoegen />} />
+            <Route path = '/boekenlijst' element = {<MaakBoekTabel />} />
+            <Route path = '/exemplaar-informatie' element = {<ExemplaarInformatie />} />
+            <Route path = '/gebruiker-toevoegen' element = {<PersoonToevoegen />} />
+            <Route path = '/persoonsinformatie' element = {<PersoonInformatie />} />
+            <Route path = '/uitlening-toevoegen' element = {<UitleningToevoegen/>} />
+            <Route path = '/contact' element={<Contact />} />
           </Routes>
         </persoonContext.Provider>
       </Router>
@@ -56,7 +55,6 @@ function App() {
       <Login setPersoonInfo={setPersoonInfo} />
     )
   }
-
 }
 
 export default App;
