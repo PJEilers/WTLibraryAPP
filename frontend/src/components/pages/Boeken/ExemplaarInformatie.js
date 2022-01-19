@@ -4,7 +4,7 @@ import { useState } from "react";
 import { Button } from "../../Styling/Button"
 import Popup from 'reactjs-popup';
 import PersoonInformatie from '../Personen/PersoonInformatie';
-import { connectieString, postRequest } from '../../../Constanten.js'
+import { uitleningToevoegen } from '../../../Constanten.js'
 
 
 function ExemplaarInformatie(props) {
@@ -33,9 +33,7 @@ function ExemplaarInformatie(props) {
     }
 
     const setPersoonUitlening = (exemplaar) => {
-        setNieuweUitlening(false);
         setHuidigExemplaar(exemplaar);
-        setUitleningToegevoegd(false);
         nieuweUitleningToevoegen(props.persoon.id, exemplaar);
     }
 
@@ -62,27 +60,13 @@ function ExemplaarInformatie(props) {
     }
 
     const nieuweUitleningToevoegen = (persoonId, exemplaar) => {
-        const nieuweUitlening = {
-            exemplaarId: exemplaar.id,
-            persoonId: persoonId,
-            beginDatum: new Date().toISOString().split('T')[0]
+        //console.log(uitleningToevoegen(persoonId, exemplaar))
+        if (uitleningToevoegen(persoonId, exemplaar)) {
+            setUitleningToegevoegd(true);
+            setNieuweUitlening(false);
+            exemplaar.status = "UITGELEEND";
         }
-        postRequest(connectieString + '/maakuitleningaan', nieuweUitlening).then(response => {
-            if (response.ok) {
-                response.json().then(uitlening => {
-                    console.log(uitlening);
-                    exemplaar.status = "UITGELEEND";
-                    setUitleningToegevoegd(true);
-                    setNieuweUitlening(false);
-                })
-            } else {
-                console.log("mislukt");
-            }
-        }).catch(error => console.log(error));
-
-
     }
-
 
     const haalExemplarenOp = () => {
         fetch("http://localhost:8080/boekexemplaren/" + boekId)
@@ -136,7 +120,7 @@ function ExemplaarInformatie(props) {
                                 <td >
                                     {props.persoon ?
                                         <Button onClick={() => setPersoonUitlening(exemplaar)}>Leen Uit</Button>
-                                        :                                        
+                                        :
                                         <Button onClick={() => setUitleningInfo(exemplaar)}>Uitlenen</Button>
                                     }
 

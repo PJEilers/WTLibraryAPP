@@ -1,7 +1,7 @@
 import './PersoonInformatie.css';
 import { useState, useEffect } from "react";
 import { Button } from '../../Styling/Button'
-import { connectieString, postRequest } from '../../../Constanten';
+import { connectieString, postRequest, uitleningToevoegen } from '../../../Constanten';
 import Popup from 'reactjs-popup';
 import ExemplaarInformatie from '../Boeken/ExemplaarInformatie';
 
@@ -65,28 +65,6 @@ function PersoonInformatie(props) {
         setUitleningToegevoegd(false);
     }
 
-    const nieuweUitleningToevoegen = (persoonId, exemplaar) => {
-        const nieuweUitlening = {
-            exemplaarId: exemplaar.id,
-            persoonId: persoonId,
-            beginDatum: new Date().toISOString().split('T')[0]
-        }
-        postRequest(connectieString + '/maakuitleningaan', nieuweUitlening).then(response => {
-            if (response.ok) {
-                response.json().then(uitlening => {
-                    console.log(uitlening);
-                    exemplaar.status = "UITGELEEND";
-                    setUitleningToegevoegd(true);
-                    setNieuweUitlening(false);
-                })
-            } else {
-                console.log("mislukt");
-            }
-        }).catch(error => console.log(error));
-
-
-    }
-
     return (
         <div>
             <input type="string" defaultValue={naam}
@@ -125,8 +103,7 @@ function PersoonInformatie(props) {
             <Popup open={nieuweUitlening} modal onClose={() => setNieuweUitlening(false)}>
                 <div className="modal">
                     <button className="close" onClick={() => setNieuweUitlening(false)}> &times; </button>
-                    <ExemplaarInformatie nieuweUitleningToevoegen={nieuweUitleningToevoegen}
-                        persoon={huidigPersoon} />
+                    <ExemplaarInformatie persoon={huidigPersoon} />
                 </div>
             </Popup>
         </div>
@@ -139,7 +116,6 @@ export default PersoonInformatie;
 const leenUitTabel = (persoon, nieuweUitleningToevoegen, exemplaar) => {
     if (exemplaar) {
         return (
-
             <td>
                 <Button onClick={() => nieuweUitleningToevoegen(persoon.id, exemplaar)}>Leen uit</Button>
             </td>

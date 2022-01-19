@@ -10,3 +10,24 @@ export const postRequest = async(url,data) => {
     })
     return response;
 }
+
+export const uitleningToevoegen = (persoonId, exemplaar) => {
+    let output = true;
+    const nieuweUitlening = {
+        exemplaarId: exemplaar.id,
+        persoonId: persoonId,
+        beginDatum: new Date().toISOString().split('T')[0]
+    }
+    postRequest(connectieString + '/maakuitleningaan', nieuweUitlening).then(response => {
+        if (response.ok) {
+            response.json().then(uitlening => {                
+                output = true;
+            })
+        } else {
+            console.log("mislukt");
+            output = false;
+        }
+    }).catch(error => {console.log(error); output = false;});
+    return output;
+
+}
