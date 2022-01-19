@@ -48,4 +48,13 @@ public class PersoonService {
     	return naamEmailMap;
     }
 
+	public String vindPersoonNaam(int id) {
+		Optional<Persoon> optionalPersoon = repository.findById(id);
+		if(optionalPersoon.isPresent()) {
+			Persoon persoon = optionalPersoon.get();
+			return persoon.getNaam();
+		}
+		return "-";
+	}
+
 }

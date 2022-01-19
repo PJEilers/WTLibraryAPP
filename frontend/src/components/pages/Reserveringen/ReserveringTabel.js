@@ -36,7 +36,6 @@ function MaakReserveringTabel() {
                         <th>Naam</th>
                         <th>Email</th>
                         <th>Datum</th>
-                        <th></th>
                     </tr>
                 </thead>
                 <tbody>

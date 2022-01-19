@@ -81,24 +81,27 @@ public class ReserveringController {
 	@RequestMapping(value = "/reserveringMetPersoonEnBoek")
 	public List<Map<String, Object>> vindReservering() {
 		List<Reservering> reserveringen = service.vindAlleReserveringen();
-		List<Map<String, Object>> tempArray = new ArrayList<>();
+		List<Map<String, Object>> reserveringArray = new ArrayList<>();
 		for (Reservering reservering : reserveringen) {
-			Map<String, Object> tempMap = new HashMap<>();
+			Map<String, Object> reserveringMap = new HashMap<>();
 			
 			int persoonId = reservering.getPersoonId();
 			Map<String, String> naamEmail = servicePersoon.vindPersoonNaamEmail(persoonId);
-			tempMap.put("id", reservering.getId());
-			tempMap.put("boekId", reservering.getBoekId());
-			tempMap.put("persoonId", reservering.getPersoonId());
-			tempMap.put("datum", reservering.getDatum());
-			tempMap.put("naam", naamEmail.get("naam"));
-			tempMap.put("email", naamEmail.get("email"));
-			tempArray.add(tempMap);
-//			tempArray.add(reservering);
-//			tempArray.add(naamEmail);
-//			reserveringMap.put(index, tempArray);
+//			Optional <Persoon> persoon = servicePersoon.vindPersoon(persoonId);
+			reserveringMap.put("id", reservering.getId());
+			reserveringMap.put("boekId", reservering.getBoekId());
+			reserveringMap.put("persoonId", reservering.getPersoonId());
+			reserveringMap.put("datum", reservering.getDatum());
+//			reserveringMap.put("naam", persoon.getNaam());
+//			reserveringMap.put("email", persoon.getEmail());
+			reserveringMap.put("naam", naamEmail.get("naam"));
+			reserveringMap.put("email", naamEmail.get("email"));
+			reserveringArray.add(reserveringMap);
+//			reserveringArray.add(reservering);
+//			reserveringArray.add(naamEmail);
+//			reserveringMap.put(index, reserveringArray);
 		}
-	return tempArray;
+	return reserveringArray;
 	}
 
 }

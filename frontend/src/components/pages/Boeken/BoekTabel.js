@@ -8,50 +8,43 @@ import Popup from 'reactjs-popup';
 import '../../Styling/Popup.css'
 
 function MaakBoekTabel() {
-    const[boeken, setBoeken] = useState([]);
-    const[boekenWeergeven, setBoekenWeergeven] = useState([]);
+    const [boeken, setBoeken] = useState([]);
+    const [boekenWeergeven, setBoekenWeergeven] = useState([]);
     const [nieuweExemplaren, setNieuweExemplaren] = useState(false)
-    const[boekTitel, setBoekTitel] = useState('');
-    const[boekTags, setBoekTags] = useState('');
-    const[opstarten, setOpstarten] = useState(false);
+    const [boekTitel, setBoekTitel] = useState('');
+    const [boekTags, setBoekTags] = useState('');
+    const [opstarten, setOpstarten] = useState(false);
     const [boekId, setBoekId] = useState(1);
 
     const laadData = () => {
-        fetch('http://localhost:8080/boeken', {mode: 'cors'})
-        .then(response => response.json())
-        .then(data => {
-            setBoeken(data);
-            setBoekenWeergeven(data);
-        })
-        .catch((error) => {
-            console.error('Error:', error);
-        });
-    }
-
-    const boekenFilter = () => {
-        let filterData = boeken.filter(v => {
-            if(v.tags !== null) {
-                if (v.tags.toLowerCase().includes(boekTags.toLowerCase()) 
-                    && v.titel.toLowerCase().includes(boekTitel.toLowerCase())) {
-                    return true;
-                }
-            } else if (v.tags === null && boekTags === '' 
-                && v.titel.toLowerCase().includes(boekTitel.toLowerCase())) {
-                return true;
-            }
-            return false;
-        });
-        setBoekenWeergeven(filterData);
+        fetch('http://localhost:8080/boeken', { mode: 'cors' })
+            .then(response => response.json())
+            .then(data => {
+                setBoeken(data);
+                setBoekenWeergeven(data);
+            })
+            .catch((error) => {
+                console.error('Error:', error);
+            });
     }
 
     const zoekBoek = (watVeranderd, waarde) => {
+        //const [filterData, setFilterData] = useState([]);
+        let filterData = [];
         if (watVeranderd === 'titel') {
             setBoekTitel(waarde);
+            filterData = boeken.filter(v => v.titel.toLowerCase().includes(waarde.toLowerCase()));
         } else {
             setBoekTags(waarde);
+            if (waarde !== '') {
+                filterData = boeken.filter(v => v.tags && v.tags.toLowerCase().includes(waarde.toLowerCase()));
+            } else {
+                filterData = boeken;
+            }
         }
-        boekenFilter();
+        setBoekenWeergeven(filterData);
     }
+
 
     const reset = () => {
         setBoekenWeergeven(boeken);
@@ -79,9 +72,9 @@ function MaakBoekTabel() {
     return (
         <div>
             <input type="text" placeholder='Zoek op titel' value={boekTitel}
-                                       onChange={e => zoekBoek('titel', e.target.value)}/>
+                onChange={e => zoekBoek('titel', e.target.value)} />
             <input type="text" placeholder='Zoek op tags' value={boekTags}
-                                       onChange={e => zoekBoek('tags', e.target.value)}/>
+                onChange={e => zoekBoek('tags', e.target.value)} />
             <button onClick={() => reset()}>
                 Reset
             </button>
@@ -110,22 +103,22 @@ function MaakBoekTabel() {
                             <td>{boek.beschikbaar}</td>
                             <td><Reserveren boekId={boek.id} persoonId={1} /></td>
                             <td>
-                                <Button onClick ={() => {setNieuweExemplaren(true); setBoekId(boek.id);}}>Exemplaren Toevoegen</Button>
-                                <Popup open={nieuweExemplaren} modal>
-                                    <div className="modal">
-                                        <button className="close" onClick={closePopup}> &times; </button>
-                                        {NieuweExemplarenToevoegen(boekId)}
-                                    </div>
-                                </Popup>                                
+                                <Button onClick={() => { setNieuweExemplaren(true); setBoekId(boek.id); }}>Exemplaren Toevoegen</Button>
                             </td>
 
                         </tr>
                     ))}
                 </tbody>
             </table>
-
+            <Popup open={nieuweExemplaren} onClose= {() => setNieuweExemplaren(false)} modal>
+                <div className="modal">
+                    <button className="close" onClick={closePopup}> &times; </button>
+                    {NieuweExemplarenToevoegen(boekId)}
+                </div>
+            </Popup>
 
         </div>
+
     );
 }
 
