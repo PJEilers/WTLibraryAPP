@@ -32,6 +32,8 @@ function MaakReserveringTabel() {
                     <tr>
                         <th>Reservering ID</th>
                         <th>Boek ID</th>
+                        <th>Boek titel</th>
+                        <th>Boek auteur</th>
                         <th>Persoon ID</th>
                         <th>Naam</th>
                         <th>Email</th>
@@ -43,6 +45,8 @@ function MaakReserveringTabel() {
                         <tr key={reservering.id}>
                             <td>{reservering.id}</td>
                             <td>{reservering.boekId}</td>
+                            <td>{reservering.titel}</td>
+                            <td>{reservering.auteur}</td>
                             <td>{reservering.persoonId}</td>
                             <td>{reservering.naam}</td>
                             <td>{reservering.email}</td>
