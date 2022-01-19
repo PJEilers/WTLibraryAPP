@@ -6,6 +6,9 @@ import ExemplarenToevoegen from './ExemplarenToevoegen';
 import { Button } from '../../Styling/Button'
 import Popup from 'reactjs-popup';
 import '../../Styling/Popup.css'
+import { TableStyle } from '../../Styling/Table';
+import styled from 'styled-components';
+
 
 function MaakBoekTabel() {
     const [boeken, setBoeken] = useState([]);
@@ -78,38 +81,41 @@ function MaakBoekTabel() {
             <button onClick={() => reset()}>
                 Reset
             </button>
-            <table>
-                <thead>
-                    <tr>
-                        <th>Boek ID</th>
-                        <th>Titel</th>
-                        <th>Auteur</th>
-                        <th>ISBN</th>
-                        <th>Tags</th>
-                        <th>Exemplaren Totaal</th>
-                        <th>Exemplaren Beschikbaar</th>
-                        <th></th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {boekenWeergeven.map(boek => (
-                        <tr key={boek.id}>
-                            <td>{boek.id}</td>
-                            <td>{boek.titel}</td>
-                            <td>{boek.auteur}</td>
-                            <td>{boek.isbn}</td>
-                            <td>{boek.tags}</td>
-                            <td>{boek.exemplarenTotaal}</td>
-                            <td>{boek.beschikbaar}</td>
-                            <td><Reserveren boekId={boek.id} persoonId={1} /></td>
-                            <td>
-                                <Button onClick={() => { setNieuweExemplaren(true); setBoekId(boek.id); }}>Exemplaren Toevoegen</Button>
-                            </td>
-
+            <TableStyle>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Boek ID</th>
+                            <th>Titel</th>
+                            <th>Auteur</th>
+                            <th>ISBN</th>
+                            <th>Tags</th>
+                            <th>Exemplaren Totaal</th>
+                            <th>Exemplaren Beschikbaar</th>
+                            <th>Reserveer</th>
+                            <th>Exemplaar Toevoegen</th>
                         </tr>
-                    ))}
-                </tbody>
-            </table>
+                    </thead>
+                    <tbody>
+                        {boekenWeergeven.map(boek => (
+                            <tr key={boek.id}>
+                                <td>{boek.id}</td>
+                                <td>{boek.titel}</td>
+                                <td>{boek.auteur}</td>
+                                <td>{boek.isbn}</td>
+                                <td>{boek.tags}</td>
+                                <td>{boek.exemplarenTotaal}</td>
+                                <td>{boek.beschikbaar}</td>
+                                <td><Reserveren boekId={boek.id} persoonId={1} /></td>
+                                <td>
+                                    <Button onClick={() => { setNieuweExemplaren(true); setBoekId(boek.id); }}>Exemplaren Toevoegen</Button>
+                                </td>
+
+                            </tr>
+                        ))}
+                    </tbody>
+                </table>
+            </TableStyle>
             <Popup open={nieuweExemplaren} onClose= {() => setNieuweExemplaren(false)} modal>
                 <div className="modal">
                     <button className="close" onClick={closePopup}> &times; </button>

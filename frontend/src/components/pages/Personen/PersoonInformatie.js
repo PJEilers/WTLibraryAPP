@@ -4,6 +4,7 @@ import { Button } from '../../Styling/Button'
 import { connectieString, postRequest, uitleningToevoegen } from '../../../Constanten';
 import Popup from 'reactjs-popup';
 import ExemplaarInformatie from '../Boeken/ExemplaarInformatie';
+import { TableStyle } from '../../Styling/Table';
 
 
 function PersoonInformatie(props) {
@@ -70,35 +71,38 @@ function PersoonInformatie(props) {
             <input type="string" defaultValue={naam}
                 onChange={e => { haalPersonenOpNaam(e.target.value) }} />
             <button onClick={() => haalPersonenOpNaam()}>Zoek Personen</button>
-            <table>
-                <thead>
-                    <tr>
-                        <th>Naam</th>
-                        <th>Email</th>
-                        {props.exemplaar ? <th></th> : null}
-                    </tr>
-                </thead>
-                <tbody>
-                    {gezochtePersonen.map(persoon =>
+            <TableStyle>
+                <table>
+                    <thead>
                         <tr>
-                            <td>
-                                {persoon.naam}
-                            </td>
-                            <td>
-                                {persoon.email}
-                            </td>
-                            {leenUitTabel(persoon, props.nieuweUitleningToevoegen, props.exemplaar)}
-                            {props.exemplaar ?
-                                null :
-                                <td >
-                                    <Button onClick={() => setUitleningInfo(persoon)}>Uitlenen</Button>
-                                </td>
-                            }
+                            <th>Naam</th>
+                            <th>Email</th>
+                            <th>Uitlenen</th>
+                            {/* {props.exemplaar ? <th></th> : null} */}
                         </tr>
-                    )
-                    }
-                </tbody>
-            </table>
+                    </thead>
+                    <tbody>
+                        {gezochtePersonen.map(persoon =>
+                            <tr>
+                                <td>
+                                    {persoon.naam}
+                                </td>
+                                <td>
+                                    {persoon.email}
+                                </td>
+                                {leenUitTabel(persoon, props.nieuweUitleningToevoegen, props.exemplaar)}
+                                {props.exemplaar ?
+                                    null :
+                                    <td >
+                                        <Button onClick={() => setUitleningInfo(persoon)}>Uitlenen</Button>
+                                    </td>
+                                }
+                            </tr>
+                        )
+                        }
+                    </tbody>
+                </table>
+            </TableStyle>
             <p>{succesBericht}</p>
             <Popup open={nieuweUitlening} modal onClose={() => setNieuweUitlening(false)}>
                 <div className="modal">

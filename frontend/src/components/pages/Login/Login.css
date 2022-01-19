@@ -1,7 +1,4 @@
-div {
-    text-align: left;
-}
-    
+   
 .Login {
     display:grid;
     grid-template-columns: max-content max-content;
