@@ -62,7 +62,7 @@ function PersoonInformatie(props) {
 
     const setUitleningInfo = (persoon) => {
         setNieuweUitlening(true);
-        setHuidigPersoon(persoon);
+        setHuidigPersoon(persoon.id);
         setUitleningToegevoegd(false);
     }
 
@@ -107,7 +107,7 @@ function PersoonInformatie(props) {
             <Popup open={nieuweUitlening} modal onClose={() => setNieuweUitlening(false)}>
                 <div className="modal">
                     <button className="close" onClick={() => setNieuweUitlening(false)}> &times; </button>
-                    <ExemplaarInformatie persoon={huidigPersoon} />
+                    <ExemplaarInformatie persoon={huidigPersoon} boekId = {1} />
                 </div>
             </Popup>
         </div>

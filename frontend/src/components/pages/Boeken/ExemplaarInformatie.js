@@ -1,7 +1,7 @@
 import './ExemplaarInformatie.css';
 import '../../Styling/Table.css';
 import React from "react";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Button } from "../../Styling/Button"
 import Popup from 'reactjs-popup';
 import PersoonInformatie from '../Personen/PersoonInformatie';
@@ -36,7 +36,7 @@ function ExemplaarInformatie(props) {
 
     const setPersoonUitlening = (exemplaar) => {
         setHuidigExemplaar(exemplaar);
-        nieuweUitleningToevoegen(props.persoon.id, exemplaar);
+        nieuweUitleningToevoegen(props.persoon, exemplaar);
     }
 
     const isUitgeleend = (status) => {
@@ -70,7 +70,7 @@ function ExemplaarInformatie(props) {
         }
     }
 
-    const haalExemplarenOp = () => {
+    const haalExemplarenOp = (boekId) => {
         fetch("http://localhost:8080/boekexemplaren/" + boekId)
             .then((res) => res.json())
             .then(
@@ -94,12 +94,17 @@ function ExemplaarInformatie(props) {
             )
     };
 
+    useEffect(() => {
+        setBoekId(props.boekId);
+        haalExemplarenOp(props.boekId);
+    }, []);
+
 
     return (
         <div>
             <input type="number" defaultValue={1} min={1}
                 onChange={nieuwBoekId} />
-            <button onClick={() => haalExemplarenOp()}>Haal Exemplaren Op</button>
+            <button onClick={() => haalExemplarenOp(boekId)}>Haal Exemplaren Op</button>
             <p>Van de {hoeveelexemplaren} boeken zijn er {hoeveelheidUitgeleend(exemplaren)} uitgeleend</p>
             <TableStyle>
                 <table>
