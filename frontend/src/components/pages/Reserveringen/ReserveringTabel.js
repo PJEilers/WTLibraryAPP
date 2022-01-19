@@ -1,11 +1,18 @@
 import './ReserveringTabel.css';
 import React from "react";
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { Button } from '../../Styling/Button'
+import Popup from 'reactjs-popup';
+import { uitleningToevoegen } from '../../../Constanten'
+import ExemplaarInformatie from '../Boeken/ExemplaarInformatie';
 
 function MaakReserveringTabel() {
     const[reserveringen, setReserveringen] = useState([]);
     const[opstarten, setOpstarten] = useState(false);
-    const[personen, setPersonen] = useState([]);
+    const[nieuweUitlening, setNieuweUitlening] = useState(false);
+    const[huidigPersoon, setHuidigPersoon] = useState(null);
+    const[uitleningToegevoegd, setUitleningToegevoegd] = useState(false);
+    const[huidigBoek, setHuidigBoek] = useState(null);
 
     const laadData = () => {
 
@@ -18,6 +25,13 @@ function MaakReserveringTabel() {
             console.error('Error:', error);
         })
 
+    }
+
+    const setUitleningInfo = (persoonId, boekId) => {
+        setNieuweUitlening(true);
+        setHuidigPersoon(persoonId);
+        setUitleningToegevoegd(false);
+        setHuidigBoek(boekId);
     }
 
     if (!opstarten) {
@@ -38,6 +52,7 @@ function MaakReserveringTabel() {
                         <th>Naam</th>
                         <th>Email</th>
                         <th>Datum</th>
+                        <th></th>
                     </tr>
                 </thead>
                 <tbody>
@@ -51,8 +66,16 @@ function MaakReserveringTabel() {
                             <td>{reservering.naam}</td>
                             <td>{reservering.email}</td>
                             <td>{reservering.datum}</td>
+                            <td><Button onClick={() => setUitleningInfo(reservering.persoonId, reservering.boekId)}>Uitlenen</Button></td>
                         </tr>
                     ))}
+
+                    <Popup open={nieuweUitlening} modal onClose={() => setNieuweUitlening(false)}>
+                        <div className="modal">
+                            <button className="close" onClick={() => setNieuweUitlening(false)}> &times; </button>
+                            <ExemplaarInformatie persoon = {huidigPersoon} boekId = {huidigBoek}/>
+                        </div>
+                    </Popup>
                 </tbody>
             </table>
         </div>
