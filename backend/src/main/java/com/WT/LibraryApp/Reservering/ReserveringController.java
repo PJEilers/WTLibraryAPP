@@ -1,6 +1,7 @@
 package com.WT.LibraryApp.Reservering;
 
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -15,12 +16,19 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.WT.LibraryApp.Exemplaar.Exemplaar;
+import com.WT.LibraryApp.Persoon.Persoon;
+import com.WT.LibraryApp.Persoon.PersoonService;
+
 @RestController
 @CrossOrigin(maxAge = 3600)
 public class ReserveringController {
 
 	@Autowired
 	private ReserveringService service;
+	
+	@Autowired
+	private PersoonService servicePersoon;
 
 	@RequestMapping("/reservering/{mijnid}") // werkt nog niet
 	public Optional<Reservering> vindEentje(@PathVariable int mijnid) {
@@ -63,6 +71,34 @@ public class ReserveringController {
 		}
 		return nieuweReserveringen;
 
+	}
+	
+//	@RequestMapping(value = "/reserveringMetIds")
+//	public Optional<Reservering> vindReserveringMetPersoonIdEnBoekId () {
+//		return service.vindReserveringMetPersoonIdEnBoekId(reservering);
+//	}
+	
+	@RequestMapping(value = "/reserveringMetPersoonEnBoek")
+	public List<Map<String, Object>> vindReservering() {
+		List<Reservering> reserveringen = service.vindAlleReserveringen();
+		List<Map<String, Object>> tempArray = new ArrayList<>();
+		for (Reservering reservering : reserveringen) {
+			Map<String, Object> tempMap = new HashMap<>();
+			
+			int persoonId = reservering.getPersoonId();
+			Map<String, String> naamEmail = servicePersoon.vindPersoonNaamEmail(persoonId);
+			tempMap.put("id", reservering.getId());
+			tempMap.put("boekId", reservering.getBoekId());
+			tempMap.put("persoonId", reservering.getPersoonId());
+			tempMap.put("datum", reservering.getDatum());
+			tempMap.put("naam", naamEmail.get("naam"));
+			tempMap.put("email", naamEmail.get("email"));
+			tempArray.add(tempMap);
+//			tempArray.add(reservering);
+//			tempArray.add(naamEmail);
+//			reserveringMap.put(index, tempArray);
+		}
+	return tempArray;
 	}
 
 }

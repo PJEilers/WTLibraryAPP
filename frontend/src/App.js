@@ -7,6 +7,8 @@ import MaakBoekTabel from './components/pages/Boeken/BoekTabel'
 import ExemplaarInformatie from './components/pages/Boeken/ExemplaarInformatie'
 import PersoonToevoegen from './components/pages/Personen/PersoonToevoegen';
 import PersoonInformatie from './components/pages/Personen/PersoonInformatie';
+import Reserveren from './components/pages/Reserveringen/Reserveren';
+import ReserveringTabel from './components/pages/Reserveringen/ReserveringTabel';
 import UitleningToevoegen from "./components/pages/Reserveringen/UitleningToevoegen";
 import UitleenHistorieTabel from './components/pages/Reserveringen/UitleenHistorie';
 import Login from "./components/pages/Login/Login";
@@ -44,6 +46,8 @@ function App() {
             <Route path = '/exemplaar-informatie' element = {<ExemplaarInformatie />} />
             <Route path = '/gebruiker-toevoegen' element = {<PersoonToevoegen />} />
             <Route path = '/persoonsinformatie' element = {<PersoonInformatie />} />
+            <Route path = '/Reserveringen' element = {<Reserveren />} />
+            <Route path = '/ReserveringTabel' element = {<ReserveringTabel />} />
             <Route path = '/uitlening-toevoegen' element = {<UitleningToevoegen/>} />
             <Route path = '/uitleen-historie' element = {<UitleenHistorieTabel/>} />
             <Route path = '/contact' element={<Contact />} />

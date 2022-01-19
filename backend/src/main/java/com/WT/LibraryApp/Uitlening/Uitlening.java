@@ -25,7 +25,10 @@ public class Uitlening {
 	
 	@Column(length = 10, nullable = false)
 	private Date beginDatum;
-
+	
+	@Column(length = 10, nullable = true)
+	private Date eindDatum;
+	
 	public int getId() {
 		return id;
 	}
@@ -56,6 +59,14 @@ public class Uitlening {
 
 	public void setBeginDatum(Date beginDatum) {
 		this.beginDatum = beginDatum;
+	}
+	
+	public Date getEindDatum() {
+		return eindDatum;
+	}
+
+	public void setEindDatum(Date eindDatum) {
+		this.eindDatum = eindDatum;
 	}
 
 }
