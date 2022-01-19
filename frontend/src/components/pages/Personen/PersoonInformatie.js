@@ -1,6 +1,9 @@
 import './PersoonInformatie.css';
 import { useState, useEffect } from "react";
-import {Button} from '../../Styling/Button'
+import { Button } from '../../Styling/Button'
+import { connectieString, postRequest, uitleningToevoegen } from '../../../Constanten';
+import Popup from 'reactjs-popup';
+import ExemplaarInformatie from '../Boeken/ExemplaarInformatie';
 
 
 function PersoonInformatie(props) {
@@ -11,7 +14,10 @@ function PersoonInformatie(props) {
     const [gezochtePersonen, setGezochtePersonen] = useState([]);
     const [naam, setNaam] = useState('')
     const [succesBericht, setSuccesBericht] = useState('');
-  
+    const [uitleningToegevoegd, setUitleningToegevoegd] = useState(false);
+    const [huidigPersoon, setHuidigPersoon] = useState(null);
+    const [nieuweUitlening, setNieuweUitlening] = useState(false);
+
 
     const haalPersonenOp = () => {
         fetch("http://localhost:8080/personen/")
@@ -37,7 +43,7 @@ function PersoonInformatie(props) {
 
     useEffect(() => {
         haalPersonenOp();
-    },[]);
+    }, []);
 
     const haalPersonenOpNaam = (naam) => {
         setNaam(naam);
@@ -53,26 +59,53 @@ function PersoonInformatie(props) {
 
     };
 
+    const setUitleningInfo = (persoon) => {
+        setNieuweUitlening(true);
+        setHuidigPersoon(persoon);
+        setUitleningToegevoegd(false);
+    }
 
     return (
         <div>
             <input type="string" defaultValue={naam}
-                onChange={e => {haalPersonenOpNaam(e.target.value)}} />
+                onChange={e => { haalPersonenOpNaam(e.target.value) }} />
             <button onClick={() => haalPersonenOpNaam()}>Zoek Personen</button>
             <table>
                 <thead>
                     <tr>
                         <th>Naam</th>
                         <th>Email</th>
-                      {props.exemplaar ? <th></th> : null}
+                        {props.exemplaar ? <th></th> : null}
                     </tr>
                 </thead>
                 <tbody>
-                    {PersonenTabel(gezochtePersonen, props.nieuweUitleningToevoegen, props.exemplaar)}
+                    {gezochtePersonen.map(persoon =>
+                        <tr>
+                            <td>
+                                {persoon.naam}
+                            </td>
+                            <td>
+                                {persoon.email}
+                            </td>
+                            {leenUitTabel(persoon, props.nieuweUitleningToevoegen, props.exemplaar)}
+                            {props.exemplaar ?
+                                null :
+                                <td >
+                                    <Button onClick={() => setUitleningInfo(persoon)}>Uitlenen</Button>
+                                </td>
+                            }
+                        </tr>
+                    )
+                    }
                 </tbody>
             </table>
             <p>{succesBericht}</p>
-
+            <Popup open={nieuweUitlening} modal onClose={() => setNieuweUitlening(false)}>
+                <div className="modal">
+                    <button className="close" onClick={() => setNieuweUitlening(false)}> &times; </button>
+                    <ExemplaarInformatie persoon={huidigPersoon} />
+                </div>
+            </Popup>
         </div>
     );
 
@@ -83,30 +116,11 @@ export default PersoonInformatie;
 const leenUitTabel = (persoon, nieuweUitleningToevoegen, exemplaar) => {
     if (exemplaar) {
         return (
-
-           <td>
-               <Button onClick = {() => nieuweUitleningToevoegen(persoon.id, exemplaar)}>Leen uit</Button>
-           </td>
+            <td>
+                <Button onClick={() => nieuweUitleningToevoegen(persoon.id, exemplaar)}>Leen uit</Button>
+            </td>
         );
     }
     return null;
 }
 
-function PersonenTabel(personen,nieuweUitleningToevoegen, exemplaar) {
-    return (
-        <>
-            {personen.map(persoon =>
-                <tr>
-                    <td>
-                        {persoon.naam}
-                    </td>
-                    <td>
-                        {persoon.email}
-                    </td>
-                    {leenUitTabel(persoon, nieuweUitleningToevoegen, exemplaar)}
-                </tr>
-            )
-            }
-        </>
-    );
-}
