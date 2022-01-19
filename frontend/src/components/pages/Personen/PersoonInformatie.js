@@ -10,7 +10,8 @@ function PersoonInformatie(props) {
     const [personen, setPersonen] = useState([]);
     const [gezochtePersonen, setGezochtePersonen] = useState([]);
     const [naam, setNaam] = useState('')
-    const [succesBericht, setSuccesBericht] = useState('');
+    const [succesBericht, setSuccesBericht] = useState('');    
+    const[opstarten, setOpstarten] = useState(false);
 
     const haalPersonenOp = () => {
         fetch("http://localhost:8080/personen/")
@@ -34,24 +35,28 @@ function PersoonInformatie(props) {
             )
     };
 
-    const haalPersonenOpNaam = () => {
+    const haalPersonenOpNaam = (naam) => {
+        setNaam(naam);
         let filterData = personen.filter(v => v.naam.toLowerCase().includes(naam.toLowerCase()));
         if (Object.entries(filterData).length > 0) {
             setGezochtePersonen(filterData);
             setSuccesBericht("Personen gevonden")
         } else {
+            setGezochtePersonen(personen);
             setSuccesBericht("Geen overeenkomend persoon gevonden")
         }
 
     };
 
+    if (!opstarten) {
+        haalPersonenOp();
+        setOpstarten(true);
+    }
 
     return (
         <div>
-            <button onClick={() => haalPersonenOp()}>Haal Personen Op</button>
-            <br />
             <input type="string" defaultValue={naam}
-                onChange={e => setNaam(e.target.value)} />
+                onChange={e => {haalPersonenOpNaam(e.target.value)}} />
             <button onClick={() => haalPersonenOpNaam()}>Zoek Personen</button>
             <table>
                 <thead>
