@@ -134,10 +134,10 @@ function ExemplaarInformatie(props) {
                             </td>
                             {exemplaar.status === 'BESCHIKBAAR' ?
                                 <td >
-                                    {props.persoon === null ?
-                                        <Button onClick={() => setUitleningInfo(exemplaar)}>Uitlenen</Button>
-                                        :
+                                    {props.persoon ?
                                         <Button onClick={() => setPersoonUitlening(exemplaar)}>Leen Uit</Button>
+                                        :                                        
+                                        <Button onClick={() => setUitleningInfo(exemplaar)}>Uitlenen</Button>
                                     }
 
                                 </td> : uitleningBericht(exemplaar)}
@@ -154,9 +154,6 @@ function ExemplaarInformatie(props) {
 
             </table>
             <p>{succesBericht}</p>
-
-
-
 
         </div>
     );
