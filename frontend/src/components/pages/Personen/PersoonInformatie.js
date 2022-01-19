@@ -3,6 +3,7 @@ import { useState, useEffect } from "react";
 import { Button } from '../../Styling/Button'
 import { connectieString, postRequest } from '../../../Constanten';
 import Popup from 'reactjs-popup';
+import ExemplaarInformatie from '../Boeken/ExemplaarInformatie';
 
 
 function PersoonInformatie(props) {
@@ -124,7 +125,7 @@ function PersoonInformatie(props) {
             <Popup open={nieuweUitlening} modal onClose={() => setNieuweUitlening(false)}>
                 <div className="modal">
                     <button className="close" onClick={() => setNieuweUitlening(false)}> &times; </button>
-                    <PersoonInformatie nieuweUitleningToevoegen={nieuweUitleningToevoegen}
+                    <ExemplaarInformatie nieuweUitleningToevoegen={nieuweUitleningToevoegen}
                         persoon={huidigPersoon} />
                 </div>
             </Popup>

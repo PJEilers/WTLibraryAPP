@@ -32,6 +32,13 @@ function ExemplaarInformatie(props) {
         setUitleningToegevoegd(false);
     }
 
+    const setPersoonUitlening = (exemplaar) => {
+        setNieuweUitlening(false);
+        setHuidigExemplaar(exemplaar);
+        setUitleningToegevoegd(false);
+        nieuweUitleningToevoegen(props.persoon.id, exemplaar);
+    }
+
     const isUitgeleend = (status) => {
         return status.charAt(0) + status.slice(1).toLowerCase();
     }
@@ -127,7 +134,11 @@ function ExemplaarInformatie(props) {
                             </td>
                             {exemplaar.status === 'BESCHIKBAAR' ?
                                 <td >
-                                    <Button onClick={() => setUitleningInfo(exemplaar)}>Uitlenen</Button>
+                                    {props.persoon === null ?
+                                        <Button onClick={() => setUitleningInfo(exemplaar)}>Uitlenen</Button>
+                                        :
+                                        <Button onClick={() => setPersoonUitlening(exemplaar)}>Leen Uit</Button>
+                                    }
 
                                 </td> : uitleningBericht(exemplaar)}
                         </tr>
