@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+import com.WT.LibraryApp.Exemplaar.Exemplaar.Status;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -38,7 +40,13 @@ public class ExemplaarService {
 		return repository.countByBoekIdAndUitleningIdIsNull(boekid);
 	}
 
-	// Hierbij wordt aangenomen dat er geen exemplaren worden verwijderd maar dat de status dan wordt aangepast
+
+	public void updateStatus(int id, Status status) {
+		repository.getById(id).setStatus(status);
+	}
+
+	// Hierbij wordt aangenomen dat er geen exemplaren worden verwijdert maar dat de status dan wordt aangepast
+
 	public int bepaalIndividueelId(int boekId) {
 		int hoeveelheid = countByBoekId(boekId);
 		return hoeveelheid + 1;
@@ -70,4 +78,5 @@ public class ExemplaarService {
 		}
 		return 0;
 	}
+
 }

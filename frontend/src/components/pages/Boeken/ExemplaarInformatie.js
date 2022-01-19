@@ -1,6 +1,10 @@
 import './ExemplaarInformatie.css';
 import React from "react";
 import { useState } from "react";
+import { Button } from "../../Styling/Button"
+import Popup from 'reactjs-popup';
+import PersoonInformatie from '../Personen/PersoonInformatie';
+import { connectieString, postRequest } from '../../../Constanten.js'
 
 
 function ExemplaarInformatie(props) {
@@ -9,8 +13,11 @@ function ExemplaarInformatie(props) {
     const [isLoaded, setIsLoaded] = useState(false);
     const [exemplaren, setExemplaren] = useState([]);
     const [hoeveelexemplaren, setHoeveelExemplaren] = useState(0);
+    const [nieuweUitlening, setNieuweUitlening] = useState(false);
     const [succesBericht, setSuccesBericht] = useState('');
     const [boekId, setBoekId] = useState(1);
+    const [uitleningToegevoegd, setUitleningToegevoegd] = useState(false);
+    const [huidigExemplaar, setHuidigExemplaar] = useState(null);
 
     const nieuwBoekId = (e) => {
         setExemplaren([]);
@@ -19,8 +26,21 @@ function ExemplaarInformatie(props) {
         setBoekId(e.target.value)
     }
 
+    const setUitleningInfo = (exemplaar) => {
+        setNieuweUitlening(true);
+        setHuidigExemplaar(exemplaar);
+        setUitleningToegevoegd(false);
+    }
+
     const isUitgeleend = (status) => {
         return status.charAt(0) + status.slice(1).toLowerCase();
+    }
+
+    const uitleningBericht = (exemplaar) => {
+        if (uitleningToegevoegd && exemplaar === huidigExemplaar) {
+            return <td>Uitlening toegevoegd</td>;
+        }
+        return <td></td>;
     }
 
     const hoeveelheidUitgeleend = (exemplaren) => {
@@ -29,9 +49,31 @@ function ExemplaarInformatie(props) {
             if (exemplaar.status === "UITGELEEND") {
                 total += 1;
             }
-            
+
         });
         return total;
+    }
+
+    const nieuweUitleningToevoegen = (persoonId, exemplaar) => {
+        const nieuweUitlening = {
+            exemplaarId: exemplaar.id,
+            persoonId: persoonId,
+            beginDatum: new Date().toISOString().split('T')[0]
+        }
+        postRequest(connectieString + '/maakuitleningaan', nieuweUitlening).then(response => {
+            if (response.ok) {
+                response.json().then(uitlening => {
+                    console.log(uitlening);
+                    exemplaar.status = "UITGELEEND";
+                    setUitleningToegevoegd(true);
+                    setNieuweUitlening(false);
+                })
+            } else {
+                console.log("mislukt");
+            }
+        }).catch(error => console.log(error));
+
+
     }
 
 
@@ -45,6 +87,7 @@ function ExemplaarInformatie(props) {
 
                         //Sorteer op individueel id          
                         setExemplaren(result);
+                        console.log(result)
                         setSuccesBericht('Gelukt!');
                         setHoeveelExemplaren(result.length);
                     } else {
@@ -70,6 +113,7 @@ function ExemplaarInformatie(props) {
                     <tr>
                         <th>Label</th>
                         <th>Status</th>
+                        <th></th>
                     </tr>
                 </thead>
                 <tbody>
@@ -81,8 +125,20 @@ function ExemplaarInformatie(props) {
                             <td>
                                 {isUitgeleend(exemplaar.status)}
                             </td>
+                            {exemplaar.status === 'BESCHIKBAAR' ?
+                                <td >
+                                    <Button onClick={() => setUitleningInfo(exemplaar)}>Uitlenen</Button>
+
+                                </td> : uitleningBericht(exemplaar)}
                         </tr>
                     ))}
+                    <Popup open={nieuweUitlening} modal onClose={() => setNieuweUitlening(false)}>
+                        <div className="modal">
+                            <button className="close" onClick={() => setNieuweUitlening(false)}> &times; </button>
+                            <PersoonInformatie nieuweUitleningToevoegen={nieuweUitleningToevoegen}
+                                exemplaar={huidigExemplaar} />
+                        </div>
+                    </Popup>
                 </tbody>
 
             </table>

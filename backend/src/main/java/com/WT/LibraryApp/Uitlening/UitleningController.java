@@ -1,5 +1,6 @@
 package com.WT.LibraryApp.Uitlening;
-
+import com.WT.LibraryApp.Exemplaar.ExemplaarService;
+import com.WT.LibraryApp.Exemplaar.Exemplaar.Status;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -30,6 +31,9 @@ public class UitleningController {
 	
 	@Autowired ExemplaarService serviceExemplaar;
 
+	@Autowired
+	private ExemplaarService exemplaarService;
+
 	@RequestMapping("/uitlening/{mijnid}") // werkt nog niet
 	public Optional<Uitlening> vindEentje(@PathVariable int mijnid) {
 		return service.vindEentje(mijnid);
@@ -48,6 +52,7 @@ public class UitleningController {
 	@RequestMapping(method = RequestMethod.POST, value = "/maakuitleningaan") // Werkt als de string yyyy-mm-dd is
 	public Uitlening maakUitleningAan(@RequestBody
 			@DateTimeFormat(iso = DateTimeFormat.ISO.DATE) Uitlening uitlening){
+		exemplaarService.updateStatus(uitlening.getExemplaarId(), Status.UITGELEEND);
 		return service.maakUitleningAan(uitlening);
 	}
 
@@ -57,7 +62,9 @@ public class UitleningController {
 		List<Uitlening> opgeslagenUitleningen = new ArrayList<>();
 		for (Uitlening uitlening: uitleningen) {
 			opgeslagenUitleningen.add(service.maakUitleningAan(uitlening));
+			exemplaarService.updateStatus(uitlening.getExemplaarId(), Status.UITGELEEND);
 		}
+		
 		return opgeslagenUitleningen;
 	}
 	
