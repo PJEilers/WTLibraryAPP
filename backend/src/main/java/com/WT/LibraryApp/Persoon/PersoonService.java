@@ -34,19 +34,19 @@ public class PersoonService {
 		return repository.findAllByNaam(naam);
 	}
 
-    public Map<String, String> vindPersoonNaamEmail(int id) {
-        Optional<Persoon> optionalPersoon = repository.findById(id);
-        Map<String, String> naamEmailMap = new HashMap<>();
-        if (optionalPersoon.isPresent()) {
-        	Persoon persoon = optionalPersoon.get();
-        	naamEmailMap.put("naam", persoon.getNaam());
-        	naamEmailMap.put("email", persoon.getEmail());
-        	return naamEmailMap;
-        }
-        naamEmailMap.put("naam", null);
-    	naamEmailMap.put("email", null);
-    	return naamEmailMap;
-    }
+//    public Map<String, String> vindPersoonNaamEmail(int id) {
+//        Optional<Persoon> optionalPersoon = repository.findById(id);
+//        Map<String, String> naamEmailMap = new HashMap<>();
+//        if (optionalPersoon.isPresent()) {
+//        	Persoon persoon = optionalPersoon.get();
+//        	naamEmailMap.put("naam", persoon.getNaam());
+//        	naamEmailMap.put("email", persoon.getEmail());
+//        	return naamEmailMap;
+//        }
+//        naamEmailMap.put("naam", null);
+//    	naamEmailMap.put("email", null);
+//    	return naamEmailMap;
+//    }
 
 	public String vindPersoonNaam(int id) {
 		Optional<Persoon> optionalPersoon = repository.findById(id);
@@ -56,6 +56,5 @@ public class PersoonService {
 		}
 		return "-";
 	}
-
 
 }
