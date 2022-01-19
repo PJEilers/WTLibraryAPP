@@ -43,7 +43,7 @@ function App() {
             <Route path = '/' exact element = {<Home />} />
             <Route path = '/boek-toevoegen' element = {<BoekToevoegen />} />
             <Route path = '/boekenlijst' element = {<MaakBoekTabel />} />
-            <Route path = '/exemplaar-informatie' element = {<ExemplaarInformatie />} />
+            <Route path = '/exemplaar-informatie' element = {<ExemplaarInformatie boekId={1} />} />
             <Route path = '/gebruiker-toevoegen' element = {<PersoonToevoegen />} />
             <Route path = '/persoonsinformatie' element = {<PersoonInformatie />} />
             <Route path = '/Reserveringen' element = {<Reserveren />} />
