@@ -1,10 +1,12 @@
 import './ExemplaarInformatie.css';
+import '../../Styling/Table.css';
 import React from "react";
 import { useState, useEffect } from "react";
 import { Button } from "../../Styling/Button"
 import Popup from 'reactjs-popup';
 import PersoonInformatie from '../Personen/PersoonInformatie';
 import { uitleningToevoegen } from '../../../Constanten.js'
+import { TableStyle } from '../../Styling/Table';
 
 
 function ExemplaarInformatie(props) {
@@ -104,44 +106,45 @@ function ExemplaarInformatie(props) {
                 onChange={nieuwBoekId} />
             <button onClick={() => haalExemplarenOp(boekId)}>Haal Exemplaren Op</button>
             <p>Van de {hoeveelexemplaren} boeken zijn er {hoeveelheidUitgeleend(exemplaren)} uitgeleend</p>
-            <table>
-                <thead>
-                    <tr>
-                        <th>Label</th>
-                        <th>Status</th>
-                        <th></th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {exemplaren.map(exemplaar => (
+            <TableStyle>
+                <table>
+                    <thead>
                         <tr>
-                            <td key={exemplaar.id}>
-                                {"WT-" + boekId + "." + exemplaar.individueelId}
-                            </td>
-                            <td>
-                                {isUitgeleend(exemplaar.status)}
-                            </td>
-                            {exemplaar.status === 'BESCHIKBAAR' ?
-                                <td >
-                                    {props.persoon ?
-                                        <Button onClick={() => setPersoonUitlening(exemplaar)}>Leen Uit</Button>
-                                        :
-                                        <Button onClick={() => setUitleningInfo(exemplaar)}>Uitlenen</Button>
-                                    }
-
-                                </td> : uitleningBericht(exemplaar)}
+                            <th>Label</th>
+                            <th>Status</th>
+                            <th>Uitlenen</th>
                         </tr>
-                    ))}
-                    <Popup open={nieuweUitlening} modal onClose={() => setNieuweUitlening(false)}>
-                        <div className="modal">
-                            <button className="close" onClick={() => setNieuweUitlening(false)}> &times; </button>
-                            <PersoonInformatie nieuweUitleningToevoegen={nieuweUitleningToevoegen}
-                                exemplaar={huidigExemplaar} />
-                        </div>
-                    </Popup>
-                </tbody>
+                    </thead>
+                    <tbody>
+                        {exemplaren.map(exemplaar => (
+                            <tr>
+                                <td key={exemplaar.id}>
+                                    {"WT-" + boekId + "." + exemplaar.individueelId}
+                                </td>
+                                <td className={exemplaar.status === "BESCHIKBAAR" ? "StatusBeschikbaar" : "StatusUitgeleend"}>
+                                    {isUitgeleend(exemplaar.status)}
+                                </td>
+                                {exemplaar.status === 'BESCHIKBAAR' ?
+                                    <td >
+                                        {props.persoon ?
+                                            <Button onClick={() => setPersoonUitlening(exemplaar)}>Leen Uit</Button>
+                                            :
+                                            <Button onClick={() => setUitleningInfo(exemplaar)}>Uitlenen</Button>
+                                        }
 
-            </table>
+                                    </td> : uitleningBericht(exemplaar)}
+                            </tr>
+                        ))}
+                        <Popup open={nieuweUitlening} modal onClose={() => setNieuweUitlening(false)}>
+                            <div className="modal">
+                                <button className="close" onClick={() => setNieuweUitlening(false)}> &times; </button>
+                                <PersoonInformatie nieuweUitleningToevoegen={nieuweUitleningToevoegen}
+                                    exemplaar={huidigExemplaar} />
+                            </div>
+                        </Popup>
+                    </tbody>
+                </table>
+            </TableStyle>
             <p>{succesBericht}</p>
 
         </div>

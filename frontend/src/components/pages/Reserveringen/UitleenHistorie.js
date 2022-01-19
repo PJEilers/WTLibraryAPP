@@ -1,6 +1,7 @@
 import './UitleenHistorie.css';
 import React from 'react';
 import { useState } from 'react';
+import { TableStyle } from '../../Styling/Table';
 
 function UitleenHistorieTabel() {
     const [uitleningen, setUitleningen] = useState([]);
@@ -33,28 +34,30 @@ function UitleenHistorieTabel() {
     */
     return (
         <div>
-            <table>
-                <thead>
-                    <tr>
-                        <th>ID</th>
-                        <th>Exemplaar ID</th>
-                        <th>Persoon</th>
-                        <th>Begin Datum</th>
-                        <th>Eind Datum</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {uitleningen.map(uitlening => (
-                        <tr key={uitlening.id}>
-                            <td>{uitlening.id}</td>
-                            <td>WT-{uitlening.boekId}.{uitlening.exemplaarId}</td>
-                            <td>{uitlening.persoon}</td>
-                            <td>{uitlening.beginDatum}</td>
-                            <td>{uitlening.eindDatum}</td>
+            <TableStyle>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Exemplaar ID</th>
+                            <th>Persoon</th>
+                            <th>Begin Datum</th>
+                            <th>Eind Datum</th>
                         </tr>
-                    ))}
-                </tbody>
-            </table>
+                    </thead>
+                    <tbody>
+                        {uitleningen.map(uitlening => (
+                            <tr key={uitlening.id}>
+                                <td>{uitlening.id}</td>
+                                <td>WT-{uitlening.boekId}.{uitlening.exemplaarId}</td>
+                                <td>{uitlening.persoon}</td>
+                                <td>{uitlening.beginDatum}</td>
+                                <td>{uitlening.eindDatum}</td>
+                            </tr>
+                        ))}
+                    </tbody>
+                </table>
+            </TableStyle>
         </div>
     );
 }

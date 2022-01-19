@@ -1,6 +1,6 @@
 import './ReserveringTabel.css';
-import React from "react";
 import { useState, useEffect } from "react";
+import { TableStyle } from '../../Styling/Table';
 import { Button } from '../../Styling/Button'
 import Popup from 'reactjs-popup';
 import { uitleningToevoegen } from '../../../Constanten'
@@ -16,14 +16,14 @@ function MaakReserveringTabel() {
 
     const laadData = () => {
 
-        fetch('http://localhost:8080/reserveringMetPersoonEnBoek', {mode: 'cors'})
-        .then(response => response.json())
-        .then(data => {
-            setReserveringen(data);
-        })
-        .catch((error) => {
-            console.error('Error:', error);
-        })
+        fetch('http://localhost:8080/reserveringMetPersoonEnBoek', { mode: 'cors' })
+            .then(response => response.json())
+            .then(data => {
+                setReserveringen(data);
+            })
+            .catch((error) => {
+                console.error('Error:', error);
+            })
 
     }
 
@@ -41,6 +41,7 @@ function MaakReserveringTabel() {
 
     return (
         <div>
+            <TableStyle>
             <table>
                 <thead>
                     <tr>
@@ -78,6 +79,7 @@ function MaakReserveringTabel() {
                     </Popup>
                 </tbody>
             </table>
+            </TableStyle>
         </div>
     );
 }
