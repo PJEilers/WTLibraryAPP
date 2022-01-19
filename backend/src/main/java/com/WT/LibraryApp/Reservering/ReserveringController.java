@@ -16,6 +16,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.WT.LibraryApp.Boek.Boek;
+import com.WT.LibraryApp.Boek.BoekService;
 import com.WT.LibraryApp.Exemplaar.Exemplaar;
 import com.WT.LibraryApp.Persoon.Persoon;
 import com.WT.LibraryApp.Persoon.PersoonService;
@@ -29,6 +31,9 @@ public class ReserveringController {
 	
 	@Autowired
 	private PersoonService servicePersoon;
+	
+	@Autowired
+	private BoekService serviceBoek;
 
 	@RequestMapping("/reservering/{mijnid}") // werkt nog niet
 	public Optional<Reservering> vindEentje(@PathVariable int mijnid) {
@@ -81,24 +86,52 @@ public class ReserveringController {
 	@RequestMapping(value = "/reserveringMetPersoonEnBoek")
 	public List<Map<String, Object>> vindReservering() {
 		List<Reservering> reserveringen = service.vindAlleReserveringen();
-		List<Map<String, Object>> tempArray = new ArrayList<>();
+		List<Map<String, Object>> reserveringArray = new ArrayList<>();
 		for (Reservering reservering : reserveringen) {
-			Map<String, Object> tempMap = new HashMap<>();
+			Map<String, Object> reserveringMap = new HashMap<>();
 			
+			
+//			Map<String, String> naamEmail = servicePersoon.vindPersoonNaamEmail(persoonId);
+			reserveringMap.put("id", reservering.getId());
+			reserveringMap.put("boekId", reservering.getBoekId());
+			reserveringMap.put("persoonId", reservering.getPersoonId());
+			reserveringMap.put("datum", reservering.getDatum());
+			
+			// Persoon naam en email toevoegen
 			int persoonId = reservering.getPersoonId();
-			Map<String, String> naamEmail = servicePersoon.vindPersoonNaamEmail(persoonId);
-			tempMap.put("id", reservering.getId());
-			tempMap.put("boekId", reservering.getBoekId());
-			tempMap.put("persoonId", reservering.getPersoonId());
-			tempMap.put("datum", reservering.getDatum());
-			tempMap.put("naam", naamEmail.get("naam"));
-			tempMap.put("email", naamEmail.get("email"));
-			tempArray.add(tempMap);
-//			tempArray.add(reservering);
-//			tempArray.add(naamEmail);
-//			reserveringMap.put(index, tempArray);
+			Optional <Persoon> optionalPersoon = servicePersoon.vindPersoon(persoonId);
+			if (optionalPersoon.isPresent()) {
+				Persoon persoon = optionalPersoon.get();
+				reserveringMap.put("naam", persoon.getNaam());
+				reserveringMap.put("email", persoon.getEmail());
+			} else {
+				reserveringMap.put("naam", null);
+		    	reserveringMap.put("email", null);
+			}
+			
+			// Boek titel en auteur toevoegen
+			int boekId = reservering.getBoekId();
+			Optional <Boek> optionalBoek = serviceBoek.vindBoek(boekId);
+			if (optionalBoek.isPresent()) {
+				Boek boek = optionalBoek.get();
+				reserveringMap.put("titel", boek.getTitel());
+				reserveringMap.put("auteur", boek.getAuteur());
+			} else {
+				reserveringMap.put("titel", null);
+		    	reserveringMap.put("auteur", null);
+			}
+			
+			reserveringArray.add(reserveringMap);
+			
+//				reserveringMap.put("naam", naamEmail.get("naam"));
+//				reserveringMap.put("email", naamEmail.get("email"));
+				
+//				reserveringArray.add(reservering);
+//				reserveringArray.add(naamEmail);
+//				reserveringMap.put(index, reserveringArray);
+
 		}
-	return tempArray;
+	return reserveringArray;
 	}
 
 }

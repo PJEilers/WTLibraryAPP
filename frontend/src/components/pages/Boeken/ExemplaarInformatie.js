@@ -4,7 +4,7 @@ import { useState } from "react";
 import { Button } from "../../Styling/Button"
 import Popup from 'reactjs-popup';
 import PersoonInformatie from '../Personen/PersoonInformatie';
-import { connectieString, postRequest } from '../../../Constanten.js'
+import { uitleningToevoegen } from '../../../Constanten.js'
 
 
 function ExemplaarInformatie(props) {
@@ -32,6 +32,11 @@ function ExemplaarInformatie(props) {
         setUitleningToegevoegd(false);
     }
 
+    const setPersoonUitlening = (exemplaar) => {
+        setHuidigExemplaar(exemplaar);
+        nieuweUitleningToevoegen(props.persoon.id, exemplaar);
+    }
+
     const isUitgeleend = (status) => {
         return status.charAt(0) + status.slice(1).toLowerCase();
     }
@@ -55,27 +60,13 @@ function ExemplaarInformatie(props) {
     }
 
     const nieuweUitleningToevoegen = (persoonId, exemplaar) => {
-        const nieuweUitlening = {
-            exemplaarId: exemplaar.id,
-            persoonId: persoonId,
-            beginDatum: new Date().toISOString().split('T')[0]
+        //console.log(uitleningToevoegen(persoonId, exemplaar))
+        if (uitleningToevoegen(persoonId, exemplaar)) {
+            setUitleningToegevoegd(true);
+            setNieuweUitlening(false);
+            exemplaar.status = "UITGELEEND";
         }
-        postRequest(connectieString + '/maakuitleningaan', nieuweUitlening).then(response => {
-            if (response.ok) {
-                response.json().then(uitlening => {
-                    console.log(uitlening);
-                    exemplaar.status = "UITGELEEND";
-                    setUitleningToegevoegd(true);
-                    setNieuweUitlening(false);
-                })
-            } else {
-                console.log("mislukt");
-            }
-        }).catch(error => console.log(error));
-
-
     }
-
 
     const haalExemplarenOp = () => {
         fetch("http://localhost:8080/boekexemplaren/" + boekId)
@@ -127,7 +118,11 @@ function ExemplaarInformatie(props) {
                             </td>
                             {exemplaar.status === 'BESCHIKBAAR' ?
                                 <td >
-                                    <Button onClick={() => setUitleningInfo(exemplaar)}>Uitlenen</Button>
+                                    {props.persoon ?
+                                        <Button onClick={() => setPersoonUitlening(exemplaar)}>Leen Uit</Button>
+                                        :
+                                        <Button onClick={() => setUitleningInfo(exemplaar)}>Uitlenen</Button>
+                                    }
 
                                 </td> : uitleningBericht(exemplaar)}
                         </tr>
@@ -143,9 +138,6 @@ function ExemplaarInformatie(props) {
 
             </table>
             <p>{succesBericht}</p>
-
-
-
 
         </div>
     );
