@@ -39,12 +39,15 @@ function PersoonInformatie(props) {
         haalPersonenOp();
     },[]);
 
-    const haalPersonenOpNaam = () => {
+    const haalPersonenOpNaam = (naam) => {
+        setNaam(naam);
+
         let filterData = personen.filter(v => v.naam.toLowerCase().includes(naam.toLowerCase()));
         if (Object.entries(filterData).length > 0) {
             setGezochtePersonen(filterData);
             setSuccesBericht("Personen gevonden")
         } else {
+            setGezochtePersonen(personen);
             setSuccesBericht("Geen overeenkomend persoon gevonden")
         }
 
@@ -53,10 +56,8 @@ function PersoonInformatie(props) {
 
     return (
         <div>
-            <button onClick={() => haalPersonenOp()}>Haal Personen Op</button>
-            <br />
             <input type="string" defaultValue={naam}
-                onChange={e => setNaam(e.target.value)} />
+                onChange={e => {haalPersonenOpNaam(e.target.value)}} />
             <button onClick={() => haalPersonenOpNaam()}>Zoek Personen</button>
             <table>
                 <thead>

@@ -32,6 +32,13 @@ public class PersoonService {
 		return repository.findAllByNaam(naam);
 	}
 
-
+	public String vindPersoonNaam(int id) {
+		Optional<Persoon> optionalPersoon = repository.findById(id);
+		if(optionalPersoon.isPresent()) {
+			Persoon persoon = optionalPersoon.get();
+			return persoon.getNaam();
+		}
+		return "-";
+	}
 
 }

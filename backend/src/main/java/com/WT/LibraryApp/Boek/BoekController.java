@@ -36,7 +36,7 @@ public class BoekController {
 	public List<Map<String, Object>> vindAlleBoeken() {
 		List<Boek> boeken = service.vindAlleBoeken();
 		List<Map<String, Object>> output = new ArrayList<Map<String, Object>>();
-		for (Boek boek : boeken) {//deze for loop is identiek als die van vindOpTitel, beter in een aparte functie
+		for (Boek boek : boeken) {
 			Map<String, Object> map = new HashMap<>();
 			map.put("id", boek.getId());
 			map.put("titel", boek.getTitel());

@@ -5,6 +5,8 @@ import com.WT.LibraryApp.Exemplaar.Exemplaar.Status;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.Map;
+import java.util.HashMap;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
@@ -15,11 +17,19 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.WT.LibraryApp.Persoon.PersoonService;
+import com.WT.LibraryApp.Exemplaar.ExemplaarService;
+
 @RestController
 @CrossOrigin(maxAge = 3600)
 public class UitleningController {
 	@Autowired
 	private UitleningService service;
+	
+	@Autowired
+	private PersoonService servicePersoon;
+	
+	@Autowired ExemplaarService serviceExemplaar;
 
 	@Autowired
 	private ExemplaarService exemplaarService;
@@ -34,7 +44,7 @@ public class UitleningController {
 //		return service.vindExemplaar(exemplaarid);
 //	}
 //	
-	@RequestMapping(value = "/uitleningen") // werkt nog niet
+	@RequestMapping(value = "/uitleningen")
 	public List<Uitlening> vind() {
 		return service.vindAlleUitleningen();
 	}
@@ -56,5 +66,23 @@ public class UitleningController {
 		}
 		
 		return opgeslagenUitleningen;
+	}
+	
+	@RequestMapping(value = "/historie")
+	public List<Map<String, Object>> uitleenHistorie() {
+		List<Uitlening> uitleningen = service.vindAlleUitleningen();
+		List<Map<String, Object>> output = new ArrayList<Map<String, Object>>();
+		for (Uitlening uitlening : uitleningen) {
+			Map<String, Object> map = new HashMap<>();
+			map.put("id",  uitlening.getId());
+			map.put("beginDatum", uitlening.getBeginDatum());
+			map.put("eindDatum", "n.n.b.");
+			map.put("persoon", servicePersoon.vindPersoonNaam(uitlening.getPersoonId()));
+			map.put("exemplaarId", serviceExemplaar.vindIndividueelId(uitlening.getExemplaarId()));
+			map.put("boekId", serviceExemplaar.vindBoekId(uitlening.getExemplaarId()));
+			output.add(map);
+		}
+		
+		return output;
 	}
 }
