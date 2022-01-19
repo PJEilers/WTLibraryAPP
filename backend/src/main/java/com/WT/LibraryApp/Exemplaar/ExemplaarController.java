@@ -87,8 +87,7 @@ public class ExemplaarController {
 		List<Integer> gebruikteIds = new ArrayList<Integer>();
 		for (int i = 0; i < hoeveelheid; i++) {
 			tmpexemplaar = new Exemplaar();
-			tmpexemplaar.setBoekId(exemplaar.getBoekId());
-			tmpexemplaar.setUitleningId(exemplaar.getUitleningId());										
+			tmpexemplaar.setBoekId(exemplaar.getBoekId());									
 			gebruikteIds.add(service.bepaalIndividueelId(exemplaar.getBoekId()));
 			tmpexemplaar.setIndividueelId(gebruikteIds.get(i));
 			tmpexemplaar.setStatus(Status.BESCHIKBAAR);
