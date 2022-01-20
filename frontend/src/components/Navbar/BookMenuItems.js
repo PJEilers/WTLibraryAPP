@@ -9,11 +9,6 @@ export const BookMenuItems = [
         url: '/boekenlijst', //here you put the link
         cName: 'dropdown-link',
     },
-    {
-        title: 'Exemplaar Informatie',
-        url: 'exemplaar-informatie', //here you put the link
-        cName: 'dropdown-link',
-    },
     // {
     //     title: 'Gebruiker Toevoegen',
     //     url: '/gebruiker-toevoegen', //here you put the link
