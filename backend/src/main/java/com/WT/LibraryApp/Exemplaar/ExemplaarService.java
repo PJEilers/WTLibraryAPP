@@ -36,8 +36,8 @@ public class ExemplaarService {
 		return repository.countByBoekId(boekid);
 	}
 
-	public int countBeschikbaar(int boekid) {
-		return repository.countByBoekIdAndUitleningIdIsNull(boekid);
+	public int countBeschikbaar(int boekId) {
+		return repository.countByBoekIdAndStatusEquals(boekId, Status.BESCHIKBAAR);
 	}
 
 

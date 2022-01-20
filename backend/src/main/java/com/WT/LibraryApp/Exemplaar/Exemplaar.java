@@ -23,9 +23,6 @@ public class Exemplaar {
 	@Column(nullable = false)
 	private int individueelId;
 
-	@Column(nullable = true)
-	private Integer uitleningId;
-
 	@Column
 	@Enumerated(EnumType.STRING)
 	private Status status;
@@ -50,14 +47,6 @@ public class Exemplaar {
 
 	public void setBoekId(int boekId) {
 		this.boekId = boekId;
-	}
-
-	public Integer getUitleningId() {
-		return uitleningId;
-	}
-
-	public void setUitleningId(Integer uitleningId) {
-		this.uitleningId = uitleningId;
 	}
 
 	public int getIndividueelId() {
