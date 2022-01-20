@@ -1,5 +1,6 @@
 import { createContext, useState } from 'react';
 import Navbar from './components/Navbar/Navbar';
+import { FooterContainer } from './components/Footer/FooterContent'
 import './App.css';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import BoekToevoegen from './components/pages/Boeken/BoekToevoegen'
@@ -35,8 +36,10 @@ function App() {
   
   if (persoonInfo) {
     return (
+      <>
       <Router>
         <Navbar setPersoonInfo={setPersoonInfo}/>
+        <FooterContainer />
         <persoonContext.Provider value={persoonInfo}>
           <Routes>
 
@@ -50,11 +53,13 @@ function App() {
             <Route path = '/ReserveringTabel' element = {<ReserveringTabel />} />
             <Route path = '/uitlening-toevoegen' element = {<UitleningToevoegen/>} />
             <Route path = '/uitleen-historie' element = {<UitleenHistorieTabel/>} />
-            <Route path = '/contact' element={<Contact />} />
+            <Route path = '/Contact' element={<Contact />} />
           </Routes>
         </persoonContext.Provider>
       </Router>
+      
 
+    </>
     );
   } else {
     return (
