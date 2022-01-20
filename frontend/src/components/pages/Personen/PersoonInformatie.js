@@ -84,7 +84,7 @@ function PersoonInformatie(props) {
                     <tbody>
                         {gezochtePersonen.map(persoon =>
                             <tr>
-                                <td>
+                                <td className="Naam">
                                     {persoon.naam}
                                 </td>
                                 <td>

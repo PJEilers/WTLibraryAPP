@@ -118,7 +118,7 @@ function ExemplaarInformatie(props) {
                     <tbody>
                         {exemplaren.map(exemplaar => (
                             <tr>
-                                <td key={exemplaar.id}>
+                                <td key={exemplaar.id} className="Id">
                                     {"WT-" + boekId + "." + exemplaar.individueelId}
                                 </td>
                                 <td className={exemplaar.status === "BESCHIKBAAR" ? "StatusBeschikbaar" : "StatusUitgeleend"}>

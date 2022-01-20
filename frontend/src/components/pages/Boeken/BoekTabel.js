@@ -90,8 +90,8 @@ function MaakBoekTabel() {
                             <th>Auteur</th>
                             <th>ISBN</th>
                             <th>Tags</th>
-                            <th>Exemplaren Totaal</th>
-                            <th>Exemplaren Beschikbaar</th>
+                            <th>Totaal</th>
+                            <th>Beschikbaar</th>
                             <th>Reserveer</th>
                             <th>Exemplaar Toevoegen</th>
                         </tr>
@@ -99,13 +99,13 @@ function MaakBoekTabel() {
                     <tbody>
                         {boekenWeergeven.map(boek => (
                             <tr key={boek.id}>
-                                <td>{boek.id}</td>
+                                <td className="Id">{boek.id}</td>
                                 <td>{boek.titel}</td>
                                 <td>{boek.auteur}</td>
                                 <td>{boek.isbn}</td>
                                 <td>{boek.tags}</td>
-                                <td>{boek.exemplarenTotaal}</td>
-                                <td>{boek.beschikbaar}</td>
+                                <td className="Id">{boek.exemplarenTotaal}</td>
+                                <td className="Id">{boek.beschikbaar}</td>
                                 <td><Reserveren boekId={boek.id} persoonId={1} /></td>
                                 <td>
                                     <Button onClick={() => { setNieuweExemplaren(true); setBoekId(boek.id); }}>Exemplaren Toevoegen</Button>
