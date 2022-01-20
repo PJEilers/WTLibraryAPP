@@ -12,7 +12,7 @@ import styled from 'styled-components';
 import ExemplaarInformatie from './ExemplaarInformatie';
 
 
-function MaakBoekTabel() {
+function MaakBoekTabel(props) {
     const [boeken, setBoeken] = useState([]);
     const [boekenWeergeven, setBoekenWeergeven] = useState([]);
     const [nieuweExemplaren, setNieuweExemplaren] = useState(false);
@@ -129,7 +129,7 @@ function MaakBoekTabel() {
             <Popup open={exemplarenLijst} onClose= {() => setExemplarenLijst(false)} modal closeOnDocumentClick={false}>
                 <div className="modal">
                     <button className="close" onClick={() => setExemplarenLijst(false)}> &times; </button>
-                    <ExemplaarInformatie boekId = {boekId}/>
+                    <ExemplaarInformatie boekId = {boekId} persoon = {props.persoon}/>
                 </div>
             </Popup>
 
