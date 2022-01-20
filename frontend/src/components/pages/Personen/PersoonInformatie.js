@@ -5,6 +5,7 @@ import { connectieString, postRequest, uitleningToevoegen } from '../../../Const
 import Popup from 'reactjs-popup';
 import ExemplaarInformatie from '../Boeken/ExemplaarInformatie';
 import { TableStyle } from '../../Styling/Table';
+import MaakBoekTabel from '../Boeken/BoekTabel';
 
 
 function PersoonInformatie(props) {
@@ -104,10 +105,10 @@ function PersoonInformatie(props) {
                 </table>
             </TableStyle>
             <p>{succesBericht}</p>
-            <Popup open={nieuweUitlening} modal onClose={() => setNieuweUitlening(false)}>
+            <Popup open={nieuweUitlening} modal onClose={() => setNieuweUitlening(false)} closeOnDocumentClick={false}>
                 <div className="modal">
                     <button className="close" onClick={() => setNieuweUitlening(false)}> &times; </button>
-                    <ExemplaarInformatie persoon={huidigPersoon} boekId = {1} />
+                    <MaakBoekTabel persoon = {huidigPersoon}/>
                 </div>
             </Popup>
         </div>
