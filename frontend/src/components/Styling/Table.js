@@ -6,6 +6,7 @@ export const TableStyle = styled.div`
 table {
     border-spacing: 0;
     border: 1px solid black;
+    width: 100%;    
 
     thead {
         background-color: #25f025;
@@ -21,18 +22,44 @@ table {
             }
         }
     }
-
-    th,
-        td {
+ 
+    th, td {
+        //text-align: center;
         margin: 0;
         padding: 0.5rem;
         border-bottom: 1px solid black;
         border-right: 1px solid black;
+        min-width: 1px;
+        max-width: 100px;
+        white-space: nowrap;
+        overflow: hidden;        
+        text-overflow: ellipsis;
+        
 
         :last-child {
             border-right: 0;
         }
     }
+    
+}
+
+.Id {
+    width: 1px;
+}
+
+.Naam {
+    width: 50px;
+    block-size: fit-content;
+}
+
+.Datum {
+    width:10px;
+    block-size: fit-content;
+}
+
+.UitleningKnop {
+    width:10px;
+    block-size: fit-content;
 }
 `
 
