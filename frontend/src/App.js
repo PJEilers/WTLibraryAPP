@@ -15,6 +15,7 @@ import Login from "./components/pages/Login/Login";
 import Home from './components/pages/Home';
 import Contact from './components/pages/Contact';
 import Cookies from 'universal-cookie';
+import Permission from './components/Permissions/Permission';
 
 
 export const persoonContext = createContext({});
@@ -41,16 +42,30 @@ function App() {
           <Routes>
 
             <Route path = '/' exact element = {<Home />} />
-            <Route path = '/boek-toevoegen' element = {<BoekToevoegen />} />
+            <Route path = '/boek-toevoegen' element = {<Permission/>}>
+              <Route path = '' element = {<BoekToevoegen />} />
+            </Route>
             <Route path = '/boekenlijst' element = {<MaakBoekTabel />} />
-            <Route path = '/exemplaar-informatie' element = {<ExemplaarInformatie boekId={1} />} />
-            <Route path = '/gebruiker-toevoegen' element = {<PersoonToevoegen />} />
-            <Route path = '/persoonsinformatie' element = {<PersoonInformatie />} />
+            <Route path = '/exemplaar-informatie' element = {<Permission/>}>
+              <Route path = '' element = {<ExemplaarInformatie boekId={1} />} />
+            </Route>
+            <Route path = '/gebruiker-toevoegen' element = {<Permission/>}>
+              <Route path = '' element = {<PersoonToevoegen />} />
+            </Route>
+            <Route path = '/persoonsinformatie' element = {<Permission/>}>
+              <Route path = '' element = {<PersoonInformatie />} />
+            </Route>
             <Route path = '/Reserveringen' element = {<Reserveren />} />
-            <Route path = '/ReserveringTabel' element = {<ReserveringTabel />} />
-            <Route path = '/uitlening-toevoegen' element = {<UitleningToevoegen/>} />
-            <Route path = '/uitleen-historie' element = {<UitleenHistorieTabel/>} />
-            <Route path = '/contact' element={<Contact />} />
+            <Route path = '/ReserveringTabel' element = {<Permission/>}>
+              <Route path = '' element = {<ReserveringTabel />} />
+            </Route>
+            <Route path = '/uitlening-toevoegen' element = {<Permission/>}>
+              <Route path = '' element = {<UitleningToevoegen />} />
+            </Route>
+            <Route path = '/uitleen-historie' element = {<Permission/>}>
+              <Route path = '' element = {<UitleenHistorieTabel />} />
+            </Route>
+            <Route path = '/contact' element = {<Contact />} />
           </Routes>
         </persoonContext.Provider>
       </Router>
