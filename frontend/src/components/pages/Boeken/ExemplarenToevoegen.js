@@ -8,12 +8,8 @@ function ExemplarenToevoegen(props) {
     const [uit, setUit] = useState(false)
 
     const bevestig = (e) => {
-        const data = {
-            boekId: props.boekID,
-            exemplaarId: null
-        }
         setUit(true);
-        voegExemplarenToe("http://localhost:8080/opslaanexemplaar/" + hoeveelheid, data).then(response => {
+        voegExemplarenToe("http://localhost:8080/opslaanexemplaar/" + props.boekID+ "/" +hoeveelheid, {}).then(response => {
             if (response.ok) {
                 response.json().then(ids => {
                     let labels = [];

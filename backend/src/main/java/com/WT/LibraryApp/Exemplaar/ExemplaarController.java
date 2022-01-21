@@ -78,17 +78,17 @@ public class ExemplaarController {
 	}
 
 	// Optie voor toevoegen van meerdere exemplaren
-	@RequestMapping(method = RequestMethod.POST, value = "/opslaanexemplaar/{hoeveelheid}" /* TODO */)
-	public List<Integer> opslaanExemplaar(@RequestBody Exemplaar exemplaar, @PathVariable int hoeveelheid) {
+	@RequestMapping(method = RequestMethod.POST, value = "/opslaanexemplaar/{boekId}/{hoeveelheid}" /* TODO */)
+	public List<Integer> opslaanExemplaar(@PathVariable int boekId, @PathVariable int hoeveelheid) {
 
 		// Een temporary object wordt gebruikt omdat Hibernate(SQL) eenzelfde kopie van
 		// een exemplaar niet leuk vind.
-		Exemplaar tmpexemplaar;
 		List<Integer> gebruikteIds = new ArrayList<Integer>();
+		Boek boek = serviceBoek.vindBoek(boekId).get();
 		for (int i = 0; i < hoeveelheid; i++) {
-			tmpexemplaar = new Exemplaar();
-			tmpexemplaar.setBoekId(exemplaar.getBoekId());									
-			gebruikteIds.add(service.bepaalIndividueelId(exemplaar.getBoekId()));
+			Exemplaar tmpexemplaar = new Exemplaar();
+			tmpexemplaar.setBoek(boek);									
+			gebruikteIds.add(service.bepaalIndividueelId(boek));
 			tmpexemplaar.setIndividueelId(gebruikteIds.get(i));
 			tmpexemplaar.setStatus(Status.BESCHIKBAAR);
 			service.opslaanExemplaar(tmpexemplaar);
