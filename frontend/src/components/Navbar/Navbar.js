@@ -85,9 +85,9 @@ function Navbar(props) {
                 <DropDownMenu navItem = 'Reserveringen' url1={'/reserveringen'} menuItems1={ReserveringMenuItems} />
                 <DropDownMenu navItem = 'Gebruikers' url1={'/gebruikers'} menuItems1={GebruikerMenuItems} />
                 <li className='nav-item'>
-                    <Link to='/contact' className='nav-links' onClick={closeMobileMenu}>
+                    <NavLink to='/contact' className='nav-links' onClick={closeMobileMenu}>
                         Contact
-                    </Link>
+                    </NavLink>
                 </li>
 
             </ul>
