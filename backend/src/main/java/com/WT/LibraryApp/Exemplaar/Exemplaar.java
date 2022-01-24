@@ -7,7 +7,10 @@ import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+
+import com.WT.LibraryApp.Boek.Boek;
 
 @Entity
 @Table(name = "exemplaar")
@@ -17,8 +20,8 @@ public class Exemplaar {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int id;
 
-	@Column(nullable = false)
-	private int boekId;
+	@ManyToOne
+	private Boek boek;
 
 	@Column(nullable = false)
 	private int individueelId;
@@ -41,12 +44,12 @@ public class Exemplaar {
 		this.id = id;
 	}
 
-	public int getBoekId() {
-		return boekId;
+	public Boek getBoek() {
+		return boek;
 	}
 
-	public void setBoekId(int boekId) {
-		this.boekId = boekId;
+	public void setBoek(Boek boek) {
+		this.boek = boek;
 	}
 
 	public int getIndividueelId() {

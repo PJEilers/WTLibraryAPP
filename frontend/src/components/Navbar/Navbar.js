@@ -102,9 +102,9 @@ function Navbar(props) {
                 }
 
                 <li className='nav-item'>
-                    <Link to='/contact' className='nav-links' onClick={closeMobileMenu}>
+                    <NavLink to='/contact' className='nav-links' onClick={closeMobileMenu}>
                         Contact
-                    </Link>
+                    </NavLink>
                 </li>
 
             </ul>

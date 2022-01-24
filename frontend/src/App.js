@@ -1,5 +1,6 @@
 import { createContext, useState } from 'react';
 import Navbar from './components/Navbar/Navbar';
+import { FooterContainer } from './components/Footer/FooterContent'
 import './App.css';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import BoekToevoegen from './components/pages/Boeken/BoekToevoegen'

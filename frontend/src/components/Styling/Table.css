@@ -5,3 +5,8 @@
 .StatusBeschikbaar {
     background-color: lightgreen;
 }
+
+.Boek:hover {
+    background-color: red;
+    cursor: pointer;
+}
