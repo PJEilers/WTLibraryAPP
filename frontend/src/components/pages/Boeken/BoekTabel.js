@@ -1,5 +1,5 @@
 import './BoekTabel.css';
-import React from "react";
+import React, { useContext } from "react";
 import { useState } from "react";
 import Reserveren from '../Reserveringen/Reserveren';
 import ExemplarenToevoegen from './ExemplarenToevoegen';
@@ -8,7 +8,6 @@ import Popup from 'reactjs-popup';
 import '../../Styling/Popup.css'
 import { TableStyle } from '../../Styling/Table';
 import styled from 'styled-components';
-
 
 function MaakBoekTabel() {
     const [boeken, setBoeken] = useState([]);

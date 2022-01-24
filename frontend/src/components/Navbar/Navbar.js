@@ -50,7 +50,7 @@ const DropDownMenu = ({navItem, url1 , menuItems1 }) => {
 
 }
 
-const AdminOfGebruiker = () => {
+function AdminOfGebruiker(props) {//pagina moet reloaden anders geeft deze functie altijd de else
     const cookies = new Cookies();
     if (cookies.get('adminRechten') === 'true') {
         return (                
@@ -80,6 +80,8 @@ function Navbar(props) {
     const closeMobileMenu = () => setClick2(false);
     const [dropdown, setDropdown] = useState(false);
 
+    const cookies = new Cookies();
+
     const onMouseEnter = () => {
         if (window.innerWidth < 960) {
             setDropdown(false)
@@ -105,7 +107,23 @@ function Navbar(props) {
                 <i className={click2 ? 'fas fa-times' : 'fas fa-bars'} />
             </div>
             <ul className={click2 ? 'nav-menu active' : 'nav-menu'}>
-                <AdminOfGebruiker/>
+                {cookies.get('adminRechten') === 'true' &&
+                    <>
+                        <DropDownMenu navItem='Boeken' url1={'/boeken'} menuItems1={BookMenuItems} />
+                        <DropDownMenu navItem='Reserveringen' url1={'/reserveringen'} menuItems1={ReserveringMenuItems} />
+                        <DropDownMenu navItem='Gebruikers' url1={'/gebruikers'} menuItems1={GebruikerMenuItems} />
+                    </>
+                }
+                {cookies.get('adminRechten') === 'false' && 
+                    <>
+                        <li className='nav-item'>
+                            <Link to='/boekenlijst' className='nav-links' onClick={closeMobileMenu}>
+                                Boekenlijst
+                            </Link>
+                        </li>
+                    </>
+                }
+
                 <li className='nav-item'>
                     <Link to='/contact' className='nav-links' onClick={closeMobileMenu}>
                         Contact
