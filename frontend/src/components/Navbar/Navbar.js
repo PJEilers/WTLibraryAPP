@@ -1,5 +1,5 @@
 
-import { useState, Component } from 'react';
+import { useState, Component, useContext } from 'react';
 import { Button } from '../Styling/Button';
 import  Logout  from '../pages/Login/Logout'
 import './Navbar.css';
@@ -8,6 +8,8 @@ import Dropdown from './Dropdown'
 import { GebruikerMenuItems } from './GebruikerMenuItems';
 import { BookMenuItems } from './BookMenuItems';
 import { ReserveringMenuItems } from './ReserveringMenuItems'
+import { persoonContext } from '../../App';
+
 const DropDownMenu = ({navItem, url1 , menuItems1 }) => {
     
     const [click, setClick] = useState(false);
@@ -55,6 +57,8 @@ function Navbar(props) {
     const closeMobileMenu = () => setClick2(false);
     const [dropdown, setDropdown] = useState(false);
 
+    const persoonInfo = useContext(persoonContext);
+
     const onMouseEnter = () => {
         if (window.innerWidth < 960) {
             setDropdown(false)
@@ -80,10 +84,23 @@ function Navbar(props) {
                 <i className={click2 ? 'fas fa-times' : 'fas fa-bars'} />
             </div>
             <ul className={click2 ? 'nav-menu active' : 'nav-menu'}>
+                {(persoonInfo.adminRechten === 'true' || persoonInfo.adminRechten) &&
+                    <>
+                        <DropDownMenu navItem='Boeken' url1={'/boeken'} menuItems1={BookMenuItems} />
+                        <DropDownMenu navItem='Reserveringen' url1={'/reserveringen'} menuItems1={ReserveringMenuItems} />
+                        <DropDownMenu navItem='Gebruikers' url1={'/gebruikers'} menuItems1={GebruikerMenuItems} />
+                    </>
+                }
+                {(persoonInfo.adminRechten === 'false' || ! persoonInfo.adminRechten) && 
+                    <>
+                        <li className='nav-item'>
+                            <Link to='/boekenlijst' className='nav-links' onClick={closeMobileMenu}>
+                                Boekenlijst
+                            </Link>
+                        </li>
+                    </>
+                }
 
-                <DropDownMenu navItem = 'Boeken' url1={'/boeken'} menuItems1={BookMenuItems} />
-                <DropDownMenu navItem = 'Reserveringen' url1={'/reserveringen'} menuItems1={ReserveringMenuItems} />
-                <DropDownMenu navItem = 'Gebruikers' url1={'/gebruikers'} menuItems1={GebruikerMenuItems} />
                 <li className='nav-item'>
                     <NavLink to='/contact' className='nav-links' onClick={closeMobileMenu}>
                         Contact
