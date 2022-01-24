@@ -1,5 +1,5 @@
 import './BoekTabel.css';
-import React, { useContext } from "react";
+import React from "react";
 import { useState } from "react";
 import Reserveren from '../Reserveringen/Reserveren';
 import ExemplarenToevoegen from './ExemplarenToevoegen';
