@@ -7,17 +7,21 @@ import { Button } from '../../Styling/Button'
 import Popup from 'reactjs-popup';
 import '../../Styling/Popup.css'
 import { TableStyle } from '../../Styling/Table';
+import '../../Styling/Table.css'
 import styled from 'styled-components';
+import ExemplaarInformatie from './ExemplaarInformatie';
 
 
-function MaakBoekTabel() {
+function MaakBoekTabel(props) {
     const [boeken, setBoeken] = useState([]);
     const [boekenWeergeven, setBoekenWeergeven] = useState([]);
-    const [nieuweExemplaren, setNieuweExemplaren] = useState(false)
+    const [nieuweExemplaren, setNieuweExemplaren] = useState(false);
+    const [exemplarenLijst, setExemplarenLijst] = useState(false);
     const [boekTitel, setBoekTitel] = useState('');
     const [boekTags, setBoekTags] = useState('');
     const [opstarten, setOpstarten] = useState(false);
     const [boekId, setBoekId] = useState(1);
+    
 
     const laadData = () => {
         fetch('http://localhost:8080/boeken', { mode: 'cors' })
@@ -99,8 +103,8 @@ function MaakBoekTabel() {
                     <tbody>
                         {boekenWeergeven.map(boek => (
                             <tr key={boek.id}>
-                                <td>{boek.id}</td>
-                                <td>{boek.titel}</td>
+                                <td >{boek.id}</td>
+                                <td className = 'Boek' onClick={() => {setExemplarenLijst(true); setBoekId(boek.id)}}>{boek.titel}</td>
                                 <td>{boek.auteur}</td>
                                 <td>{boek.isbn}</td>
                                 <td>{boek.tags}</td>
@@ -120,6 +124,12 @@ function MaakBoekTabel() {
                 <div className="modal">
                     <button className="close" onClick={closePopup}> &times; </button>
                     {NieuweExemplarenToevoegen(boekId)}
+                </div>
+            </Popup>
+            <Popup open={exemplarenLijst} onClose= {() => setExemplarenLijst(false)} modal closeOnDocumentClick={false}>
+                <div className="modal">
+                    <button className="close" onClick={() => setExemplarenLijst(false)}> &times; </button>
+                    <ExemplaarInformatie boekId = {boekId} persoon = {props.persoon}/>
                 </div>
             </Popup>
 

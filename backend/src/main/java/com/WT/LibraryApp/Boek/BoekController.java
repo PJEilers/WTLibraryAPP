@@ -43,8 +43,8 @@ public class BoekController {
 			map.put("auteur", boek.getAuteur());
 			map.put("isbn", boek.getIsbn());
 			map.put("tags", boek.getTags());
-			map.put("exemplarenTotaal", serviceExemplaar.countByBoekId(boek.getId()));
-			map.put("beschikbaar", serviceExemplaar.countBeschikbaar(boek.getId()));
+			map.put("exemplarenTotaal", serviceExemplaar.countByBoek(boek));
+			map.put("beschikbaar", serviceExemplaar.countBeschikbaar(boek));
 			output.add(map);
 		}
 		return output;

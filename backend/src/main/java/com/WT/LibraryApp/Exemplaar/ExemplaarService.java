@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+import com.WT.LibraryApp.Boek.Boek;
 import com.WT.LibraryApp.Exemplaar.Exemplaar.Status;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,12 +33,12 @@ public class ExemplaarService {
 		return repository.findByBoekId(boekid);
 	}
 
-	public int countByBoekId(int boekid) {
-		return repository.countByBoekId(boekid);
+	public int countByBoek(Boek boek) {
+		return repository.countByBoek(boek);
 	}
 
-	public int countBeschikbaar(int boekId) {
-		return repository.countByBoekIdAndStatusEquals(boekId, Status.BESCHIKBAAR);
+	public int countBeschikbaar(Boek boek) {
+		return repository.countByBoekAndStatus(boek, Status.BESCHIKBAAR);
 	}
 
 
@@ -47,8 +48,8 @@ public class ExemplaarService {
 
 	// Hierbij wordt aangenomen dat er geen exemplaren worden verwijdert maar dat de status dan wordt aangepast
 
-	public int bepaalIndividueelId(int boekId) {
-		int hoeveelheid = countByBoekId(boekId);
+	public int bepaalIndividueelId(Boek boek) {
+		int hoeveelheid = countByBoek(boek);
 		return hoeveelheid + 1;
 	}
 
@@ -74,7 +75,7 @@ public class ExemplaarService {
 		Optional<Exemplaar> optionalExemplaar = repository.findById(id);
 		if (optionalExemplaar.isPresent()) {
 			Exemplaar exemplaar = optionalExemplaar.get();
-			return exemplaar.getBoekId();
+			return exemplaar.getBoek().getId();
 		}
 		return 0;
 	}
