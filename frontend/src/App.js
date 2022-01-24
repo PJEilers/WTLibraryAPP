@@ -40,6 +40,7 @@ function App() {
       <persoonContext.Provider value={persoonInfo}>
         <Router>
           <Navbar setPersoonInfo={setPersoonInfo}/>
+            <FooterContainer/>
             <Routes>
               <Route path = '/' exact element = {<Home />} />
               <Route path = '/boek-toevoegen' element = {<Permission/>}>
