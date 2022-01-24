@@ -84,14 +84,14 @@ function Navbar(props) {
                 <i className={click2 ? 'fas fa-times' : 'fas fa-bars'} />
             </div>
             <ul className={click2 ? 'nav-menu active' : 'nav-menu'}>
-                {persoonInfo.adminRechten === 'true' &&
+                {(persoonInfo.adminRechten === 'true' || persoonInfo.adminRechten) &&
                     <>
                         <DropDownMenu navItem='Boeken' url1={'/boeken'} menuItems1={BookMenuItems} />
                         <DropDownMenu navItem='Reserveringen' url1={'/reserveringen'} menuItems1={ReserveringMenuItems} />
                         <DropDownMenu navItem='Gebruikers' url1={'/gebruikers'} menuItems1={GebruikerMenuItems} />
                     </>
                 }
-                {persoonInfo.adminRechten === 'false' && 
+                {(persoonInfo.adminRechten === 'false' || ! persoonInfo.adminRechten) && 
                     <>
                         <li className='nav-item'>
                             <Link to='/boekenlijst' className='nav-links' onClick={closeMobileMenu}>

@@ -7,7 +7,7 @@ function Permission() {
     const persoonInfo = useContext(persoonContext);
     let permission = false;
 
-    if (persoonInfo.adminRechten === 'true') {
+    if (persoonInfo.adminRechten === 'true' || persoonInfo.adminRechten) {
         permission = true;
     }
 
