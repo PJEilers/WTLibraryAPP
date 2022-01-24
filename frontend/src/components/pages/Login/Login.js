@@ -3,7 +3,7 @@ import './Login.css'
 import { emailPattern } from '../../../Constanten.js'
 import Cookies from 'universal-cookie'
 
-function Login({setPersoonInfo}) {
+function Login({ setPersoonInfo }) {
 
     const [email, setEmail] = useState('');
     const [wachtwoord, setWachtwoord] = useState('');
@@ -21,9 +21,9 @@ function Login({setPersoonInfo}) {
                 response.json().then(persoon => {
                     setEmail('');
                     setWachtwoord('');
-                    setPersoonInfo({persoonId: persoon.id, adminRechten: persoon.adminRechten});
-                    cookies.set('persoonId', persoon.id, {path: '/'});
-                    cookies.set('adminRechten', persoon.adminRechten, {path: '/'});
+                    setPersoonInfo({ persoonId: persoon.id, adminRechten: persoon.adminRechten });
+                    cookies.set('persoonId', persoon.id, { path: '/' });
+                    cookies.set('adminRechten', persoon.adminRechten, { path: '/' });
                 })
             } else {
                 setSuccesBericht("E-mailadres of wachtwoord onjuist");
@@ -36,23 +36,38 @@ function Login({setPersoonInfo}) {
     return (
         <div>
             <form className='Login' onSubmit={login}>
-                <label>Email</label>
-                <input type="email" onChange={e => setEmail(e.target.value)} required 
-                    pattern= "^[^@\s]+@[^@\s]+\.[^@\s]+$"
-                    value = {email}
-                    onInvalid={e => e.target.setCustomValidity("Vul een geldig e-maildres in")}
-                    onInput = {e => e.target.setCustomValidity("")}
-                />
+                <div className="container">
+                    <img src={require('../../../images/LogoWT.PNG')} width="419" heigh="176" />
+                    <div id='card'>
+                        <h2 id="titel">Bibliotheek App</h2>
+                        <div id='input'>
+                            <label id="email"></label>
+                            <span></span>
+                            <input type="email" onChange={e => setEmail(e.target.value)} required
+                                pattern="^[^@\s]+@[^@\s]+\.[^@\s]+$"
+                                value={email}
+                                placeholder='E-mailadres'
+                                onInvalid={e => e.target.setCustomValidity("Vul een geldig e-maildres in")}
+                                onInput={e => e.target.setCustomValidity("")}
+                            />
+                            <label id="wachtwoord"></label>
+                            <span></span>
+                            <input type="password"  onChange={e => setWachtwoord(e.target.value)} required
+                                value={wachtwoord}
+                                placeholder='Wachtwoord'
+                                onInvalid={e => e.target.setCustomValidity("Vul iets in")}
+                                onInput={e => e.target.setCustomValidity("")}
+                            />
+                            
+                        </div>
 
-                <label>Wachtwoord</label>
-                <input type="password" onChange={e => setWachtwoord(e.target.value)} required 
-                    value = {wachtwoord}
-                    onInvalid = {e => e.target.setCustomValidity("Vul iets in")}
-                    onInput = {e => e.target.setCustomValidity("")}
-                />
-                <input type="submit" value="login" />
+                    </div>
+                    <p>{succesBericht}</p>
+                    <label for="login-btn" />
+                    <input type="submit" id="login-btn" value="Login" />
+                </div>
             </form>
-            <p>{succesBericht}</p>
+
         </div>
     )
 }
