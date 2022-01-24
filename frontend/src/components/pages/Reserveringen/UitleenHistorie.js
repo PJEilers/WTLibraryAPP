@@ -23,15 +23,6 @@ function UitleenHistorieTabel() {
         setFirstBoot(false);
     }
 
-    /*
-    in de backend de juiste info verzamelen in uitleningen controller, en dan als 1 object naar de frontend
-    ipv id uit de exemplaar tabel moet boekid.exemplaarid getoond worden
-        -in exemplaar functie die
-            -id, exemplaarid, boekid geeft
-    ipv persoon id de naam van de persoon tonen
-        -in persoon functie die
-            -id, naam geeft
-    */
     return (
         <div>
             <TableStyle>

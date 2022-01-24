@@ -1,6 +1,6 @@
 import './BoekTabel.css';
 import React from "react";
-import { useState } from "react";
+import { useState, useContext } from "react";
 import Reserveren from '../Reserveringen/Reserveren';
 import ExemplarenToevoegen from './ExemplarenToevoegen';
 import { Button } from '../../Styling/Button'
@@ -9,8 +9,8 @@ import '../../Styling/Popup.css'
 import { TableStyle } from '../../Styling/Table';
 import '../../Styling/Table.css'
 import styled from 'styled-components';
+import {persoonContext} from '../../../App.js';
 import ExemplaarInformatie from './ExemplaarInformatie';
-
 
 function MaakBoekTabel(props) {
     const [boeken, setBoeken] = useState([]);
@@ -21,7 +21,7 @@ function MaakBoekTabel(props) {
     const [boekTags, setBoekTags] = useState('');
     const [opstarten, setOpstarten] = useState(false);
     const [boekId, setBoekId] = useState(1);
-    
+    const persoonInfo = useContext(persoonContext);
 
     const laadData = () => {
         fetch('http://localhost:8080/boeken', { mode: 'cors' })
@@ -97,7 +97,10 @@ function MaakBoekTabel(props) {
                             <th>Exemplaren Totaal</th>
                             <th>Exemplaren Beschikbaar</th>
                             <th>Reserveer</th>
-                            <th>Exemplaar Toevoegen</th>
+                            {(persoonInfo.adminRechten === 'true' || persoonInfo.adminRechten) &&
+                                <th>Exemplaar Toevoegen</th>
+                            }
+                            
                         </tr>
                     </thead>
                     <tbody>
@@ -111,9 +114,11 @@ function MaakBoekTabel(props) {
                                 <td>{boek.exemplarenTotaal}</td>
                                 <td>{boek.beschikbaar}</td>
                                 <td><Reserveren boekId={boek.id} persoonId={1} /></td>
-                                <td>
-                                    <Button onClick={() => { setNieuweExemplaren(true); setBoekId(boek.id); }}>Exemplaren Toevoegen</Button>
-                                </td>
+                                {(persoonInfo.adminRechten === 'true' || persoonInfo.adminRechten) &&
+                                        <td>
+                                            <Button onClick={() => { setNieuweExemplaren(true); setBoekId(boek.id); }}>Exemplaren Toevoegen</Button>
+                                        </td>
+                                }
 
                             </tr>
                         ))}
