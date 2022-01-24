@@ -8,6 +8,8 @@ import Dropdown from './Dropdown'
 import { GebruikerMenuItems } from './GebruikerMenuItems';
 import { BookMenuItems } from './BookMenuItems';
 import { ReserveringMenuItems } from './ReserveringMenuItems'
+import Cookies from 'universal-cookie';
+
 const DropDownMenu = ({navItem, url1 , menuItems1 }) => {
     
     const [click, setClick] = useState(false);
@@ -48,6 +50,29 @@ const DropDownMenu = ({navItem, url1 , menuItems1 }) => {
 
 }
 
+const AdminOfGebruiker = () => {
+    const cookies = new Cookies();
+    if (cookies.get('adminRechten') === 'true') {
+        return (                
+            <>
+                <DropDownMenu navItem='Boeken' url1={'/boeken'} menuItems1={BookMenuItems} />
+                <DropDownMenu navItem='Reserveringen' url1={'/reserveringen'} menuItems1={ReserveringMenuItems} />
+                <DropDownMenu navItem='Gebruikers' url1={'/gebruikers'} menuItems1={GebruikerMenuItems} />
+            </>
+        );
+    } else {
+        return (
+            <>
+                <li className='nav-item'>
+                    <Link to='/boekenlijst' className='nav-links'>
+                        Boekenlijst
+                    </Link>
+                </li>
+            </>
+        );
+    }
+}
+
 function Navbar(props) {
     const [click2, setClick2] = useState(false);
     const handleClick2 = () => setClick2(!click2);
@@ -80,10 +105,7 @@ function Navbar(props) {
                 <i className={click2 ? 'fas fa-times' : 'fas fa-bars'} />
             </div>
             <ul className={click2 ? 'nav-menu active' : 'nav-menu'}>
-
-                <DropDownMenu navItem = 'Boeken' url1={'/boeken'} menuItems1={BookMenuItems} />
-                <DropDownMenu navItem = 'Reserveringen' url1={'/reserveringen'} menuItems1={ReserveringMenuItems} />
-                <DropDownMenu navItem = 'Gebruikers' url1={'/gebruikers'} menuItems1={GebruikerMenuItems} />
+                <AdminOfGebruiker/>
                 <li className='nav-item'>
                     <Link to='/contact' className='nav-links' onClick={closeMobileMenu}>
                         Contact

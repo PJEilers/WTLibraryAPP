@@ -46,21 +46,14 @@ function App() {
               <Route path = '' element = {<BoekToevoegen />} />
             </Route>
             <Route path = '/boekenlijst' element = {<MaakBoekTabel />} />
-            <Route path = '/exemplaar-informatie' element = {<Permission/>}>
-              <Route path = '' element = {<ExemplaarInformatie boekId={1} />} />
-            </Route>
             <Route path = '/gebruiker-toevoegen' element = {<Permission/>}>
               <Route path = '' element = {<PersoonToevoegen />} />
             </Route>
             <Route path = '/persoonsinformatie' element = {<Permission/>}>
               <Route path = '' element = {<PersoonInformatie />} />
             </Route>
-            <Route path = '/Reserveringen' element = {<Reserveren />} />
             <Route path = '/ReserveringTabel' element = {<Permission/>}>
               <Route path = '' element = {<ReserveringTabel />} />
-            </Route>
-            <Route path = '/uitlening-toevoegen' element = {<Permission/>}>
-              <Route path = '' element = {<UitleningToevoegen />} />
             </Route>
             <Route path = '/uitleen-historie' element = {<Permission/>}>
               <Route path = '' element = {<UitleenHistorieTabel />} />

@@ -1,12 +1,13 @@
 import React from 'react';
+import { useContext } from 'react';
 import {Outlet, Navigate} from 'react-router-dom';
-import Cookies from 'universal-cookie';
+import {persoonContext} from '../../App.js';
 
 function Permission() {
-    const cookies = new Cookies();
+    const persoonInfo = useContext(persoonContext);
     let permission = false;
-    
-    if (cookies.get('adminRechten') === 'true') {
+
+    if (persoonInfo.adminRechten === 'true') {
         permission = true;
     }
 
