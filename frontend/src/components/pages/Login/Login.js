@@ -62,11 +62,12 @@ function Login({ setPersoonInfo }) {
                         </div>
 
                     </div>
+                    <p>{succesBericht}</p>
                     <label for="login-btn" />
                     <input type="submit" id="login-btn" value="Login" />
                 </div>
             </form>
-            <p>{succesBericht}</p>
+
         </div>
     )
 }
