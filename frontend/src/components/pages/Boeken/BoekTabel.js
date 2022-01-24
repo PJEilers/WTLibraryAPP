@@ -1,5 +1,5 @@
 import './BoekTabel.css';
-import React from "react";
+import React, { useEffect } from "react";
 import { useState } from "react";
 import Reserveren from '../Reserveringen/Reserveren';
 import ExemplarenToevoegen from './ExemplarenToevoegen';
@@ -10,6 +10,7 @@ import { TableStyle } from '../../Styling/Table';
 import '../../Styling/Table.css'
 import styled from 'styled-components';
 import ExemplaarInformatie from './ExemplaarInformatie';
+import ReactTabel from '../../Styling/ReactTabel';
 
 
 function MaakBoekTabel(props) {
@@ -21,7 +22,11 @@ function MaakBoekTabel(props) {
     const [boekTags, setBoekTags] = useState('');
     const [opstarten, setOpstarten] = useState(false);
     const [boekId, setBoekId] = useState(1);
-    
+    const [headers, setHeaders] = useState([]);
+    const [loaded, setLoaded] = useState(false);
+    const [hidden, setHidden] = useState([]);
+    const [input, setInput] = useState([]);
+
 
     const laadData = () => {
         fetch('http://localhost:8080/boeken', { mode: 'cors' })
@@ -33,6 +38,8 @@ function MaakBoekTabel(props) {
             .catch((error) => {
                 console.error('Error:', error);
             });
+
+        elementenToevoegen();
     }
 
     const zoekBoek = (watVeranderd, waarde) => {
@@ -52,12 +59,51 @@ function MaakBoekTabel(props) {
         setBoekenWeergeven(filterData);
     }
 
+    const determineHeaders = () => {
+        setHeaders([
+            {
+                Header: 'Id',
+                accessor: 'id',
+                className: 'Id',
+            },
+            {
+                Header: 'Boek Titel',
+                accessor: 'titel',
+                className: 'titel',
+            },
+            {
+                Header: 'Auteur',
+                accessor: 'auteur',
+                className: 'auteur',
+            },
+            {
+                Header: 'ISBN',
+                accessor: 'isbn',
+                className: 'isbn',
+            },
+            {
+                Header: 'Tags',
+                accessor: 'tags',
+                className: 'tags',
+            },
+            {
+                Header: 'Exemplaren Totaal',
+                accessor: 'exemplarenTotaal',
+                className: 'exemplarenTotaal',
+            },
+            {
+                Header: 'Exemplaren Beschikbaar',
+                accessor: 'beschikbaar',
+                className: 'beschikbaar',
+            }
+        ])
+    }
 
     const reset = () => {
         setBoekenWeergeven(boeken);
         setBoekTitel('');
         setBoekTags('');
-        setOpstarten(false);
+        console.log(boekenWeergeven);
     }
 
     function NieuweExemplarenToevoegen(props) {
@@ -70,11 +116,37 @@ function MaakBoekTabel(props) {
 
     const closePopup = () => setNieuweExemplaren(false)
 
-    if (!opstarten) {
-        laadData();
-        setBoekenWeergeven(boeken);
-        setOpstarten(true);
+    const elementenToevoegen = () => {
+
+        setHeaders(prevState => ([...prevState, {
+            Header: 'Nieuwe Exemplaren',
+            accessor: 'btnnieuweexemplaren',
+            className: 'btnnieuweexemplaren'
+        }]))
+
+        setBoekenWeergeven(
+            boekenWeergeven.map(element => {
+            element.btnnieuweexemplaren = 1;//<Button onClick={() => { setNieuweExemplaren(true);}}>Exemplaren Toevoegen</Button>
+        }
+
+        // [...{... , btnnieuweexemplaren: 1}]
+        ))
+        //setBoekenWeergeven(tmparray);
+        
+        
+        // console.log(boekenWeergeven);
     }
+
+
+
+    useEffect(() => {
+        laadData();
+        determineHeaders();
+        elementenToevoegen();
+        setLoaded(true);
+    }, []);
+
+
 
     return (
         <div>
@@ -85,7 +157,25 @@ function MaakBoekTabel(props) {
             <button onClick={() => reset()}>
                 Reset
             </button>
-            <TableStyle>
+            <button onClick={() => elementenToevoegen()}>
+                Add Button
+            </button>
+            <ReactTabel
+                input={boekenWeergeven}
+                headers={headers}
+                getColumnProps={column => ({
+                    style: {
+                        backgroundColor: column.Header === 'Boek Titel' ? 'red' : 'white'
+                    },
+                    onClick: () => { column.id === 'titel' ? setExemplarenLijst(true) : setExemplarenLijst(false) }
+                })}
+                getRowProps={row => ({
+                    onClick: () => { setBoekId(row.cells[0].value); }
+                })}
+                hideColumns={[1]}
+            />
+            {boekId}
+            {/* <TableStyle>
                 <table>
                     <thead>
                         <tr>
@@ -119,17 +209,17 @@ function MaakBoekTabel(props) {
                         ))}
                     </tbody>
                 </table>
-            </TableStyle>
-            <Popup open={nieuweExemplaren} onClose= {() => setNieuweExemplaren(false)} modal>
+            </TableStyle> */}
+            <Popup open={nieuweExemplaren} onClose={() => setNieuweExemplaren(false)} modal>
                 <div className="modal">
                     <button className="close" onClick={closePopup}> &times; </button>
                     {NieuweExemplarenToevoegen(boekId)}
                 </div>
             </Popup>
-            <Popup open={exemplarenLijst} onClose= {() => setExemplarenLijst(false)} modal closeOnDocumentClick={false}>
+            <Popup open={exemplarenLijst} onClose={() => setExemplarenLijst(false)} modal closeOnDocumentClick={false}>
                 <div className="modal">
                     <button className="close" onClick={() => setExemplarenLijst(false)}> &times; </button>
-                    <ExemplaarInformatie boekId = {boekId} persoon = {props.persoon}/>
+                    <ExemplaarInformatie boekId={boekId} persoon={props.persoon} />
                 </div>
             </Popup>
 
