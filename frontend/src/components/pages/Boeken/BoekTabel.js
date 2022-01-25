@@ -60,8 +60,7 @@ function MaakBoekTabel(props) {
         setOpstarten(false);
     }
 
-    const closePopup = () => setNieuweExemplaren(false)
-
+    // Dit wordt telkens uitgevoerd als nieuweExemplaren verandert, dus na sluiten popup ExemplaarToevoegen
     useEffect(() => {
         laadData();
         setBoekenWeergeven(boeken);
