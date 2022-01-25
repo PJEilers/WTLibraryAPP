@@ -45,27 +45,19 @@ function MaakReserveringTabel() {
             <table>
                 <thead>
                     <tr>
-                        <th>Reservering ID</th>
-                        <th>Boek ID</th>
                         <th>Boek titel</th>
                         <th>Boek auteur</th>
-                        <th>Persoon ID</th>
                         <th>Naam</th>
-                        <th>Email</th>
-                        <th>Datum</th>
+                        <th>Reserveringsdatum</th>
                         <th></th>
                     </tr>
                 </thead>
                 <tbody>
                     {reserveringen.map(reservering => (
                         <tr key={reservering.id}>
-                            <td>{reservering.id}</td>
-                            <td>{reservering.boekId}</td>
                             <td>{reservering.titel}</td>
                             <td>{reservering.auteur}</td>
-                            <td>{reservering.persoonId}</td>
                             <td>{reservering.naam}</td>
-                            <td>{reservering.email}</td>
                             <td>{reservering.datum}</td>
                             <td><Button onClick={() => setUitleningInfo(reservering.persoonId, reservering.boekId)}>Uitlenen</Button></td>
                         </tr>
