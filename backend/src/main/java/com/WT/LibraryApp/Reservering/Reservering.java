@@ -8,7 +8,6 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
-import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 import com.WT.LibraryApp.Boek.Boek;
@@ -22,16 +21,10 @@ public class Reservering {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int id;
 	
-	@OneToOne
+	@ManyToOne(optional = false)
 	Boek boek;
 	
-//	@Column(length = 10, nullable = false)
-//	private int boekId;
-
-//	@Column(length = 10, nullable = false)
-//	private int persoonId;
-	
-	@ManyToOne
+	@ManyToOne(optional = false)
 	Persoon persoon;
 	
 	@Column(length = 100, nullable = false)

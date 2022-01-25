@@ -17,15 +17,14 @@ public class ReserveringService {
 	}
 	
 	public List<Reservering> vindAlleReserveringen() {
-		List<Reservering> reserveringen =  repository.findAll();
-		return reserveringen;
+		return repository.findAll();
 	}
 	
 	public Reservering maakReserveringAan(Reservering reservering) {
 		return repository.save(reservering);
 	}
 
-	public Optional<Reservering> vindReserveringMetPersoonEnBoekId (Reservering reservering) {
+	public Optional<Reservering> vindReserveringMetPersoonEnBoek (Reservering reservering) {
 		return repository.findByPersoonAndBoek(reservering.getPersoon(), reservering.getBoek());
 	} 
 	
