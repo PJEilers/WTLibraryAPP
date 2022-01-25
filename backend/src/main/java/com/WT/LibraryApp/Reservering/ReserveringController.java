@@ -90,9 +90,9 @@ public class ReserveringController {
 		for (Reservering reservering : reserveringen) {
 			Map<String, Object> reserveringMap = new HashMap<>();
 			
-			
+	
 //			Map<String, String> naamEmail = servicePersoon.vindPersoonNaamEmail(persoonId);
-			reserveringMap.put("id", reservering.getId());
+//			reserveringMap.put("id", reservering.getId());
 			reserveringMap.put("boekId", reservering.getBoekId());
 			reserveringMap.put("persoonId", reservering.getPersoonId());
 			reserveringMap.put("datum", reservering.getDatum());
@@ -103,10 +103,10 @@ public class ReserveringController {
 			if (optionalPersoon.isPresent()) {
 				Persoon persoon = optionalPersoon.get();
 				reserveringMap.put("naam", persoon.getNaam());
-				reserveringMap.put("email", persoon.getEmail());
+//				reserveringMap.put("email", persoon.getEmail());
 			} else {
 				reserveringMap.put("naam", null);
-		    	reserveringMap.put("email", null);
+//		    	reserveringMap.put("email", null);
 			}
 			
 			// Boek titel en auteur toevoegen
