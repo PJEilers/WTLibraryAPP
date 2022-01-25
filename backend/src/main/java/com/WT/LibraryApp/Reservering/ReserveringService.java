@@ -25,8 +25,8 @@ public class ReserveringService {
 		return repository.save(reservering);
 	}
 
-	public Optional<Reservering> vindReserveringMetPersoonIdEnBoekId (Reservering reservering) {
-		return repository.findByPersoonIdAndBoekId(reservering.getPersoonId(), reservering.getBoekId());
+	public Optional<Reservering> vindReserveringMetPersoonEnBoekId (Reservering reservering) {
+		return repository.findByPersoonAndBoek(reservering.getPersoon(), reservering.getBoek());
 	} 
 	
 }

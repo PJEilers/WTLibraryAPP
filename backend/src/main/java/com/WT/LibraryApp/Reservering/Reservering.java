@@ -7,7 +7,12 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
+
+import com.WT.LibraryApp.Boek.Boek;
+import com.WT.LibraryApp.Persoon.Persoon;
 
 @Entity
 @Table(name = "reserveringen")
@@ -17,11 +22,17 @@ public class Reservering {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int id;
 	
-	@Column(length = 10, nullable = false)
-	private int boekId;
+	@OneToOne
+	Boek boek;
+	
+//	@Column(length = 10, nullable = false)
+//	private int boekId;
 
-	@Column(length = 10, nullable = false)
-	private int persoonId;
+//	@Column(length = 10, nullable = false)
+//	private int persoonId;
+	
+	@ManyToOne
+	Persoon persoon;
 	
 	@Column(length = 100, nullable = false)
 	private Date datum;
@@ -34,20 +45,20 @@ public class Reservering {
 		this.id = id;
 	}
 
-	public int getBoekId() {
-		return boekId;
+	public Boek getBoek() {
+		return boek;
 	}
 
-	public void setBoekId(int boekId) {
-		this.boekId = boekId;
+	public void setBoek(Boek boek) {
+		this.boek = boek;
 	}
 
-	public int getPersoonId() {
-		return persoonId;
+	public Persoon getPersoon() {
+		return persoon;
 	}
 
-	public void setPersoonId(int persoonId) {
-		this.persoonId = persoonId;
+	public void setPersoon(Persoon persoon) {
+		this.persoon = persoon;
 	}
 
 	public Date getDatum() {

@@ -1,8 +1,8 @@
 package com.WT.LibraryApp.Reservering;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -18,7 +18,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.WT.LibraryApp.Boek.Boek;
 import com.WT.LibraryApp.Boek.BoekService;
-import com.WT.LibraryApp.Exemplaar.Exemplaar;
 import com.WT.LibraryApp.Persoon.Persoon;
 import com.WT.LibraryApp.Persoon.PersoonService;
 
@@ -53,7 +52,8 @@ public class ReserveringController {
 	@RequestMapping(method = RequestMethod.POST, value = "/maakreserveringaan") // nieuwe versie met datum, werkt als de string yyyy-mm-dd is
 	public Map<String, Object> maakReserveringAan(@RequestBody 
 		@DateTimeFormat(iso = DateTimeFormat.ISO.DATE) Reservering reservering){
-		Optional<Reservering> reserveringBestaat = service.vindReserveringMetPersoonIdEnBoekId(reservering);
+		reservering.setPersoon(servicePersoon.vindPersoon(reservering.getPersoon().getId()).get());
+		Optional<Reservering> reserveringBestaat = service.vindReserveringMetPersoonEnBoekId(reservering);
 		if (reserveringBestaat.isPresent()) {
 			return Collections.singletonMap("bestaat", reserveringBestaat.get());
 		}
@@ -70,8 +70,10 @@ public class ReserveringController {
 	@RequestMapping(method = RequestMethod.POST, value = "/maakreserveringenaan")
 	public List<Reservering> maakReserveringenAan(
 			@RequestBody @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) List<Reservering> reserveringen) {
+		
 		List<Reservering> nieuweReserveringen = new ArrayList<>();
 		for (Reservering reservering : reserveringen) {
+			reservering.setPersoon(servicePersoon.vindPersoon(reservering.getPersoon().getId()).get());
 			nieuweReserveringen.add(service.maakReserveringAan(reservering));
 		}
 		return nieuweReserveringen;
@@ -94,11 +96,11 @@ public class ReserveringController {
 //			Map<String, String> naamEmail = servicePersoon.vindPersoonNaamEmail(persoonId);
 			reserveringMap.put("id", reservering.getId());
 			reserveringMap.put("boekId", reservering.getBoekId());
-			reserveringMap.put("persoonId", reservering.getPersoonId());
+			reserveringMap.put("persoonId", reservering.getPersoon().getId());
 			reserveringMap.put("datum", reservering.getDatum());
 			
 			// Persoon naam en email toevoegen
-			int persoonId = reservering.getPersoonId();
+			int persoonId = reservering.getPersoon().getId();
 			Optional <Persoon> optionalPersoon = servicePersoon.vindPersoon(persoonId);
 			if (optionalPersoon.isPresent()) {
 				Persoon persoon = optionalPersoon.get();
