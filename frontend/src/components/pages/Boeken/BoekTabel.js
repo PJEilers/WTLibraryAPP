@@ -84,7 +84,6 @@ function MaakBoekTabel(props) {
                             <th>Auteur</th>
                             <th>ISBN</th>
                             <th>Tags</th>
-                            <th>Exemplaren Totaal</th>
                             <th>Exemplaren Beschikbaar</th>
                             <th>Reserveer</th>
                             {(persoonInfo.adminRechten === 'true' || persoonInfo.adminRechten) &&
@@ -101,8 +100,7 @@ function MaakBoekTabel(props) {
                                 <td>{boek.auteur}</td>
                                 <td>{boek.isbn}</td>
                                 <td>{boek.tags}</td>
-                                <td>{boek.exemplarenTotaal}</td>
-                                <td>{boek.beschikbaar}</td>
+                                <td>{boek.beschikbaar}/{boek.exemplarenTotaal}</td>
                                 <td><Reserveren boekId={boek.id} persoonId={1} /></td>
                                 {(persoonInfo.adminRechten === 'true' || persoonInfo.adminRechten) &&
                                     <td>
