@@ -89,10 +89,8 @@ public class ReserveringController {
 		List<Map<String, Object>> reserveringArray = new ArrayList<>();
 		for (Reservering reservering : reserveringen) {
 			Map<String, Object> reserveringMap = new HashMap<>();
-			
-	
-//			Map<String, String> naamEmail = servicePersoon.vindPersoonNaamEmail(persoonId);
-//			reserveringMap.put("id", reservering.getId());
+
+			// geef boekId, persoonId en datum mee naar frontend
 			reserveringMap.put("boekId", reservering.getBoekId());
 			reserveringMap.put("persoonId", reservering.getPersoonId());
 			reserveringMap.put("datum", reservering.getDatum());
@@ -103,10 +101,8 @@ public class ReserveringController {
 			if (optionalPersoon.isPresent()) {
 				Persoon persoon = optionalPersoon.get();
 				reserveringMap.put("naam", persoon.getNaam());
-//				reserveringMap.put("email", persoon.getEmail());
 			} else {
 				reserveringMap.put("naam", null);
-//		    	reserveringMap.put("email", null);
 			}
 			
 			// Boek titel en auteur toevoegen
@@ -123,13 +119,6 @@ public class ReserveringController {
 			
 			reserveringArray.add(reserveringMap);
 			
-//				reserveringMap.put("naam", naamEmail.get("naam"));
-//				reserveringMap.put("email", naamEmail.get("email"));
-				
-//				reserveringArray.add(reservering);
-//				reserveringArray.add(naamEmail);
-//				reserveringMap.put(index, reserveringArray);
-
 		}
 	return reserveringArray;
 	}
