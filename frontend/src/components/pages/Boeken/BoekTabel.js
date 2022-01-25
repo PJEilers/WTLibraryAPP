@@ -96,7 +96,12 @@ function MaakBoekTabel(props) {
                         {boekenWeergeven.map(boek => (
                             <tr key={boek.id}>
                                 <td >{boek.id}</td>
-                                <td className='Boek' onClick={() => { setExemplarenLijst(true); setBoekId(boek.id) }}>{boek.titel}</td>
+                                {(persoonInfo.adminRechten === 'true' || persoonInfo.adminRechten) && 
+                                    <td className='Boek' onClick={() => { setExemplarenLijst(true); setBoekId(boek.id) }}>{boek.titel}</td>
+                                }
+                                {(persoonInfo.adminRechten === 'false' || !persoonInfo.adminRechten) &&
+                                    <td>{boek.titel}</td>
+                                }
                                 <td>{boek.auteur}</td>
                                 <td>{boek.isbn}</td>
                                 <td>{boek.tags}</td>
