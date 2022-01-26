@@ -8,8 +8,8 @@ function UitleningToevoegen () {
 
     const stuurOp = (e) => {
         const nieuwUitlening = {
-            exemplaarId: exemplaarId,
-            persoonId: persoonId,
+            exemplaar: {id: exemplaarId},
+            persoon: {id: persoonId},
             beginDatum: beginDatum
         }
 

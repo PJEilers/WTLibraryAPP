@@ -12,7 +12,7 @@ public class ReserveringService {
 	@Autowired
 	private IReserveringRepository repository;
 	
-	public Optional<Reservering> vindEentje(int id) {
+	public Optional<Reservering> vindReserveringMetId(int id) {
 		return repository.findById(id);
 	}
 	

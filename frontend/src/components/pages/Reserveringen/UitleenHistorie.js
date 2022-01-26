@@ -1,11 +1,10 @@
 import './UitleenHistorie.css';
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useState } from 'react';
 import { TableStyle } from '../../Styling/Table';
 
 function UitleenHistorieTabel() {
     const [uitleningen, setUitleningen] = useState([]);
-    const [firstBoot, setFirstBoot] = useState(true);
 
     const uitleenData = () => {
         fetch('http://localhost:8080/historie', { mode: 'cors' })
@@ -18,10 +17,13 @@ function UitleenHistorieTabel() {
             })
     }
 
-    if (firstBoot) {
+    // if (firstBoot) {
+    //     uitleenData();
+    //     setFirstBoot(false);
+    // }
+    useEffect(() => {
         uitleenData();
-        setFirstBoot(false);
-    }
+    }, [])
 
     return (
         <div>

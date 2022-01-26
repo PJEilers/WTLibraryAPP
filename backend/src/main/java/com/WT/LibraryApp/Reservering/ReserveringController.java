@@ -10,7 +10,6 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -32,18 +31,8 @@ public class ReserveringController {
 	@Autowired
 	private BoekService serviceBoek;
 
-	@RequestMapping("/reservering/{mijnid}") // werkt nog niet
-	public Optional<Reservering> vindEentje(@PathVariable int mijnid) {
-		return service.vindEentje(mijnid);
-	}
-
-	@RequestMapping(value = "/reserveringen")
-	public List<Reservering> vind() {
-		return service.vindAlleReserveringen();
-	}
-
-	@RequestMapping(method = RequestMethod.POST, value = "/maakreserveringaan") // nieuwe versie met datum, werkt als de
-																				// string yyyy-mm-dd is
+	// Maakt een reservering aan als deze nog niet bestaat. Gebruikt in Reserveren.js
+	@RequestMapping(method = RequestMethod.POST, value = "/maakreserveringaan")
 	public Map<String, Object> maakReserveringAan(
 			@RequestBody @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) Reservering reservering) {
 		Optional<Reservering> reserveringBestaat = service.vindReserveringMetPersoonEnBoek(reservering);
@@ -52,12 +41,6 @@ public class ReserveringController {
 		}
 		return Collections.singletonMap("bestaatNiet", service.maakReserveringAan(reservering));
 	}
-
-	/*
-	 * @RequestMapping(method = RequestMethod.POST, value = "/maakreserveringaan")
-	 * // oude versie met String public Reservering maakReserveringAan(@RequestBody
-	 * Reservering reservering) { return service.maakReserveringAan(reservering); }
-	 */
 
 	// Meerdere Reservering toepassen voor testen
 	@RequestMapping(method = RequestMethod.POST, value = "/maakreserveringenaan")
@@ -72,11 +55,7 @@ public class ReserveringController {
 
 	}
 
-//	@RequestMapping(value = "/reserveringMetIds")
-//	public Optional<Reservering> vindReserveringMetPersoonIdEnBoekId () {
-//		return service.vindReserveringMetPersoonIdEnBoekId(reservering);
-//	}
-
+	// Haalt informatie van alle reserveringen op. Gebruik in ReserveringTabel.js
 	@RequestMapping(value = "/reserveringMetPersoonEnBoek")
 	public List<Map<String, Object>> vindReservering() {
 		List<Reservering> reserveringen = service.vindAlleReserveringen();
