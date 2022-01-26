@@ -34,6 +34,7 @@ function UitleenHistorieTabel() {
                         <tr>
                             <th>Exemplaar Label</th>
                             {(persoonInfo.adminRechten === 'true' || (persoonInfo.adminRechten && persoonInfo.adminRechten !== 'false')) &&  <th>Persoon</th>}
+                            <th>Boek</th>
                             <th>Begin Datum</th>
                             <th>Eind Datum</th>
                         </tr>
@@ -42,7 +43,8 @@ function UitleenHistorieTabel() {
                         {uitleningen.map(uitlening => (
                             <tr key={uitlening.id}>
                                 <td>WT-{uitlening.boekId}.{uitlening.exemplaarId}</td>
-                                {(persoonInfo.adminRechten === 'true' || (persoonInfo.adminRechten && persoonInfo.adminRechten !== 'false')) && <td>{uitlening.persoon}</td>}                                
+                                {(persoonInfo.adminRechten === 'true' || (persoonInfo.adminRechten && persoonInfo.adminRechten !== 'false')) && <td>{uitlening.persoon}</td>} 
+                                <td>{uitlening.boek}</td>                                 
                                 <td>{uitlening.beginDatum}</td>
                                 <td>{uitlening.eindDatum}</td>
                             </tr>
