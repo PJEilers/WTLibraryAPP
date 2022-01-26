@@ -132,7 +132,6 @@ function ExemplaarInformatie(props) {
                         <tr>
                             <th>Label</th>
                             <th>Status</th>
-                            <th>Zet boek status</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -142,26 +141,24 @@ function ExemplaarInformatie(props) {
                                     {"WT-" + boekId + "." + exemplaar.individueelId}
                                 </td>
                                 <td className={exemplaar.status === "BESCHIKBAAR" ? "StatusBeschikbaar" : "StatusUitgeleend"}>
-                                    {isUitgeleend(exemplaar.status)}
-                                </td>
-{/*                                 {exemplaar.status === 'BESCHIKBAAR' ?
-                                    <td >
-                                        {props.persoon ?
-                                            <Button onClick={() => setPersoonUitlening(exemplaar)}>Leen Uit</Button>
-                                            :
-                                            <Button onClick={() => setUitleningInfo(exemplaar)}>Uitlenen</Button>
-                                        }
-
-                                    </td> : uitleningBericht(exemplaar)} */}
-                                <td>
                                     <select name='boekStatus' id={'select'+exemplaar.id} onChange={() => pasExemplaarStatusAan(exemplaar)}>
-                                        <option value='---'>---</option>
-                                        <option value='BESCHIKBAAR'>Beschikbaar</option>
-                                        <option value='ONBRUIKBAAR'>Onbruikbaar</option>
-                                        <option value='UITGELEEND'>Uitlenen</option>
+                                        <option value=''>{exemplaar.status}</option>
+                                        {exemplaar.status === 'BESCHIKBAAR' ? 
+                                            <>
+                                                <option value='ONBRUIKBAAR'>Onbruikbaar</option>
+                                                <option value='UITGELEEND'>Uitlenen</option>
+                                            </>
+                                            :
+                                            exemplaar.status === 'ONBRUIKBAAR' ?
+                                                <option value='BESCHIKBAAR'>Beschikbaar</option>
+                                                :
+                                                <>
+                                                    <option value='BESCHIKBAAR'>Beschikbaar</option>
+                                                    <option value='ONBRUIKBAAR'>Onbruikbaar</option>
+                                                </>
+                                        }
                                     </select>
                                 </td>
-
                             </tr>
                         ))}
                         <Popup open={nieuweUitlening} modal onClose={() => setNieuweUitlening(false)}>
@@ -174,7 +171,6 @@ function ExemplaarInformatie(props) {
                     </tbody>
                 </table>
             </TableStyle>
-            <p>{succesBericht}</p>
 
         </div>
     );
