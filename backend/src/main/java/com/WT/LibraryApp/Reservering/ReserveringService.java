@@ -12,21 +12,20 @@ public class ReserveringService {
 	@Autowired
 	private IReserveringRepository repository;
 	
-	public Optional<Reservering> vindEentje(int id) {
+	public Optional<Reservering> vindReserveringMetId(int id) {
 		return repository.findById(id);
 	}
 	
 	public List<Reservering> vindAlleReserveringen() {
-		List<Reservering> reserveringen =  repository.findAll();
-		return reserveringen;
+		return repository.findAll();
 	}
 	
 	public Reservering maakReserveringAan(Reservering reservering) {
 		return repository.save(reservering);
 	}
 
-	public Optional<Reservering> vindReserveringMetPersoonIdEnBoekId (Reservering reservering) {
-		return repository.findByPersoonIdAndBoekId(reservering.getPersoonId(), reservering.getBoekId());
+	public Optional<Reservering> vindReserveringMetPersoonEnBoek (Reservering reservering) {
+		return repository.findByPersoonAndBoek(reservering.getPersoon(), reservering.getBoek());
 	} 
 	
 }

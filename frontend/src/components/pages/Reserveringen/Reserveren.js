@@ -12,13 +12,11 @@ function Reserveren (props) {
     const maakReservering = () => {
         
         const reserveringData = {
-            boekId : props.boekId,
-            persoonId : persoonInfo.persoonId,
+            boek : { id: props.boekId},
+            persoon : { id: persoonInfo.persoonId},
             datum : new Date().toISOString().split('T')[0]
         }
-
-        console.log(reserveringData);
-
+        
         postRequest(connectieString + "/maakreserveringaan", reserveringData).then(response => {
             if (response.ok) {
                 response.json().then(reservering => {

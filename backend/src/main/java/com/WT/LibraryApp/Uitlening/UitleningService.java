@@ -15,7 +15,7 @@ public class UitleningService {
 	@Autowired
 	private IUitleningRepository repository;
 	
-	public Optional<Uitlening> vindEentje(int id) {
+	public Optional<Uitlening> vindUitleeningMetId(int id) {
 		return repository.findById(id);
 	}
 	
