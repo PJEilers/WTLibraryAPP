@@ -8,7 +8,6 @@ import Popup from 'reactjs-popup';
 import '../../Styling/Popup.css'
 import { TableStyle } from '../../Styling/Table';
 import '../../Styling/Table.css'
-import styled from 'styled-components';
 import { persoonContext } from '../../../App.js';
 import ExemplaarInformatie from './ExemplaarInformatie';
 
@@ -106,7 +105,7 @@ function MaakBoekTabel(props) {
                                 <td>{boek.isbn}</td>
                                 <td>{boek.tags}</td>
                                 <td>{boek.beschikbaar}/{boek.exemplarenTotaal}</td>
-                                <td><Reserveren boekId={boek.id} persoonId={1} /></td>
+                                <td><Reserveren boekId={boek.id} /></td>
                                 {(persoonInfo.adminRechten === 'true' || persoonInfo.adminRechten) &&
                                     <td>
                                         <Button onClick={() => { setNieuweExemplaren(true); setBoekId(boek.id); }}>Exemplaren Toevoegen</Button>
