@@ -55,6 +55,19 @@ public class ExemplaarController {
 		}
 		return gebruikteIds;
 	}
+	
+	@RequestMapping(method = RequestMethod.POST, value = "/updateexemplaarstatus")
+	public Optional<Exemplaar> updateExemplaarStatus(@RequestBody Exemplaar exemplaar) {
+		Optional <Exemplaar> e = service.vindExemplaarOpId(exemplaar.getId());
+		Status oudeStatus = e.get().getStatus();
+
+		service.updateStatus(exemplaar.getId(), exemplaar.getStatus());
+		if (oudeStatus == Status.UITGELEEND) {
+			serviceUitlening.updateEindDatum(exemplaar.getId());
+		}
+		
+		return service.vindExemplaarOpId(exemplaar.getId());
+	}
 
 }
 

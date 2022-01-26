@@ -5,7 +5,7 @@ import { useState, useEffect } from "react";
 import { Button } from "../../Styling/Button"
 import Popup from 'reactjs-popup';
 import PersoonInformatie from '../Personen/PersoonInformatie';
-import { uitleningToevoegen } from '../../../Constanten.js'
+import { uitleningToevoegen, postRequest, connectieString } from '../../../Constanten.js'
 import { TableStyle } from '../../Styling/Table';
 
 
@@ -43,11 +43,29 @@ function ExemplaarInformatie(props) {
         return status.charAt(0) + status.slice(1).toLowerCase();
     }
 
-    const uitleningBericht = (exemplaar) => {
+    const selectDropdown = (exemplaar) => {
         if (uitleningToegevoegd && exemplaar === huidigExemplaar) {
-            return <td>Uitlening toegevoegd</td>;
+            return <>Uitlening toegevoegd</>;
         }
-        return <td></td>;
+        return (
+            <select className={exemplaar.status === "BESCHIKBAAR" ? "StatusBeschikbaar" : "StatusUitgeleend"} id={'select'+exemplaar.id} onChange={() => pasExemplaarStatusAan(exemplaar)}>
+                <option value=''>{exemplaar.status}</option>
+                {exemplaar.status === 'BESCHIKBAAR' ? 
+                    <>
+                        <option value='ONBRUIKBAAR'>Onbruikbaar</option>
+                        <option value='UITGELEEND'>Uitlenen</option>
+                    </>
+                    :
+                    exemplaar.status === 'ONBRUIKBAAR' ?
+                        <option value='BESCHIKBAAR'>Beschikbaar</option>
+                        :
+                        <>
+                            <option value='BESCHIKBAAR'>Beschikbaar</option>
+                            <option value='ONBRUIKBAAR'>Onbruikbaar</option>
+                        </>
+                }
+            </select>
+        );
     }
 
     const hoeveelheidUitgeleend = (exemplaren) => {
@@ -80,7 +98,6 @@ function ExemplaarInformatie(props) {
 
                         //Sorteer op individueel id          
                         setExemplaren(result);
-                        console.log(result)
                         setSuccesBericht('Gelukt!');
                         setHoeveelExemplaren(result.length);
                     } else {
@@ -99,6 +116,29 @@ function ExemplaarInformatie(props) {
         haalExemplarenOp(props.boekId);
     }, []);
 
+    const pasExemplaarStatusAan = (exemplaar) => {
+        var selectID = 'select'+exemplaar.id;
+
+        if (document.getElementById(selectID).value === 'BESCHIKBAAR' && 
+            exemplaar.status !== 'BESCHIKBAAR') {                
+                exemplaar.status = document.getElementById(selectID).value;
+                postRequest(connectieString+'/updateexemplaarstatus', exemplaar)
+                .catch(error => console.log(error));
+        } else if (document.getElementById(selectID).value === 'ONBRUIKBAAR' &&
+            exemplaar.status !== 'ONBRUIKBAAR') {
+                exemplaar.status = document.getElementById(selectID).value;
+                postRequest(connectieString+'/updateexemplaarstatus', exemplaar)
+                .catch(error => console.log(error));
+        } else if (document.getElementById(selectID).value === 'UITGELEEND' && 
+            exemplaar.status !== 'UITGELEEND') {
+                {props.persoon ?
+                    <Button onClick={() => setPersoonUitlening(exemplaar)}>Leen Uit</Button>
+                    :
+                    setUitleningInfo(exemplaar);
+                }
+        }
+    }
+
 
     return (
         <div>
@@ -109,27 +149,17 @@ function ExemplaarInformatie(props) {
                         <tr>
                             <th>Label</th>
                             <th>Status</th>
-                            <th>Uitlenen</th>
                         </tr>
                     </thead>
                     <tbody>
                         {exemplaren.map(exemplaar => (
-                            <tr>
-                                <td key={exemplaar.id}>
+                            <tr key={exemplaar.id}>
+                                <td>
                                     {"WT-" + boekId + "." + exemplaar.individueelId}
                                 </td>
                                 <td className={exemplaar.status === "BESCHIKBAAR" ? "StatusBeschikbaar" : "StatusUitgeleend"}>
-                                    {isUitgeleend(exemplaar.status)}
+                                    {selectDropdown(exemplaar)}
                                 </td>
-                                {exemplaar.status === 'BESCHIKBAAR' ?
-                                    <td >
-                                        {props.persoon ?
-                                            <Button onClick={() => setPersoonUitlening(exemplaar)}>Leen Uit</Button>
-                                            :
-                                            <Button onClick={() => setUitleningInfo(exemplaar)}>Uitlenen</Button>
-                                        }
-
-                                    </td> : uitleningBericht(exemplaar)}
                             </tr>
                         ))}
                         <Popup open={nieuweUitlening} modal onClose={() => setNieuweUitlening(false)}>
@@ -142,7 +172,6 @@ function ExemplaarInformatie(props) {
                     </tbody>
                 </table>
             </TableStyle>
-            <p>{succesBericht}</p>
 
         </div>
     );

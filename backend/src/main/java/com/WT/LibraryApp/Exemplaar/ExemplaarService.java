@@ -14,6 +14,10 @@ public class ExemplaarService {
 
 	@Autowired
 	private IExemplaarRepository repository;
+	
+	public Optional<Exemplaar> vindExemplaarOpId(int id) {
+		return repository.findById(id);
+	}
 
 	public Exemplaar maakExemplaarAan(Exemplaar exemplaar) {
 		return repository.save(exemplaar);
@@ -41,6 +45,8 @@ public class ExemplaarService {
 
 	public void updateStatus(int id, Status status) {
 		repository.getById(id).setStatus(status);
+		Exemplaar e = repository.getById(id);
+		repository.save(e);
 	}
 
 }

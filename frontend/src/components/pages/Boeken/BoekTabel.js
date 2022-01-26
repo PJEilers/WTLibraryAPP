@@ -129,6 +129,8 @@ function MaakBoekTabel(props) {
                 <div className="modal">
                     <button className="close" onClick={() => setExemplarenLijst(false)}> &times; </button>
                     <ExemplaarInformatie boekId={boekId} persoon={props.persoon} />
+                    <br/>
+                    <Button onClick={() => setExemplarenLijst(false)}>Klaar</Button>
                 </div>
             </Popup>
 
