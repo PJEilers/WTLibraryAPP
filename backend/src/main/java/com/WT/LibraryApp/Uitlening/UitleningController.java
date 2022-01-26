@@ -76,7 +76,7 @@ public class UitleningController {
 			Map<String, Object> map = new HashMap<>();
 			map.put("id",  uitlening.getId());
 			map.put("beginDatum", uitlening.getBeginDatum());
-			map.put("eindDatum", "n.n.b.");
+			map.put("eindDatum", uitlening.getEindDatum());
 			map.put("persoon", servicePersoon.vindPersoonNaam(uitlening.getPersoonId()));
 			map.put("exemplaarId", serviceExemplaar.vindIndividueelId(uitlening.getExemplaarId()));
 			map.put("boekId", serviceExemplaar.vindBoekId(uitlening.getExemplaarId()));
