@@ -29,7 +29,6 @@ function ExemplaarInformatie(props) {
     }
 
     const setUitleningInfo = (exemplaar) => {
-        console.log("in set uitlening info");
         setNieuweUitlening(true);
         setHuidigExemplaar(exemplaar);
         setUitleningToegevoegd(false);
@@ -44,11 +43,29 @@ function ExemplaarInformatie(props) {
         return status.charAt(0) + status.slice(1).toLowerCase();
     }
 
-    const uitleningBericht = (exemplaar) => {
+    const selectDropdown = (exemplaar) => {
         if (uitleningToegevoegd && exemplaar === huidigExemplaar) {
-            return <td>Uitlening toegevoegd</td>;
+            return <>Uitlening toegevoegd</>;
         }
-        return <td></td>;
+        return (
+            <select className={exemplaar.status === "BESCHIKBAAR" ? "StatusBeschikbaar" : "StatusUitgeleend"} id={'select'+exemplaar.id} onChange={() => pasExemplaarStatusAan(exemplaar)}>
+                <option value=''>{exemplaar.status}</option>
+                {exemplaar.status === 'BESCHIKBAAR' ? 
+                    <>
+                        <option value='ONBRUIKBAAR'>Onbruikbaar</option>
+                        <option value='UITGELEEND'>Uitlenen</option>
+                    </>
+                    :
+                    exemplaar.status === 'ONBRUIKBAAR' ?
+                        <option value='BESCHIKBAAR'>Beschikbaar</option>
+                        :
+                        <>
+                            <option value='BESCHIKBAAR'>Beschikbaar</option>
+                            <option value='ONBRUIKBAAR'>Onbruikbaar</option>
+                        </>
+                }
+            </select>
+        );
     }
 
     const hoeveelheidUitgeleend = (exemplaren) => {
@@ -141,23 +158,7 @@ function ExemplaarInformatie(props) {
                                     {"WT-" + boekId + "." + exemplaar.individueelId}
                                 </td>
                                 <td className={exemplaar.status === "BESCHIKBAAR" ? "StatusBeschikbaar" : "StatusUitgeleend"}>
-                                    <select name='boekStatus' id={'select'+exemplaar.id} onChange={() => pasExemplaarStatusAan(exemplaar)}>
-                                        <option value=''>{exemplaar.status}</option>
-                                        {exemplaar.status === 'BESCHIKBAAR' ? 
-                                            <>
-                                                <option value='ONBRUIKBAAR'>Onbruikbaar</option>
-                                                <option value='UITGELEEND'>Uitlenen</option>
-                                            </>
-                                            :
-                                            exemplaar.status === 'ONBRUIKBAAR' ?
-                                                <option value='BESCHIKBAAR'>Beschikbaar</option>
-                                                :
-                                                <>
-                                                    <option value='BESCHIKBAAR'>Beschikbaar</option>
-                                                    <option value='ONBRUIKBAAR'>Onbruikbaar</option>
-                                                </>
-                                        }
-                                    </select>
+                                    {selectDropdown(exemplaar)}
                                 </td>
                             </tr>
                         ))}

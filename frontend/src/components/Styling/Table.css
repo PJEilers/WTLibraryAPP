@@ -1,5 +1,6 @@
 .StatusUitgeleend {
     background-color: red;
+    color: white;
 }
 
 .StatusBeschikbaar {
@@ -8,5 +9,6 @@
 
 .Boek:hover {
     background-color: red;
+    color: white;
     cursor: pointer;
 }
