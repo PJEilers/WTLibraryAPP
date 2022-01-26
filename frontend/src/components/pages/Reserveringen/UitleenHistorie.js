@@ -25,18 +25,26 @@ function UitleenHistorieTabel() {
             })
     }
 
-const zoekFunctie = (waarde) => {
-    let filterData = [];
 
-    // filterData = uitleningen.filter(uitlening => uitlening.persoon.toLowerCase().includes(waarde.toLowerCase()));
-    filterData = uitleningen.filter(e => {
-        uitlening => uitlening.persoon.toLowerCase().includes(waarde.toLowerCase());
-        uitlening => uitlening.beginDatum.toLowerCase().includes(waarde.toLowerCase());
-    } );
-    setFilterWoord(waarde)
-    setUitleningenWeergeven(filterData);
-} 
+    const zoekFunctie = (waarde) => {
+        
+        let filterData = [];
 
+        setFilterWoord(waarde)
+
+        filterData = uitleningen.filter(uitlening => {
+            let termaanwezigheid = false;
+
+            Object.entries(uitlening).map(([key, value]) => {
+                if(!termaanwezigheid){
+                    termaanwezigheid = (value !== null ? value.toString().toLowerCase().includes(waarde.toLowerCase()) : false);
+                }
+            });
+
+            return(termaanwezigheid);
+        })
+        setUitleningenWeergeven(filterData);
+    }
 
 
     const reset = () => {
@@ -56,12 +64,11 @@ const zoekFunctie = (waarde) => {
         <div>
             <input type="text" placeholder='zoeken' value={filterWoord}
                 onChange={e => zoekFunctie(e.target.value)} />
-            {/* <select>
-                <option>exemplaarid</option>
+            <select>
                 <option>gebruiker</option>
                 <option>begindatum</option>
                 <option>einddatum</option>
-            </select> */}
+            </select>
             <button onClick={() => reset()}>Reset</button>
 
             <TableStyle>

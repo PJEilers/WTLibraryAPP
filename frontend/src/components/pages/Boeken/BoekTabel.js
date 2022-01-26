@@ -21,6 +21,7 @@ function MaakBoekTabel(props) {
     const [opstarten, setOpstarten] = useState(false);
     const [boekId, setBoekId] = useState(1);
     const persoonInfo = useContext(persoonContext);
+    const [filterWoord, setFilterWoord] = useState('');
 
     const laadData = () => {
         fetch('http://localhost:8080/boeken', { mode: 'cors' })
@@ -34,22 +35,39 @@ function MaakBoekTabel(props) {
             });
     }
 
-    const zoekBoek = (watVeranderd, waarde) => {
-        //const [filterData, setFilterData] = useState([]);
+    const zoekBoek = (waarde) => {
+        
         let filterData = [];
-        if (watVeranderd === 'titel') {
-            setBoekTitel(waarde);
-            filterData = boeken.filter(v => v.titel.toLowerCase().includes(waarde.toLowerCase()));
-        } else {
-            setBoekTags(waarde);
-            if (waarde !== '') {
-                filterData = boeken.filter(v => v.tags && v.tags.toLowerCase().includes(waarde.toLowerCase()));
-            } else {
-                filterData = boeken;
-            }
-        }
+
+        setFilterWoord(waarde)
+
+        filterData = boeken.filter(boek => {
+            let termaanwezigheid = false;
+
+            Object.entries(boek).map(([key, value]) => {
+                if(!termaanwezigheid){
+                    termaanwezigheid = (value !== null ? value.toString().toLowerCase().includes(waarde.toLowerCase()) : false);
+                }
+            });
+
+            return(termaanwezigheid);
+        })
         setBoekenWeergeven(filterData);
-    }
+}
+
+    //     if (watVeranderd === 'titel') {
+    //         setBoekTitel(waarde);
+    //         filterData = boeken.filter(v => v.titel.toLowerCase().includes(waarde.toLowerCase()));
+    //     } else {
+    //         setBoekTags(waarde);
+    //         if (waarde !== '') {
+    //             filterData = boeken.filter(v => v.tags && v.tags.toLowerCase().includes(waarde.toLowerCase()));
+    //         } else {
+    //             filterData = boeken;
+    //         }
+    //     }
+        
+    // }
 
 
     const reset = () => {
@@ -67,10 +85,8 @@ function MaakBoekTabel(props) {
 
     return (
         <div>
-            <input type="text" placeholder='Zoeken' value={boekTitel}
-                onChange={e => zoekBoek('titel', e.target.value)} />
-            {/* <input type="text" placeholder='Zoek op tags' value={boekTags}
-                onChange={e => zoekBoek('tags', e.target.value)} /> */}
+            <input type="text" placeholder='Zoeken' value={filterWoord}
+                onChange={e => zoekBoek(e.target.value)} />
             <button onClick={() => reset()}>
                 Reset
             </button>
