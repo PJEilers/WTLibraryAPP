@@ -58,6 +58,7 @@ public class UitleningController {
 	@RequestMapping(value = "/historie/{persoonId}")
 	public List<Map<String, Object>> uitleenHistorie(@PathVariable int persoonId) {
 		List<Uitlening> uitleningen = new ArrayList<>();
+		
 		// Check of de persoon een admin is. Niet echt veilig.
 		Boolean adminRechten = persoonService.vindPersoon(persoonId).get().getAdminRechten();
 		if (adminRechten) {

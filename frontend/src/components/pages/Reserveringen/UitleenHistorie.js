@@ -7,10 +7,10 @@ import { persoonContext } from '../../../App';
 function UitleenHistorieTabel() {
     const [uitleningen, setUitleningen] = useState([]);
 
-    const persoon = useContext(persoonContext);
+    const persoonInfo = useContext(persoonContext);
 
     const uitleenData = () => {
-        fetch('http://localhost:8080/historie/' + persoon.persoonId, { mode: 'cors' })
+        fetch('http://localhost:8080/historie/' + persoonInfo.persoonId, { mode: 'cors' })
             .then(response => response.json())
             .then(data => {
                 setUitleningen(data);
@@ -31,8 +31,8 @@ function UitleenHistorieTabel() {
                 <table>
                     <thead>
                         <tr>
-                            <th>Exemplaar ID</th>
-                            {persoon.adminRechten ? <td>Persoon</td> : null}
+                            <th>Exemplaar Label</th>
+                            {(persoonInfo.adminRechten === 'true' || persoonInfo.adminRechten) &&  <th>Persoon</th>}
                             <th>Begin Datum</th>
                             <th>Eind Datum</th>
                         </tr>
@@ -41,7 +41,7 @@ function UitleenHistorieTabel() {
                         {uitleningen.map(uitlening => (
                             <tr key={uitlening.id}>
                                 <td>WT-{uitlening.boekId}.{uitlening.exemplaarId}</td>
-                                {persoon.adminRechten ? <td>{uitlening.persoon}</td> : null}                                
+                                {(persoonInfo.adminRechten === 'true' || persoonInfo.adminRechten) && <td>{uitlening.persoon}</td>}                                
                                 <td>{uitlening.beginDatum}</td>
                                 <td>{uitlening.eindDatum}</td>
                             </tr>
