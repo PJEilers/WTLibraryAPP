@@ -63,7 +63,7 @@ function MaakBoekTabel(props) {
     useEffect(() => {
         laadData();
         setBoekenWeergeven(boeken);
-    }, [nieuweExemplaren])
+    }, [nieuweExemplaren, exemplarenLijst])
 
     return (
         <div>

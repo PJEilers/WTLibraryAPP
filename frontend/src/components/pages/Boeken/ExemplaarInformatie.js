@@ -46,12 +46,13 @@ function ExemplaarInformatie(props) {
 
     const selectDropdown = (exemplaar) => {
         if (uitleningToegevoegd && exemplaar === huidigExemplaar) {
-            return <>Uitlening toegevoegd</>;
+            return <>Uitlening toegevoegd</>;//als een uitlening net is gemaakt wordt dit ipv dropdown weergegeven
         }
         return (
+            //maakt de dropdown selectie
             <select className={exemplaar.status === "BESCHIKBAAR" ? "StatusBeschikbaar" : "StatusUitgeleend"} id={'select'+exemplaar.id} onChange={() => pasExemplaarStatusAan(exemplaar)}>
                 <option value=''>{exemplaar.status}</option>
-                {exemplaar.status === 'BESCHIKBAAR' ? 
+                {exemplaar.status === 'BESCHIKBAAR' ? //zorgt ervoor dat alleen de andere mogelijke statussen een keuze zijn
                     <>
                         <option value='ONBRUIKBAAR'>Onbruikbaar</option>
                         <option value='UITGELEEND'>Uitlenen</option>
@@ -125,6 +126,7 @@ function ExemplaarInformatie(props) {
     const pasExemplaarStatusAan = (exemplaar) => {
         var selectID = 'select'+exemplaar.id;
 
+        //als voor uitlenen is gekozen wordt de functie die het uitlenen regelt aangeroepen
         if (document.getElementById(selectID).value === 'UITGELEEND' && 
             exemplaar.status !== 'UITGELEEND') {
                 {props.persoon ?
@@ -132,7 +134,7 @@ function ExemplaarInformatie(props) {
                     :
                     setUitleningInfo(exemplaar);
                 }
-        } else {
+        } else {//als voor beschikbaar of onbruikbaar is gekozen wordt de status van het exemplaar geupdate
             exemplaar.status = document.getElementById(selectID).value;
             postRequest(connectieString+'/updateexemplaarstatus', exemplaar)
             .then(() => {
