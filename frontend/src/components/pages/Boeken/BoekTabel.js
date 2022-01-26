@@ -67,10 +67,10 @@ function MaakBoekTabel(props) {
 
     return (
         <div>
-            <input type="text" placeholder='Zoek op titel' value={boekTitel}
+            <input type="text" placeholder='Zoeken' value={boekTitel}
                 onChange={e => zoekBoek('titel', e.target.value)} />
-            <input type="text" placeholder='Zoek op tags' value={boekTags}
-                onChange={e => zoekBoek('tags', e.target.value)} />
+            {/* <input type="text" placeholder='Zoek op tags' value={boekTags}
+                onChange={e => zoekBoek('tags', e.target.value)} /> */}
             <button onClick={() => reset()}>
                 Reset
             </button>
