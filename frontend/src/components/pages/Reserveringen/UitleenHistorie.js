@@ -11,6 +11,7 @@ function UitleenHistorieTabel() {
     const [beginDatum, setBeginDatum] = useState('');
     const [eindDatum, setEindDatum] = useState('');
     const [opstarten, setOpstarten] = useState(false);
+    const [filterWoord, setFilterWoord] = useState('');
 
     const uitleenData = () => {
         fetch('http://localhost:8080/historie', { mode: 'cors' })
@@ -24,21 +25,19 @@ function UitleenHistorieTabel() {
             })
     }
 
-const zoekFunctie = (watVeranderd, waarde) => {
+const zoekFunctie = (waarde) => {
     let filterData = [];
-    if (watVeranderd === 'persoon') {
-        setPersoonNaam(waarde);
-        filterData = uitleningen.filter(v => v.persoon.toLowerCase().includes(waarde.toLowerCase()));
-    } else {
-        setBeginDatum(waarde);
-        if (waarde !== ''){
-            filterData = uitleningen.filter( v => v.beginDatum && v.beginDatum.toLowerCase().includes(waarde.toLowerCase()));
-        } else {
-            filterData = uitleningen;
-        }
-    }
+
+    // filterData = uitleningen.filter(uitlening => uitlening.persoon.toLowerCase().includes(waarde.toLowerCase()));
+    filterData = uitleningen.filter(e => {
+        uitlening => uitlening.persoon.toLowerCase().includes(waarde.toLowerCase());
+        uitlening => uitlening.beginDatum.toLowerCase().includes(waarde.toLowerCase());
+    } );
+    setFilterWoord(waarde)
     setUitleningenWeergeven(filterData);
 } 
+
+
 
     const reset = () => {
         setUitleningenWeergeven(uitleningen);
@@ -55,17 +54,14 @@ const zoekFunctie = (watVeranderd, waarde) => {
 
     return (
         <div>
-            <input type="text" placeholder='zoeken' value={persoonNaam}
-                onChange={e => zoekFunctie('persoon', e.target.value)} />
-            <select>
+            <input type="text" placeholder='zoeken' value={filterWoord}
+                onChange={e => zoekFunctie(e.target.value)} />
+            {/* <select>
                 <option>exemplaarid</option>
                 <option>gebruiker</option>
                 <option>begindatum</option>
                 <option>einddatum</option>
-            </select>
-            
-            <input type="text" placeholder='datum zoeken' value={beginDatum}
-                onChange={e => zoekFunctie('beginDatum', e.target.value)} />
+            </select> */}
             <button onClick={() => reset()}>Reset</button>
 
             <TableStyle>
