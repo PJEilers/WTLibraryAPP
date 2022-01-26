@@ -25,14 +25,15 @@ function UitleenHistorieTabel() {
         uitleenData();
     }, [])
 
+
     return (
-        <div>
+        <div onClick={() => {console.log(persoonInfo.adminRechten)}}>
             <TableStyle>
                 <table>
                     <thead>
                         <tr>
                             <th>Exemplaar Label</th>
-                            {(persoonInfo.adminRechten === 'true' || persoonInfo.adminRechten) &&  <th>Persoon</th>}
+                            {(persoonInfo.adminRechten === 'true' || (persoonInfo.adminRechten && persoonInfo.adminRechten !== 'false')) &&  <th>Persoon</th>}
                             <th>Begin Datum</th>
                             <th>Eind Datum</th>
                         </tr>
@@ -41,7 +42,7 @@ function UitleenHistorieTabel() {
                         {uitleningen.map(uitlening => (
                             <tr key={uitlening.id}>
                                 <td>WT-{uitlening.boekId}.{uitlening.exemplaarId}</td>
-                                {(persoonInfo.adminRechten === 'true' || persoonInfo.adminRechten) && <td>{uitlening.persoon}</td>}                                
+                                {(persoonInfo.adminRechten === 'true' || (persoonInfo.adminRechten && persoonInfo.adminRechten !== 'false')) && <td>{uitlening.persoon}</td>}                                
                                 <td>{uitlening.beginDatum}</td>
                                 <td>{uitlening.eindDatum}</td>
                             </tr>
