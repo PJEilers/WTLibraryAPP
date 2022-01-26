@@ -100,9 +100,6 @@ public class ExemplaarController {
 	public Optional<Exemplaar> updateExemplaarStatus(@RequestBody Exemplaar exemplaar) {
 		Optional <Exemplaar> e = service.vindExemplaarOpId(exemplaar.getId());
 		Status oudeStatus = e.get().getStatus();
-		
-		System.out.println(oudeStatus);
-		System.out.println(exemplaar.getStatus());
 
 		service.updateStatus(exemplaar.getId(), exemplaar.getStatus());
 		if (oudeStatus == Status.UITGELEEND) {
