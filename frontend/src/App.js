@@ -28,39 +28,37 @@ function App() {
 
 
   const [persoonInfo, setPersoonInfo] = useState(() => {
-    if(cookies.get('persoonId')) {
-      return {persoonId: cookies.get('persoonId'), adminRechten: cookies.get('adminRechten')};
+    if (cookies.get('persoonId')) {
+      return { persoonId: cookies.get('persoonId'), adminRechten: cookies.get('adminRechten') };
     }
     return null;
-    
+
   });
-  
+
   if (persoonInfo) {
     return (
       <persoonContext.Provider value={persoonInfo}>
         <Router>
-          <Navbar setPersoonInfo={setPersoonInfo}/>
-            <FooterContainer/>
-            <Routes>
-              <Route path = '/' exact element = {<Home />} />
-              <Route path = '/boek-toevoegen' element = {<Permission/>}>
-                <Route path = '' element = {<BoekToevoegen />} />
-              </Route>
-              <Route path = '/boekenlijst' element = {<MaakBoekTabel />} />
-              <Route path = '/gebruiker-toevoegen' element = {<Permission/>}>
-                <Route path = '' element = {<PersoonToevoegen />} />
-              </Route>
-              <Route path = '/persoonsinformatie' element = {<Permission/>}>
-                <Route path = '' element = {<PersoonInformatie />} />
-              </Route>
-              <Route path = '/ReserveringTabel' element = {<Permission/>}>
-                <Route path = '' element = {<ReserveringTabel />} />
-              </Route>
-              <Route path = '/uitleen-historie' element = {<Permission/>}>
-                <Route path = '' element = {<UitleenHistorieTabel />} />
-              </Route>
-              <Route path = '/contact' element = {<Contact />} />
-            </Routes>
+          <Navbar setPersoonInfo={setPersoonInfo} />
+          <FooterContainer />
+          <Routes>
+            <Route path='/' exact element={<Home />} />
+            <Route path='/boek-toevoegen' element={<Permission />}>
+              <Route path='' element={<BoekToevoegen />} />
+            </Route>
+            <Route path='/boekenlijst' element={<MaakBoekTabel />} />
+            <Route path='/gebruiker-toevoegen' element={<Permission />}>
+              <Route path='' element={<PersoonToevoegen />} />
+            </Route>
+            <Route path='/persoonsinformatie' element={<Permission />}>
+              <Route path='' element={<PersoonInformatie />} />
+            </Route>
+            <Route path='/ReserveringTabel' element={<Permission />}>
+              <Route path='' element={<ReserveringTabel />} />
+            </Route>
+            <Route path='/uitleen-historie' element={<UitleenHistorieTabel />} />
+            <Route path='/contact' element={<Contact />} />
+          </Routes>
         </Router>
       </persoonContext.Provider>
     );

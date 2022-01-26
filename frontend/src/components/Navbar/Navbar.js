@@ -97,6 +97,9 @@ function Navbar(props) {
                             <Link to='/boekenlijst' className='nav-links' onClick={closeMobileMenu}>
                                 Boekenlijst
                             </Link>
+                            <Link to='/uitleen-historie' className='nav-links' onClick={closeMobileMenu}>
+                                Uitleen Historie
+                            </Link>
                         </li>
                     </>
                 }
