@@ -14,8 +14,8 @@ export const postRequest = async(url,data) => {
 export const uitleningToevoegen = (persoonId, exemplaar) => {
     let output = true;
     const nieuweUitlening = {
-        exemplaarId: exemplaar.id,
-        persoonId: persoonId,
+        exemplaar: {id: exemplaar.id},
+        persoon: {id: persoonId},
         beginDatum: new Date().toISOString().split('T')[0]
     }
     postRequest(connectieString + '/maakuitleningaan', nieuweUitlening).then(response => {

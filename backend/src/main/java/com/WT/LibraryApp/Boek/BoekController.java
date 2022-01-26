@@ -25,13 +25,8 @@ public class BoekController {
 	
 	@Autowired 
 	private ExemplaarService serviceExemplaar;
-	
-	/*@RequestMapping("/boeken/{boekid}")
-	public Optional<Boek> vindBoek(@PathVariable int boekid) {
-		return service.vindBoek(boekid);
-	}*/
 
-
+	// Haalt informatie alle boeken op. Gebruikt in BoekTabel.js
 	@RequestMapping(value = "/boeken")
 	public List<Map<String, Object>> vindAlleBoeken() {
 		List<Boek> boeken = service.vindAlleBoeken();
@@ -50,6 +45,7 @@ public class BoekController {
 		return output;
 	}
 
+	// Maakt een Boek aan als deze nog niet bestaat. Gebruikt in BoekToevoegen.js
 	@RequestMapping(method = RequestMethod.POST, value = "/maakboekaan")
 	public Map<String, Object> maakBoekAan(@RequestBody Boek boek) {
 		Optional<Boek> bestaandBoek = service.vindBoek(boek.getIsbn());
@@ -59,7 +55,7 @@ public class BoekController {
 		return Collections.singletonMap("bestaatNiet", service.maakBoekAan(boek));
 	}
 
-	// Optie op de database te vullen met array van boeken.
+	// Optie op de database te vullen met array van boeken. Voor testen.
 	@RequestMapping(method = RequestMethod.POST, value = "/maakboekenaan")
 	public List<Object> maakBoekenAan(@RequestBody List<Boek> boeken) {
 		
