@@ -20,6 +20,7 @@ function ExemplaarInformatie(props) {
     const [boekId, setBoekId] = useState(1);
     const [uitleningToegevoegd, setUitleningToegevoegd] = useState(false);
     const [huidigExemplaar, setHuidigExemplaar] = useState(null);
+    const [detectVerandering, setDetectVerandering] = useState(false);
 
     const nieuwBoekId = (e) => {
         setExemplaren([]);
@@ -116,26 +117,28 @@ function ExemplaarInformatie(props) {
         haalExemplarenOp(props.boekId);
     }, []);
 
+    useEffect(() => {
+        setBoekId(props.boekId);
+        haalExemplarenOp(props.boekId);
+    }, [detectVerandering]);
+
     const pasExemplaarStatusAan = (exemplaar) => {
         var selectID = 'select'+exemplaar.id;
 
-        if (document.getElementById(selectID).value === 'BESCHIKBAAR' && 
-            exemplaar.status !== 'BESCHIKBAAR') {                
-                exemplaar.status = document.getElementById(selectID).value;
-                postRequest(connectieString+'/updateexemplaarstatus', exemplaar)
-                .catch(error => console.log(error));
-        } else if (document.getElementById(selectID).value === 'ONBRUIKBAAR' &&
-            exemplaar.status !== 'ONBRUIKBAAR') {
-                exemplaar.status = document.getElementById(selectID).value;
-                postRequest(connectieString+'/updateexemplaarstatus', exemplaar)
-                .catch(error => console.log(error));
-        } else if (document.getElementById(selectID).value === 'UITGELEEND' && 
+        if (document.getElementById(selectID).value === 'UITGELEEND' && 
             exemplaar.status !== 'UITGELEEND') {
                 {props.persoon ?
                     <Button onClick={() => setPersoonUitlening(exemplaar)}>Leen Uit</Button>
                     :
                     setUitleningInfo(exemplaar);
                 }
+        } else {
+            exemplaar.status = document.getElementById(selectID).value;
+            postRequest(connectieString+'/updateexemplaarstatus', exemplaar)
+            .then(() => {
+                setDetectVerandering(!detectVerandering);
+            })
+            .catch(error => console.log(error));
         }
     }
 
