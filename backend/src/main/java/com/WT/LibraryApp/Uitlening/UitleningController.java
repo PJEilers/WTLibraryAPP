@@ -8,6 +8,7 @@ import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -15,6 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.WT.LibraryApp.Exemplaar.Exemplaar.Status;
 import com.WT.LibraryApp.Exemplaar.ExemplaarService;
+import com.WT.LibraryApp.Persoon.PersoonService;
 
 @RestController
 @CrossOrigin(maxAge = 3600)
@@ -26,6 +28,9 @@ public class UitleningController {
 	//Nodig voor Status update
 	@Autowired
 	private ExemplaarService exemplaarService;
+	
+	@Autowired
+	private PersoonService persoonService;
 
 	// Maakt een uitlening aan en zet de status van het exemplaar naar uitgeleend. Gebruikt in UitleningToevoegen.js, Constanten.js -> PersoonInformatie.js?, ExemplaarInformatie.js
 	@RequestMapping(method = RequestMethod.POST, value = "/maakuitleningaan")
@@ -50,18 +55,30 @@ public class UitleningController {
 	}
 
 	// Haalt alle informatie van uitleningen op. Gebruikt in UitleenHistorie.js
-	@RequestMapping(value = "/historie")
-	public List<Map<String, Object>> uitleenHistorie() {
-		List<Uitlening> uitleningen = service.vindAlleUitleningen();
+	@RequestMapping(value = "/historie/{persoonId}")
+	public List<Map<String, Object>> uitleenHistorie(@PathVariable int persoonId) {
+		List<Uitlening> uitleningen = new ArrayList<>();
+		
+		// Check of de persoon een admin is. Niet echt veilig.
+		Boolean adminRechten = persoonService.vindPersoon(persoonId).get().getAdminRechten();
+		if (adminRechten) {
+			uitleningen = service.vindAlleUitleningen();
+		} else {
+			uitleningen = service.vindUitleningenMetPersoon(persoonId);
+		}
+		
 		List<Map<String, Object>> output = new ArrayList<Map<String, Object>>();
 		for (Uitlening uitlening : uitleningen) {
 			Map<String, Object> map = new HashMap<>();
-			map.put("id", uitlening.getId());
 			map.put("beginDatum", uitlening.getBeginDatum());
-			map.put("eindDatum", uitlening.getEindDatum());
-			map.put("persoon", uitlening.getPersoon().getNaam());
+			map.put("eindDatum", uitlening.getEindDatum());			
 			map.put("exemplaarId", uitlening.getExemplaar().getIndividueelId());
 			map.put("boekId", uitlening.getExemplaar().getBoek().getId());
+			map.put("boek", uitlening.getExemplaar().getBoek().getTitel());
+			if (adminRechten) {
+				map.put("id", uitlening.getId());
+				map.put("persoon", uitlening.getPersoon().getNaam());
+			}
 			output.add(map);
 		}
 
