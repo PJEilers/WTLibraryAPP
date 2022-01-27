@@ -33,14 +33,16 @@ public class UitleningController {
 	//Nodig voor andere Status update, bij reservering
 	@Autowired
 	private ReserveringService reserveringService;
-
+	
 	// Maakt een uitlening aan, met reservering id, en zet de status van het exemplaar, en in reservering, naar uitgeleend. Gebruikt in UitleningToevoegen.js, Constanten.js -> PersoonInformatie.js?, ExemplaarInformatie.js
 	@RequestMapping(method = RequestMethod.POST, value = "/maakuitleningaan/{reserveringId}")
 	public Uitlening maakUitleningAan(@PathVariable int reserveringId, @RequestBody @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) Uitlening uitlening) {
 		// Status moet via ExemplaarService worden aangepast naar Uitgeleend:
 		exemplaarService.updateStatus(uitlening.getExemplaar().getId(), Status.UITGELEEND);
 		// Reservering status moet via ReserveringService worden aangepast naar Uitgeleend:
-		reserveringService.updateStatus(reserveringId, ReserveringStatus.UITGELEEND);
+		if (reserveringId != 0) {
+			reserveringService.updateStatus(reserveringId, ReserveringStatus.UITGELEEND);
+		}
 		return service.maakUitleningAan(uitlening);
 	}
 
