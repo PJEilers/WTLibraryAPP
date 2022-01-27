@@ -37,8 +37,11 @@ public class BoekController {
 
 		for (Boek boek : boeken) {
 			// Hier wordt alle informatie in het Data Transfer Object gestopt.
-			BoekDTO boekDTO = new BoekDTO(boek, serviceExemplaar.countByBoek(boek),
-					serviceExemplaar.countBeschikbaar(boek), uitleningService.countUitleningMetExemplaren(serviceExemplaar.vindExemplarenViaBoek(boek)));
+			BoekDTO boekDTO = new BoekDTO(boek, 
+					serviceExemplaar.countByBoek(boek),
+					serviceExemplaar.countBeschikbaar(boek), 
+					uitleningService.countUitleningMetExemplaren(serviceExemplaar.vindExemplarenViaBoek(boek))
+					);
 			boekenDTO.add(boekDTO);
 		}
 
