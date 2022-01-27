@@ -1,4 +1,3 @@
-import '../../Styling/ZoekveldStyling.css'; //voor zoekveld styling
 import React, { useEffect } from "react";
 import { useState, useContext } from "react";
 import Reserveren from '../Reserveringen/Reserveren';
@@ -10,6 +9,7 @@ import { TableStyle } from '../../Styling/Table';
 import '../../Styling/Table.css'
 import { permissionContext } from '../../../App.js';
 import ExemplaarInformatie from './ExemplaarInformatie';
+import { ZoekveldStyling } from '../../Styling/ZoekveldStyling';
 
 function MaakBoekTabel(props) {
     const [boeken, setBoeken] = useState([]);
@@ -70,11 +70,13 @@ function MaakBoekTabel(props) {
 
     return (
         <div>
-            <h1 className = 'paragraph'>
-            <input className = 'zoekveld' type="text" placeholder='Zoeken...' value={filterWoord}
+            <ZoekveldStyling>
+            <h1>
+            <input type="text" placeholder='Zoeken...' value={filterWoord}
                 onChange={e => zoekFunctie(e.target.value)} />
-            <button className = 'resetbtn' onClick={() => reset()}>Reset</button>
+            <button onClick={() => reset()}>Reset</button>
             </h1>
+            </ZoekveldStyling>
             <TableStyle>
                 <table>
                     <thead>

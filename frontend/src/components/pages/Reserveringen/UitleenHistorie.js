@@ -1,8 +1,8 @@
-import '../../Styling/ZoekveldStyling.css';
 import React, { useContext, useEffect } from 'react';
 import { useState } from 'react';
 import { TableStyle } from '../../Styling/Table';
 import { permissionContext, persoonContext } from '../../../App';
+import { ZoekveldStyling } from '../../Styling/ZoekveldStyling';
 
 function UitleenHistorieTabel() {
     const [uitleningen, setUitleningen] = useState([]);
@@ -57,11 +57,13 @@ function UitleenHistorieTabel() {
 
     return (
         <div>
-            <h1 className = 'paragraph'>
-            <input className= 'zoekveld' type="text" placeholder='Zoeken...' value={filterWoord}
+            <ZoekveldStyling>
+            <h1>
+            <input type="text" placeholder='Zoeken...' value={filterWoord}
                 onChange={e => zoekFunctie(e.target.value)}></input>                       
-            <button className= 'resetbtn' onClick={() => reset()}>Reset</button>
+            <button onClick={() => reset()}>Reset</button>
             </h1>
+            </ZoekveldStyling>
             <TableStyle>
                 <table>
                     <thead>
