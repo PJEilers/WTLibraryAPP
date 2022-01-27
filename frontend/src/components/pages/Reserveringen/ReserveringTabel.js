@@ -87,7 +87,7 @@ function MaakReserveringTabel() {
                     </tr>
                 </thead>
                 <tbody>
-                    {reserveringen.map((reservering, index )=> (
+                    {reserveringWeergeven.map((reservering, index )=> (
                         <tr key={index}>
                             <td>{reservering.titel}</td>
                             <td>{reservering.auteur}</td>

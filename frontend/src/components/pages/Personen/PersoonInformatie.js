@@ -109,7 +109,6 @@ function PersoonInformatie(props) {
                     </tbody>
                 </table>
             </TableStyle>
-            <p>{succesBericht}</p>
             <Popup open={nieuweUitlening} modal onClose={() => setNieuweUitlening(false)} closeOnDocumentClick={false}>
                 <div className="modal">
                     <button className="close" onClick={() => setNieuweUitlening(false)}> &times; </button>
