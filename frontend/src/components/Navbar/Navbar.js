@@ -9,6 +9,7 @@ import { GebruikerMenuItems } from './GebruikerMenuItems';
 import { BookMenuItems } from './BookMenuItems';
 import { ReserveringMenuItems } from './ReserveringMenuItems'
 import { persoonContext } from '../../App';
+import Permission from '../Permissions/Permission';
 
 const DropDownMenu = ({navItem, url1 , menuItems1 }) => {
     
@@ -55,25 +56,6 @@ function Navbar(props) {
     const handleClick2 = () => setClick2(!click2);
 
     const closeMobileMenu = () => setClick2(false);
-    const [dropdown, setDropdown] = useState(false);
-
-    const persoonInfo = useContext(persoonContext);
-
-    const onMouseEnter = () => {
-        if (window.innerWidth < 960) {
-            setDropdown(false)
-        } else {
-            setDropdown(true)
-        }
-    }
-
-    const onMouseLeave = () => {
-        if (window.innerwidth < 960) {
-            setDropdown(false);
-        } else {
-            setDropdown(false);
-        }
-    };
 
     return (
         <nav className="NavbarItems">
@@ -84,14 +66,14 @@ function Navbar(props) {
                 <i className={click2 ? 'fas fa-times' : 'fas fa-bars'} />
             </div>
             <ul className={click2 ? 'nav-menu active' : 'nav-menu'}>
-                {(persoonInfo.adminRechten === 'true' || persoonInfo.adminRechten) &&
+                {Permission() &&
                     <>
                         <DropDownMenu navItem='Boeken' url1={'/boeken'} menuItems1={BookMenuItems} />
                         <DropDownMenu navItem='Reserveringen' url1={'/reserveringen'} menuItems1={ReserveringMenuItems} />
                         <DropDownMenu navItem='Gebruikers' url1={'/gebruikers'} menuItems1={GebruikerMenuItems} />
                     </>
                 }
-                {(persoonInfo.adminRechten === 'false' || ! persoonInfo.adminRechten) && 
+                {!Permission() && 
                     <>
                         <li className='nav-item'>
                             <Link to='/boekenlijst' className='nav-links' onClick={closeMobileMenu}>

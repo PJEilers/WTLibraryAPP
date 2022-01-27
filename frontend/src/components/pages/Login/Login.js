@@ -11,7 +11,6 @@ function Login({ setPersoonInfo }) {
 
     const cookies = new Cookies();
 
-
     const login = (e) => {
         postLogin("http://localhost:8080/login", {
             email: email,
@@ -22,8 +21,8 @@ function Login({ setPersoonInfo }) {
                     setEmail('');
                     setWachtwoord('');
                     setPersoonInfo({ persoonId: persoon.id, adminRechten: persoon.adminRechten });
-                    cookies.set('persoonId', persoon.id, { path: '/' });
-                    cookies.set('adminRechten', persoon.adminRechten, { path: '/' });
+                    cookies.set('persoonId', persoon.id, { path: '/' , secure: true, sameSite: 'none'});
+                    cookies.set('adminRechten', persoon.adminRechten, { path: '/', secure: true, sameSite: 'none'});
                 })
             } else {
                 setSuccesBericht("E-mailadres of wachtwoord onjuist");
