@@ -18,7 +18,7 @@ export const uitleningToevoegen = (persoonId, exemplaar) => {
         persoon: {id: persoonId},
         beginDatum: new Date().toISOString().split('T')[0]
     }
-    postRequest(connectieString + '/maakuitleningaan', nieuweUitlening).then(response => {
+    postRequest(connectieString + '/maakuitleningaan/0', nieuweUitlening).then(response => {
         if (response.ok) {
             response.json().then(uitlening => {                
                 output = true;

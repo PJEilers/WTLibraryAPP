@@ -1,3 +1,4 @@
+import '../../Styling/ZoekveldStyling.css'; // voor zoekveld styling
 import './PersoonInformatie.css';
 import { useState, useEffect, useContext } from "react";
 import { Button } from '../../Styling/Button'
@@ -71,9 +72,11 @@ function PersoonInformatie(props) {
 
     return (
         <div>
-            <input type="string" defaultValue={naam}
+            <h1 className = 'paragraph'>
+            <input className = 'zoekveld' type="string" placeholder='Zoek op naam ...' defaultValue={naam}
                 onChange={e => { haalPersonenOpNaam(e.target.value) }} />
-            <button onClick={() => haalPersonenOpNaam()}>Zoek Personen</button>
+            <button className='resetbtn' onClick={() => haalPersonenOpNaam()}>Zoek</button>
+            </h1>
             <TableStyle>
                 <table>
                     <thead>
