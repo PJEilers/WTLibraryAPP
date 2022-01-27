@@ -55,21 +55,6 @@ function MaakBoekTabel(props) {
         setBoekenWeergeven(filterData);
 }
 
-    //     if (watVeranderd === 'titel') {
-    //         setBoekTitel(waarde);
-    //         filterData = boeken.filter(v => v.titel.toLowerCase().includes(waarde.toLowerCase()));
-    //     } else {
-    //         setBoekTags(waarde);
-    //         if (waarde !== '') {
-    //             filterData = boeken.filter(v => v.tags && v.tags.toLowerCase().includes(waarde.toLowerCase()));
-    //         } else {
-    //             filterData = boeken;
-    //         }
-    //     }
-        
-    // }
-
-
     const reset = () => {
         setBoekenWeergeven(boeken);
         setBoekTitel('');
