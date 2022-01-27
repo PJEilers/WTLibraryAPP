@@ -1,12 +1,13 @@
 import '../../Styling/ZoekveldStyling.css'; // voor zoekveld styling
 import './PersoonInformatie.css';
-import { useState, useEffect } from "react";
+import { useState, useEffect, useContext } from "react";
 import { Button } from '../../Styling/Button'
 import { connectieString, postRequest, uitleningToevoegen } from '../../../Constanten';
 import Popup from 'reactjs-popup';
 import ExemplaarInformatie from '../Boeken/ExemplaarInformatie';
 import { TableStyle } from '../../Styling/Table';
 import MaakBoekTabel from '../Boeken/BoekTabel';
+import { persoonContext } from '../../../App';
 
 
 function PersoonInformatie(props) {
@@ -20,6 +21,7 @@ function PersoonInformatie(props) {
     const [uitleningToegevoegd, setUitleningToegevoegd] = useState(false);
     const [huidigPersoon, setHuidigPersoon] = useState(null);
     const [nieuweUitlening, setNieuweUitlening] = useState(false);
+    const persoon = useContext(persoonContext);
 
 
     const haalPersonenOp = () => {

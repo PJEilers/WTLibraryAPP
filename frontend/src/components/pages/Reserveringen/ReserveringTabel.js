@@ -63,10 +63,9 @@ function MaakReserveringTabel() {
         setHuidigBoek(boekId);
     }
 
-    if (!opstarten) {
+    useEffect(() => {
         laadData();
-        setOpstarten(true);
-    }
+    },[])
 
     return (
         <div>
@@ -88,8 +87,8 @@ function MaakReserveringTabel() {
                     </tr>
                 </thead>
                 <tbody>
-                    {reserveringWeergeven.map(reservering => (
-                        <tr key={reservering.id}>
+                    {reserveringen.map((reservering, index )=> (
+                        <tr key={index}>
                             <td>{reservering.titel}</td>
                             <td>{reservering.auteur}</td>
                             <td>{reservering.naam}</td>

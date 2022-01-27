@@ -8,7 +8,7 @@ import Popup from 'reactjs-popup';
 import '../../Styling/Popup.css'
 import { TableStyle } from '../../Styling/Table';
 import '../../Styling/Table.css'
-import { persoonContext } from '../../../App.js';
+import { permissionContext } from '../../../App.js';
 import ExemplaarInformatie from './ExemplaarInformatie';
 
 function MaakBoekTabel(props) {
@@ -20,7 +20,7 @@ function MaakBoekTabel(props) {
     const [boekTags, setBoekTags] = useState('');
     const [opstarten, setOpstarten] = useState(false);
     const [boekId, setBoekId] = useState(1);
-    const persoonInfo = useContext(persoonContext);
+    const permission = useContext(permissionContext);
     const [filterWoord, setFilterWoord] = useState('');
 
     const laadData = () => {
@@ -84,31 +84,31 @@ function MaakBoekTabel(props) {
                             <th>Auteur</th>
                             <th>ISBN</th>
                             <th>Tags</th>
-                            <th>Exemplaren Beschikbaar</th>
-                            {!props.persoon ? <th>Reserveer</th> : null}
-                            {(persoonInfo.adminRechten === 'true' || persoonInfo.adminRechten) &&
-                                <th>Exemplaar Toevoegen</th>
-                            }
-
+                            <th>Beschikbaar</th>
+                            {!props.persoon && <th>Reserveer</th>}
+                            {permission && <th>Exemplaar Toevoegen</th>}
                         </tr>
                     </thead>
                     <tbody>
                         {boekenWeergeven.map(boek => (
                             <tr key={boek.id}>
                                 <td >{boek.id}</td>
-                                {(persoonInfo.adminRechten === 'true' || persoonInfo.adminRechten) && 
+                                {permission ? 
                                     <td className='Boek' onClick={() => { setExemplarenLijst(true); setBoekId(boek.id) }}>{boek.titel}</td>
-                                }
-                                {(persoonInfo.adminRechten === 'false' || !persoonInfo.adminRechten) &&
+                                    :
                                     <td>{boek.titel}</td>
                                 }
                                 <td>{boek.auteur}</td>
                                 <td>{boek.isbn}</td>
                                 <td>{boek.tags}</td>
-                                <td>{boek.beschikbaar}/{boek.exemplarenTotaal}</td>
+                                {permission ? 
+                                    <td>{boek.beschikbaar}/{boek.exemplarenTotaal}</td>
+                                    :
+                                    <td>{boek.beschikbaar !== 0 ? 'Op Voorraad' : 'Niet op Voorraad'}</td>
+                                }
                                 {/* Check of je van PersoonInformatie komt of niet. */}
-                                {!props.persoon ? <td><Reserveren boekId={boek.id} /></td> : null}
-                                {(persoonInfo.adminRechten === 'true' || persoonInfo.adminRechten) &&
+                                {!props.persoon && <td><Reserveren boekId={boek.id} /></td>}
+                                {permission &&
                                     <td>
                                         <Button onClick={() => { setNieuweExemplaren(true); setBoekId(boek.id); }}>Exemplaren Toevoegen</Button>
                                     </td>
