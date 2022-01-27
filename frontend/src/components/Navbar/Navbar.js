@@ -8,8 +8,7 @@ import Dropdown from './Dropdown'
 import { GebruikerMenuItems } from './GebruikerMenuItems';
 import { BookMenuItems } from './BookMenuItems';
 import { ReserveringMenuItems } from './ReserveringMenuItems'
-import { persoonContext } from '../../App';
-import Permission from '../Permissions/Permission';
+import { permissionContext, persoonContext } from '../../App';
 
 const DropDownMenu = ({navItem, url1 , menuItems1 }) => {
     
@@ -54,6 +53,7 @@ const DropDownMenu = ({navItem, url1 , menuItems1 }) => {
 function Navbar(props) {
     const [click2, setClick2] = useState(false);
     const handleClick2 = () => setClick2(!click2);
+    const permission = useContext(permissionContext)
 
     const closeMobileMenu = () => setClick2(false);
 
@@ -66,14 +66,14 @@ function Navbar(props) {
                 <i className={click2 ? 'fas fa-times' : 'fas fa-bars'} />
             </div>
             <ul className={click2 ? 'nav-menu active' : 'nav-menu'}>
-                {Permission() &&
+                {permission &&
                     <>
                         <DropDownMenu navItem='Boeken' url1={'/boeken'} menuItems1={BookMenuItems} />
                         <DropDownMenu navItem='Reserveringen' url1={'/reserveringen'} menuItems1={ReserveringMenuItems} />
                         <DropDownMenu navItem='Gebruikers' url1={'/gebruikers'} menuItems1={GebruikerMenuItems} />
                     </>
                 }
-                {!Permission() && 
+                {!permission && 
                     <>
                         <li className='nav-item'>
                             <Link to='/boekenlijst' className='nav-links' onClick={closeMobileMenu}>

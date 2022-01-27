@@ -10,7 +10,6 @@ import { TableStyle } from '../../Styling/Table';
 import '../../Styling/Table.css'
 import { permissionContext } from '../../../App.js';
 import ExemplaarInformatie from './ExemplaarInformatie';
-import Permission from '../../Permissions/Permission';
 
 function MaakBoekTabel(props) {
     const [boeken, setBoeken] = useState([]);
