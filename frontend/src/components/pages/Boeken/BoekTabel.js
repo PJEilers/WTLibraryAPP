@@ -1,4 +1,4 @@
-import './BoekTabel.css';
+import '../../Styling/ZoekveldStyling.css'; //voor zoekveld styling
 import React, { useEffect } from "react";
 import { useState, useContext } from "react";
 import Reserveren from '../Reserveringen/Reserveren';
@@ -8,7 +8,7 @@ import Popup from 'reactjs-popup';
 import '../../Styling/Popup.css'
 import { TableStyle } from '../../Styling/Table';
 import '../../Styling/Table.css'
-import { persoonContext } from '../../../App.js';
+import { permissionContext } from '../../../App.js';
 import ExemplaarInformatie from './ExemplaarInformatie';
 
 function MaakBoekTabel(props) {
@@ -20,7 +20,8 @@ function MaakBoekTabel(props) {
     const [boekTags, setBoekTags] = useState('');
     const [opstarten, setOpstarten] = useState(false);
     const [boekId, setBoekId] = useState(1);
-    const persoonInfo = useContext(persoonContext);
+    const permission = useContext(permissionContext);
+    const [filterWoord, setFilterWoord] = useState('');
 
     const laadData = () => {
         fetch('http://localhost:8080/boeken', { mode: 'cors' })
@@ -34,23 +35,25 @@ function MaakBoekTabel(props) {
             });
     }
 
-    const zoekBoek = (watVeranderd, waarde) => {
-        //const [filterData, setFilterData] = useState([]);
+    const zoekFunctie = (waarde) => {
+        
         let filterData = [];
-        if (watVeranderd === 'titel') {
-            setBoekTitel(waarde);
-            filterData = boeken.filter(v => v.titel.toLowerCase().includes(waarde.toLowerCase()));
-        } else {
-            setBoekTags(waarde);
-            if (waarde !== '') {
-                filterData = boeken.filter(v => v.tags && v.tags.toLowerCase().includes(waarde.toLowerCase()));
-            } else {
-                filterData = boeken;
-            }
-        }
-        setBoekenWeergeven(filterData);
-    }
 
+        setFilterWoord(waarde)
+
+        filterData = boeken.filter(boek => {
+            let termaanwezigheid = false;
+
+            Object.entries(boek).map(([key, value]) => {
+                if(!termaanwezigheid){
+                    termaanwezigheid = (value !== null ? value.toString().toLowerCase().includes(waarde.toLowerCase()) : false);
+                }
+            });
+
+            return(termaanwezigheid);
+        })
+        setBoekenWeergeven(filterData);
+}
 
     const reset = () => {
         setBoekenWeergeven(boeken);
@@ -67,13 +70,11 @@ function MaakBoekTabel(props) {
 
     return (
         <div>
-            <input type="text" placeholder='Zoek op titel' value={boekTitel}
-                onChange={e => zoekBoek('titel', e.target.value)} />
-            <input type="text" placeholder='Zoek op tags' value={boekTags}
-                onChange={e => zoekBoek('tags', e.target.value)} />
-            <button onClick={() => reset()}>
-                Reset
-            </button>
+            <h1 className = 'paragraph'>
+            <input className = 'zoekveld' type="text" placeholder='Zoeken...' value={filterWoord}
+                onChange={e => zoekFunctie(e.target.value)} />
+            <button className = 'resetbtn' onClick={() => reset()}>Reset</button>
+            </h1>
             <TableStyle>
                 <table>
                     <thead>
@@ -83,33 +84,33 @@ function MaakBoekTabel(props) {
                             <th>Auteur</th>
                             <th>ISBN</th>
                             <th>Tags</th>
-                            <th>Exemplaren Beschikbaar</th>
+                            <th>Beschikbaar</th>
                             <th>Uitleningen</th>
-                            {!props.persoon ? <th>Reserveer</th> : null}
-                            {(persoonInfo.adminRechten === 'true' || persoonInfo.adminRechten) &&
-                                <th>Exemplaar Toevoegen</th>
-                            }
-
+                            {!props.persoon && <th>Reserveer</th>}
+                            {permission && <th>Exemplaar Toevoegen</th>}
                         </tr>
                     </thead>
                     <tbody>
                         {boekenWeergeven.map(boek => (
                             <tr key={boek.id}>
                                 <td >{boek.id}</td>
-                                {(persoonInfo.adminRechten === 'true' || persoonInfo.adminRechten) && 
+                                {permission ? 
                                     <td className='Boek' onClick={() => { setExemplarenLijst(true); setBoekId(boek.id) }}>{boek.titel}</td>
-                                }
-                                {(persoonInfo.adminRechten === 'false' || !persoonInfo.adminRechten) &&
+                                    :
                                     <td>{boek.titel}</td>
                                 }
                                 <td>{boek.auteur}</td>
                                 <td>{boek.isbn}</td>
-                                <td>{boek.tags}</td>
-                                <td>{boek.beschikbaar}/{boek.exemplarenTotaal}</td>
+                                <td>{boek.tags}</td>                                
+                                {permission ? 
+                                    <td>{boek.beschikbaar}/{boek.exemplarenTotaal}</td>
+                                    :
+                                    <td>{boek.beschikbaar !== 0 ? 'Op Voorraad' : 'Niet op Voorraad'}</td>
+                                }
                                 <td>{boek.hoeveeluitleningen}</td>
                                 {/* Check of je van PersoonInformatie komt of niet. */}
-                                {!props.persoon ? <td><Reserveren boekId={boek.id} /></td> : null}
-                                {(persoonInfo.adminRechten === 'true' || persoonInfo.adminRechten) &&
+                                {!props.persoon && <td><Reserveren boekId={boek.id} /></td>}
+                                {permission &&
                                     <td>
                                         <Button onClick={() => { setNieuweExemplaren(true); setBoekId(boek.id); }}>Exemplaren Toevoegen</Button>
                                     </td>
