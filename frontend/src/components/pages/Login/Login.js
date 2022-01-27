@@ -21,8 +21,8 @@ function Login({ setPersoonInfo }) {
                     setEmail('');
                     setWachtwoord('');
                     setPersoonInfo({ persoonId: persoon.id, adminRechten: persoon.adminRechten });
-                    cookies.set('persoonId', persoon.id, { path: '/' , secure: true, sameSite: 'none'});
-                    cookies.set('adminRechten', persoon.adminRechten, { path: '/', secure: true, sameSite: 'none'});
+                    cookies.set('persoonId', persoon.id, { path: '/' , secure: true, sameSite: true});
+                    cookies.set('adminRechten', persoon.adminRechten, { path: '/', secure: true, sameSite: true});
                 })
             } else {
                 setSuccesBericht("E-mailadres of wachtwoord onjuist");
@@ -62,7 +62,7 @@ function Login({ setPersoonInfo }) {
 
                     </div>
                     <p>{succesBericht}</p>
-                    <label for="login-btn" />
+                    <label id="login-btn" />
                     <input type="submit" id="login-btn" value="Login" />
                 </div>
             </form>
