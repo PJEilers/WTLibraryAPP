@@ -7,7 +7,6 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -22,16 +21,19 @@ public class PersoonController {
     @Autowired
     private PersoonService service;
 
+    // Wordt gestuurd als het inloggen fout gaat. (Zie /login)
     @ResponseStatus(value=HttpStatus.UNAUTHORIZED, reason = "Email of wachtwoord is incorrect")
     public class incorrectException extends RuntimeException {
 
     }
 
+    // Haalt alle personen op. Gebruikt in PersoonInformatie.js
     @RequestMapping(value = "/personen")
 	public List <Persoon> vindAllePersonen() {
 		return service.vindAllePersonen();
 	}
 
+    // Maakt een persoon aan. Gebruikt in PersoonToevoegen.js
     @RequestMapping(method = RequestMethod.POST, value = "/maakpersoonaan")
     public Persoon maakPersoonAan(@RequestBody Persoon persoon) {
         return service.maakPersoonAan(persoon);
@@ -47,16 +49,7 @@ public class PersoonController {
     	return gebruikers;
     }
 
-    @RequestMapping(value = "/persoon/{id}") 
-    public Optional<Persoon> vindPersoon(@PathVariable int id) {
-        return service.vindPersoon(id);
-    }
-    
-    @RequestMapping(value = "/zoekpersoonvianaam/{naam}") 
-    public List<Persoon> zoekPersoonViaNaam(@PathVariable String naam) {
-        return service.zoekPersoonViaNaam(naam);
-    }
-
+    // Checkt of de login informatie goed is. Gebruikt in Login.js
     @RequestMapping(value = "/login") 
     public Persoon login (@RequestBody LoginForm loginform) {
         Optional<Persoon> loginStatus = service.login(loginform);

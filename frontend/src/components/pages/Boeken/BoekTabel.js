@@ -81,7 +81,7 @@ function MaakBoekTabel(props) {
     useEffect(() => {
         laadData();
         setBoekenWeergeven(boeken);
-    }, [nieuweExemplaren])
+    }, [nieuweExemplaren, exemplarenLijst])
 
     return (
         <div>
@@ -100,7 +100,7 @@ function MaakBoekTabel(props) {
                             <th>ISBN</th>
                             <th>Tags</th>
                             <th>Exemplaren Beschikbaar</th>
-                            <th>Reserveer</th>
+                            {!props.persoon ? <th>Reserveer</th> : null}
                             {(persoonInfo.adminRechten === 'true' || persoonInfo.adminRechten) &&
                                 <th>Exemplaar Toevoegen</th>
                             }
@@ -121,7 +121,8 @@ function MaakBoekTabel(props) {
                                 <td>{boek.isbn}</td>
                                 <td>{boek.tags}</td>
                                 <td>{boek.beschikbaar}/{boek.exemplarenTotaal}</td>
-                                <td><Reserveren boekId={boek.id} /></td>
+                                {/* Check of je van PersoonInformatie komt of niet. */}
+                                {!props.persoon ? <td><Reserveren boekId={boek.id} /></td> : null}
                                 {(persoonInfo.adminRechten === 'true' || persoonInfo.adminRechten) &&
                                     <td>
                                         <Button onClick={() => { setNieuweExemplaren(true); setBoekId(boek.id); }}>Exemplaren Toevoegen</Button>
@@ -144,6 +145,8 @@ function MaakBoekTabel(props) {
                 <div className="modal">
                     <button className="close" onClick={() => setExemplarenLijst(false)}> &times; </button>
                     <ExemplaarInformatie boekId={boekId} persoon={props.persoon} />
+                    <br/>
+                    <Button onClick={() => setExemplarenLijst(false)}>Klaar</Button>
                 </div>
             </Popup>
 

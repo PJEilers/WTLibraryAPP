@@ -7,7 +7,11 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+
+import com.WT.LibraryApp.Exemplaar.Exemplaar;
+import com.WT.LibraryApp.Persoon.Persoon;
 
 @Entity
 @Table(name = "uitleningen")
@@ -17,11 +21,11 @@ public class Uitlening {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int id;
 	
-	@Column(length = 10, nullable = false)
-	private int exemplaarId;
+	@ManyToOne(optional = false)
+	Exemplaar exemplaar;
 	
-	@Column(length = 10, nullable = false)
-	private int persoonId;
+	@ManyToOne(optional = false)
+	Persoon persoon;
 	
 	@Column(length = 10, nullable = false)
 	private Date beginDatum;
@@ -37,20 +41,20 @@ public class Uitlening {
 		this.id = id;
 	}
 
-	public int getExemplaarId() {
-		return exemplaarId;
+	public Exemplaar getExemplaar() {
+		return exemplaar;
 	}
 
-	public void setExemplaarId(int exemplaarId) {
-		this.exemplaarId = exemplaarId;
+	public void setExemplaar(Exemplaar exemplaar) {
+		this.exemplaar = exemplaar;
 	}
 
-	public int getPersoonId() {
-		return persoonId;
+	public Persoon getPersoon() {
+		return persoon;
 	}
 
-	public void setPersoonId(int persoonId) {
-		this.persoonId = persoonId;
+	public void setPersoon(Persoon persoon) {
+		this.persoon = persoon;
 	}
 
 	public Date getBeginDatum() {
