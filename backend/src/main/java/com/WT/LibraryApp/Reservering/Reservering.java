@@ -4,6 +4,8 @@ import java.sql.Date;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -11,6 +13,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 import com.WT.LibraryApp.Boek.Boek;
+import com.WT.LibraryApp.Exemplaar.Exemplaar.Status;
 import com.WT.LibraryApp.Persoon.Persoon;
 
 @Entity
@@ -29,6 +32,16 @@ public class Reservering {
 	
 	@Column(length = 100, nullable = false)
 	private Date datum;
+	
+	@Column
+	@Enumerated(EnumType.STRING)
+	private ReserveringStatus status;
+	
+	public enum ReserveringStatus {
+		BESCHIKBAAR,
+		UITGELEEND,
+		GEANNULEERD
+	}
 
 	public int getId() {
 		return id;
@@ -61,5 +74,14 @@ public class Reservering {
 	public void setDatum(Date datum) {
 		this.datum = datum;
 	}
+	
+	public ReserveringStatus getReserveringStatus() {
+		return status;
+	}
+
+	public void setReserveringStatus(ReserveringStatus status) {
+		this.status = status;
+	}	
+
 
 }

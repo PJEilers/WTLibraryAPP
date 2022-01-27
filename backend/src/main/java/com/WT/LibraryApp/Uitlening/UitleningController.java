@@ -8,6 +8,7 @@ import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -15,6 +16,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.WT.LibraryApp.Exemplaar.Exemplaar.Status;
 import com.WT.LibraryApp.Exemplaar.ExemplaarService;
+import com.WT.LibraryApp.Reservering.Reservering.ReserveringStatus;
+import com.WT.LibraryApp.Reservering.ReserveringService;
 
 @RestController
 @CrossOrigin(maxAge = 3600)
@@ -26,12 +29,18 @@ public class UitleningController {
 	//Nodig voor Status update
 	@Autowired
 	private ExemplaarService exemplaarService;
+	
+	//Nodig voor andere Status update, bij reservering
+	@Autowired
+	private ReserveringService reserveringService;
 
-	// Maakt een uitlening aan en zet de status van het exemplaar naar uitgeleend. Gebruikt in UitleningToevoegen.js, Constanten.js -> PersoonInformatie.js?, ExemplaarInformatie.js
-	@RequestMapping(method = RequestMethod.POST, value = "/maakuitleningaan")
-	public Uitlening maakUitleningAan(@RequestBody @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) Uitlening uitlening) {
+	// Maakt een uitlening aan, met reservering id, en zet de status van het exemplaar, en in reservering, naar uitgeleend. Gebruikt in UitleningToevoegen.js, Constanten.js -> PersoonInformatie.js?, ExemplaarInformatie.js
+	@RequestMapping(method = RequestMethod.POST, value = "/maakuitleningaan/{reserveringId}")
+	public Uitlening maakUitleningAan(@PathVariable int reserveringId, @RequestBody @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) Uitlening uitlening) {
 		// Status moet via ExemplaarService worden aangepast naar Uitgeleend:
 		exemplaarService.updateStatus(uitlening.getExemplaar().getId(), Status.UITGELEEND);
+		// Reservering status moet via ReserveringService worden aangepast naar Uitgeleend:
+		reserveringService.updateStatus(reserveringId, ReserveringStatus.UITGELEEND);
 		return service.maakUitleningAan(uitlening);
 	}
 
