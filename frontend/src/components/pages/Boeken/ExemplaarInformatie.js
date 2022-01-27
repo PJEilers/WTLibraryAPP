@@ -51,7 +51,7 @@ function ExemplaarInformatie(props) {
         return (
             //maakt de dropdown selectie
             <select className={exemplaar.status === "BESCHIKBAAR" ? "StatusBeschikbaar" : "StatusUitgeleend"} id={'select'+exemplaar.id} onChange={() => pasExemplaarStatusAan(exemplaar)}>
-                <option value=''>{exemplaar.status}</option>
+                <option value='none'>{exemplaar.status}</option>
                 {exemplaar.status === 'BESCHIKBAAR' ? //zorgt ervoor dat alleen de andere mogelijke statussen een keuze zijn
                     <>
                         <option value='ONBRUIKBAAR'>Onbruikbaar</option>
@@ -117,6 +117,7 @@ function ExemplaarInformatie(props) {
         haalExemplarenOp(props.boekId);
     }, []);
 
+    //zorgt ervoor dat de exemplaar informatie tabel wordt aangepast als er iets verandert wordt door een user
     useEffect(() => {
         setBoekId(props.boekId);
         haalExemplarenOp(props.boekId);
@@ -126,6 +127,7 @@ function ExemplaarInformatie(props) {
     const pasExemplaarStatusAan = (exemplaar) => {
         var selectID = 'select'+exemplaar.id;
         //als voor uitlenen is gekozen wordt de functie die het uitlenen regelt aangeroepen
+        //de if statement checkt ook nog of een boek niet is uitgeleend als voor uitlenen wordt gekozen
         if (document.getElementById(selectID).value === 'UITGELEEND' && 
             exemplaar.status !== 'UITGELEEND') {
                 {props.persoon ?
@@ -133,13 +135,19 @@ function ExemplaarInformatie(props) {
                     :
                     setUitleningInfo(exemplaar);
                 }
-        } else {//als voor beschikbaar of onbruikbaar is gekozen wordt de status van het exemplaar geupdate
+        //als voor beschikbaar of onbruikbaar is gekozen wordt de status van het exemplaar geupdate
+        } else if (document.getElementById(selectID).value !== 'UITGELEEND') {
             exemplaar.status = document.getElementById(selectID).value;
             postRequest(connectieString+'/updateexemplaarstatus', exemplaar)
             .then(() => {
+                //zorgt ervoor dat de dropdown weer juist wordt weergegeven als er iets is aangepast
+                document.getElementById(selectID).value = 'none';
                 setDetectVerandering(!detectVerandering);
             })
             .catch(error => console.log(error));
+        //als er geprobeerd wordt een uitgeleend boek uit te lenen    
+        } else {
+            alert("Dit boek is al uitgeleend!");
         }
     }
 
