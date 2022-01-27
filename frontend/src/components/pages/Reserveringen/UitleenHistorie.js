@@ -1,4 +1,4 @@
-import './UitleenHistorie.css';
+import '../../Styling/ZoekveldStyling.css';
 import React from 'react';
 import { useState } from 'react';
 import { TableStyle } from '../../Styling/Table';
@@ -7,11 +7,9 @@ function UitleenHistorieTabel() {
     const [uitleningen, setUitleningen] = useState([]);
     const [uitleningenWeergeven, setUitleningenWeergeven] = useState([]);
     const [firstBoot, setFirstBoot] = useState(true);
-    const [persoonNaam, setPersoonNaam] = useState('');
-    const [beginDatum, setBeginDatum] = useState('');
-    const [eindDatum, setEindDatum] = useState('');
     const [opstarten, setOpstarten] = useState(false);
     const [filterWoord, setFilterWoord] = useState('');
+
 
     const uitleenData = () => {
         fetch('http://localhost:8080/historie', { mode: 'cors' })
@@ -36,22 +34,19 @@ function UitleenHistorieTabel() {
             let termaanwezigheid = false;
 
             Object.entries(uitlening).map(([key, value]) => {
-                if(!termaanwezigheid){
-                    termaanwezigheid = (value !== null ? value.toString().toLowerCase().includes(waarde.toLowerCase()) : false);
-                }
+                    if(!termaanwezigheid){
+                        termaanwezigheid = (value !== null ? value.toString().toLowerCase().includes(waarde.toLowerCase()) : false);
+                    }
             });
 
             return(termaanwezigheid);
         })
-        setUitleningenWeergeven(filterData);
+    setUitleningenWeergeven(filterData);
     }
 
 
     const reset = () => {
         setUitleningenWeergeven(uitleningen);
-        setPersoonNaam('');
-        setBeginDatum('');
-        setEindDatum('');
         setOpstarten(false);
     }
 
@@ -62,15 +57,12 @@ function UitleenHistorieTabel() {
 
     return (
         <div>
-            <input type="text" placeholder='zoeken' value={filterWoord}
-                onChange={e => zoekFunctie(e.target.value)} />
-            <select>
-                <option>gebruiker</option>
-                <option>begindatum</option>
-                <option>einddatum</option>
-            </select>
-            <button onClick={() => reset()}>Reset</button>
-
+            <h1 className = 'paragraph'>
+            <input className= 'zoekveld' type="text" placeholder='Zoeken...' value={filterWoord}
+                onChange={e => zoekFunctie(e.target.value)}></input>
+                       
+            <button className= 'resetbtn' onClick={() => reset()}>Reset</button>
+            </h1>
             <TableStyle>
                 <table>
                     <thead>

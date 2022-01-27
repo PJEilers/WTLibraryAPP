@@ -1,3 +1,4 @@
+import '../../Styling/ZoekveldStyling.css'
 import './ReserveringTabel.css';
 import { useState, useEffect } from "react";
 import { TableStyle } from '../../Styling/Table';
@@ -13,6 +14,9 @@ function MaakReserveringTabel() {
     const[huidigPersoon, setHuidigPersoon] = useState(null);
     const[uitleningToegevoegd, setUitleningToegevoegd] = useState(false);
     const[huidigBoek, setHuidigBoek] = useState(null);
+    const[reserveringWeergeven, setReserveringWeergeven] = useState([]);
+    const[filterWoord, setFilterWoord] = useState('');
+
 
     const laadData = () => {
 
@@ -20,11 +24,36 @@ function MaakReserveringTabel() {
             .then(response => response.json())
             .then(data => {
                 setReserveringen(data);
+                setReserveringWeergeven(data);
             })
             .catch((error) => {
                 console.error('Error:', error);
             })
 
+    }
+
+    const zoekFunctie = (waarde) => {
+        
+        let filterData = [];
+
+        setFilterWoord(waarde)
+
+        filterData = reserveringen.filter(reservering => {
+            let termaanwezigheid = false;
+
+            Object.entries(reservering).map(([key, value]) => {
+                if(!termaanwezigheid){
+                    termaanwezigheid = (value !== null ? value.toString().toLowerCase().includes(waarde.toLowerCase()) : false);
+                }
+            });
+            return(termaanwezigheid);
+        })
+        setReserveringWeergeven(filterData);
+    }
+
+    const reset = () => {
+        setReserveringWeergeven(reserveringen);
+        setOpstarten(false);
     }
 
     const setUitleningInfo = (persoonId, boekId) => {
@@ -41,6 +70,12 @@ function MaakReserveringTabel() {
 
     return (
         <div>
+            <h1 className = 'paragraph'>
+            <input className = 'zoekveld' type="text" placeholder='Zoeken...' value={filterWoord}
+                onChange={e => zoekFunctie(e.target.value)} />
+            <button className = 'resetbtn' onClick={() => reset()}>Reset</button>
+            </h1>
+
             <TableStyle>
             <table>
                 <thead>
@@ -53,7 +88,7 @@ function MaakReserveringTabel() {
                     </tr>
                 </thead>
                 <tbody>
-                    {reserveringen.map(reservering => (
+                    {reserveringWeergeven.map(reservering => (
                         <tr key={reservering.id}>
                             <td>{reservering.titel}</td>
                             <td>{reservering.auteur}</td>
