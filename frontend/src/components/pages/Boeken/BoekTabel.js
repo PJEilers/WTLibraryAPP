@@ -22,7 +22,6 @@ function MaakBoekTabel(props) {
     const [opstarten, setOpstarten] = useState(false);
     const [boekId, setBoekId] = useState(1);
     const permission = useContext(permissionContext);
-    console.log(permission)
 
     const laadData = () => {
         fetch('http://localhost:8080/boeken', { mode: 'cors' })
@@ -85,27 +84,30 @@ function MaakBoekTabel(props) {
                             <th>Auteur</th>
                             <th>ISBN</th>
                             <th>Tags</th>
-                            <th>Exemplaren Beschikbaar</th>
-                            {!props.persoon ? <th>Reserveer</th> : null}
-                            {permission &&
-                                <th>Exemplaar Toevoegen</th>
-                            }
-
+                            <th>Beschikbaar</th>
+                            {!props.persoon && <th>Reserveer</th>}
+                            {permission && <th>Exemplaar Toevoegen</th>}
                         </tr>
                     </thead>
                     <tbody>
                         {boekenWeergeven.map(boek => (
                             <tr key={boek.id}>
                                 <td >{boek.id}</td>
-                                {permission && 
+                                {permission ? 
                                     <td className='Boek' onClick={() => { setExemplarenLijst(true); setBoekId(boek.id) }}>{boek.titel}</td>
+                                    :
+                                    <td>{boek.titel}</td>
                                 }
                                 <td>{boek.auteur}</td>
                                 <td>{boek.isbn}</td>
                                 <td>{boek.tags}</td>
-                                <td>{boek.beschikbaar}/{boek.exemplarenTotaal}</td>
+                                {permission ? 
+                                    <td>{boek.beschikbaar}/{boek.exemplarenTotaal}</td>
+                                    :
+                                    <td>{boek.beschikbaar !== 0 ? 'Op Voorraad' : 'Niet op Voorraad'}</td>
+                                }
                                 {/* Check of je van PersoonInformatie komt of niet. */}
-                                {!props.persoon ? <td><Reserveren boekId={boek.id} /></td> : null}
+                                {!props.persoon && <td><Reserveren boekId={boek.id} /></td>}
                                 {permission &&
                                     <td>
                                         <Button onClick={() => { setNieuweExemplaren(true); setBoekId(boek.id); }}>Exemplaren Toevoegen</Button>
