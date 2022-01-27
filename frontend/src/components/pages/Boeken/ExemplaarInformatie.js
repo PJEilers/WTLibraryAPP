@@ -82,7 +82,6 @@ function ExemplaarInformatie(props) {
     }
 
     const nieuweUitleningToevoegen = (persoonId, exemplaar) => {
-        //console.log(uitleningToevoegen(persoonId, exemplaar))
         if (uitleningToevoegen(persoonId, exemplaar)) {
             setUitleningToegevoegd(true);
             setNieuweUitlening(false);
@@ -123,14 +122,14 @@ function ExemplaarInformatie(props) {
         haalExemplarenOp(props.boekId);
     }, [detectVerandering]);
 
+    
     const pasExemplaarStatusAan = (exemplaar) => {
         var selectID = 'select'+exemplaar.id;
-
         //als voor uitlenen is gekozen wordt de functie die het uitlenen regelt aangeroepen
         if (document.getElementById(selectID).value === 'UITGELEEND' && 
             exemplaar.status !== 'UITGELEEND') {
                 {props.persoon ?
-                    <Button onClick={() => setPersoonUitlening(exemplaar)}>Leen Uit</Button>
+                    setPersoonUitlening(exemplaar)
                     :
                     setUitleningInfo(exemplaar);
                 }
