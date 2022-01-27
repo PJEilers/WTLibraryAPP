@@ -2,7 +2,6 @@ package com.WT.LibraryApp.Boek;
 
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -15,34 +14,38 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.WT.LibraryApp.Exemplaar.ExemplaarService;
+import com.WT.LibraryApp.Uitlening.UitleningService;
 
 @RestController
 @CrossOrigin(maxAge = 3600)
 public class BoekController {
-	
+
 	@Autowired
 	private BoekService service;
-	
-	@Autowired 
+
+	@Autowired
 	private ExemplaarService serviceExemplaar;
+	
+	@Autowired
+	private UitleningService uitleningService;
 
 	// Haalt informatie alle boeken op. Gebruikt in BoekTabel.js
 	@RequestMapping(value = "/boeken")
-	public List<Map<String, Object>> vindAlleBoeken() {
+	public List<BoekDTO> vindAlleBoeken() {
 		List<Boek> boeken = service.vindAlleBoeken();
-		List<Map<String, Object>> output = new ArrayList<Map<String, Object>>();
+		List<BoekDTO> boekenDTO = new ArrayList<>();		
+
 		for (Boek boek : boeken) {
-			Map<String, Object> map = new HashMap<>();
-			map.put("id", boek.getId());
-			map.put("titel", boek.getTitel());
-			map.put("auteur", boek.getAuteur());
-			map.put("isbn", boek.getIsbn());
-			map.put("tags", boek.getTags());
-			map.put("exemplarenTotaal", serviceExemplaar.countByBoek(boek));
-			map.put("beschikbaar", serviceExemplaar.countBeschikbaar(boek));
-			output.add(map);
+			// Hier wordt alle informatie in het Data Transfer Object gestopt.
+			BoekDTO boekDTO = new BoekDTO(boek, 
+					serviceExemplaar.countByBoek(boek),
+					serviceExemplaar.countBeschikbaar(boek), 
+					uitleningService.countUitleningMetExemplaren(serviceExemplaar.vindExemplarenViaBoek(boek))
+					);
+			boekenDTO.add(boekDTO);
 		}
-		return output;
+
+		return boekenDTO;
 	}
 
 	// Maakt een Boek aan als deze nog niet bestaat. Gebruikt in BoekToevoegen.js
@@ -58,7 +61,7 @@ public class BoekController {
 	// Optie op de database te vullen met array van boeken. Voor testen.
 	@RequestMapping(method = RequestMethod.POST, value = "/maakboekenaan")
 	public List<Object> maakBoekenAan(@RequestBody List<Boek> boeken) {
-		
+
 		List<Object> toegevoegdeboeken = new ArrayList<>();
 		for (Boek boek : boeken) {
 			Optional<Boek> bestaandBoek = service.vindBoek(boek.getIsbn());
@@ -68,7 +71,7 @@ public class BoekController {
 				System.out.println("Bestaat al");
 			}
 		}
-		
+
 		return toegevoegdeboeken;
 	}
 
