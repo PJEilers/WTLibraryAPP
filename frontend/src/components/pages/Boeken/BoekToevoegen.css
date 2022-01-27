@@ -3,7 +3,8 @@
     grid-template-columns: max-content max-content;
     grid-gap:5px;
 }
-    
+
+
 .BoekToevoegen label       { text-align:right; }
 .BoekToevoegen label:after { content: ":"; }
 
