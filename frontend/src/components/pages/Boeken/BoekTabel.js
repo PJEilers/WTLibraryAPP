@@ -77,7 +77,7 @@ function MaakBoekTabel(props) {
             <button onClick={() => reset()}>Reset</button>
             </h1>
             </ZoekveldStyling>
-            <TableStyle>
+            <TableStyle> 
                 <table>
                     <thead>
                         <tr>

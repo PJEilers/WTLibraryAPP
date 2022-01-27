@@ -1,11 +1,10 @@
-import '../../Styling/ZoekveldStyling.css'
-import './ReserveringTabel.css';
 import { useState, useEffect } from "react";
 import { TableStyle } from '../../Styling/Table';
 import { Button } from '../../Styling/Button'
 import Popup from 'reactjs-popup';
 import { uitleningToevoegen } from '../../../Constanten'
 import ExemplaarInformatie from '../Boeken/ExemplaarInformatie';
+import { ZoekveldStyling } from '../../Styling/ZoekveldStyling';
 
 function MaakReserveringTabel() {
     const[reserveringen, setReserveringen] = useState([]);
@@ -69,12 +68,13 @@ function MaakReserveringTabel() {
 
     return (
         <div>
-            <h1 className = 'paragraph'>
-            <input className = 'zoekveld' type="text" placeholder='Zoeken...' value={filterWoord}
+            <ZoekveldStyling>
+            <h1>
+            <input type="text" placeholder='Zoeken...' value={filterWoord}
                 onChange={e => zoekFunctie(e.target.value)} />
-            <button className = 'resetbtn' onClick={() => reset()}>Reset</button>
+            <button onClick={() => reset()}>Reset</button>
             </h1>
-
+            </ZoekveldStyling>
             <TableStyle>
             <table>
                 <thead>
