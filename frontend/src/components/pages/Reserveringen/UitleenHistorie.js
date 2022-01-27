@@ -8,7 +8,6 @@ function UitleenHistorieTabel() {
     const [uitleningen, setUitleningen] = useState([]);
 
     const [uitleningenWeergeven, setUitleningenWeergeven] = useState([]);
-    const [firstBoot, setFirstBoot] = useState(true);
     const [opstarten, setOpstarten] = useState(false);
     const [filterWoord, setFilterWoord] = useState('');
     const persoonInfo = useContext(persoonContext);
@@ -53,7 +52,7 @@ function UitleenHistorieTabel() {
 
     useEffect(() => {
         uitleenData();
-    }, [])
+    }, [opstarten])
 
 
     return (
