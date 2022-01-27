@@ -1,4 +1,4 @@
-import { Button } from '../../Styling/Button';
+import { Button, ButtonFade } from '../../Styling/Button';
 import Cookies from 'universal-cookie';
 
 function Logout({ setPersoonInfo }) {
@@ -12,7 +12,9 @@ function Logout({ setPersoonInfo }) {
     }
 
     return (
-        <Button buttonSize='btn--medium' onClick= {() => logout()}>Log Out</Button>
+        <ButtonFade>
+            <Button buttonSize='btn--medium' onClick={() => logout()}>Log Out</Button>
+        </ButtonFade>
     )
 }
 

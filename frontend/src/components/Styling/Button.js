@@ -1,4 +1,5 @@
 import React from 'react';
+import styled from 'styled-components';
 import './Button.css';
 
 const STYLES = [
@@ -31,3 +32,11 @@ export const Button = ({
         </button>
     )
 }
+
+export const ButtonFade = styled.div`
+    @media screen and (max-width:960px) {
+        button {
+            display: none;
+        }
+    }   
+    `
