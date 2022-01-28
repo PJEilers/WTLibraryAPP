@@ -1,7 +1,7 @@
-import './BoekToevoegen.css';
+// import './BoekToevoegen.css';
 import { useState } from "react";
 import ExemplarenToevoegen from './ExemplarenToevoegen';
-
+import {BoekToevoegenStyling} from './BoekToevoegenStyling'
 function BoekToevoegen() {
 
     const [boektitel, setBoektitel] = useState('');
@@ -78,9 +78,10 @@ function BoekToevoegen() {
     }
 
     return (
-        <div key = {resetID}>
+        <BoekToevoegenStyling>
+        <span key = {resetID}>
             <h1>Voeg een boek toe</h1>
-            <form onSubmit={stuurOp} className='BoekToevoegen'>
+            <form onSubmit={stuurOp}>
 
                 <label>Boektitel</label>
                 <input type="text" required
@@ -112,7 +113,7 @@ function BoekToevoegen() {
                     disabled={uit} />
 
                 <label id="stuur"></label>
-                <input type="submit" disabled={uit} value="Maak nieuw boek aan" />
+                <input className = 'submit' type="submit" disabled={uit} value="Maak nieuw boek aan" />
 
 
             </form>
@@ -120,7 +121,9 @@ function BoekToevoegen() {
             <ExemplarenToevoegen boekToegevoegd={boekToegevoegd} boektitel={boektitel}
                 boekID={boekID} />
             <button onClick={() => reset()}>Nog een boek toevoegen</button>
-        </div>
+            <h2></h2>
+        </span>
+        </BoekToevoegenStyling>
     )
 }
 
