@@ -64,6 +64,7 @@ public class ReserveringController {
 			Map<String, Object> reserveringMap = new HashMap<>();
 
 			// geef boekId, persoonId en datum mee naar frontend
+			reserveringMap.put("id", reservering.getId());
 			reserveringMap.put("boekId", reservering.getBoek().getId());
 			reserveringMap.put("persoonId", reservering.getPersoon().getId());
 			reserveringMap.put("datum", reservering.getDatum());
