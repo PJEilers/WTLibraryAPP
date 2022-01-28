@@ -29,7 +29,7 @@ function ExemplaarInformatie(props) {
 
     // Als je niet van BoekTabel.js afkomt
     const setPersoonUitlening = (exemplaar) => {
-        huidigExemplaar && setHuidigExemplaar(exemplaar);
+        setHuidigExemplaar(exemplaar);
         nieuweUitleningToevoegen(props.persoon, exemplaar, props.reserveringId);
     }
 
