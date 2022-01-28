@@ -14,21 +14,21 @@ public class ReserveringService {
 
 	@Autowired
 	private IReserveringRepository repository;
-	
+
 	public Optional<Reservering> vindReserveringMetId(int id) {
 		return repository.findById(id);
 	}
-	
+
 	public List<Reservering> vindAlleReserveringen() {
 		return repository.findAll();
 	}
-	
+
 	public Reservering maakReserveringAan(Reservering reservering) {
 		return repository.save(reservering);
 	}
 
-	public Optional<Reservering> vindReserveringMetPersoonEnBoek (Reservering reservering) {
-		return repository.findByPersoonAndBoek(reservering.getPersoon(), reservering.getBoek());
+	public Optional<Reservering> vindReserveringMetPersoonEnBoek(Reservering reservering) {
+		return repository.findByPersoonAndBoekAndStatus(reservering.getPersoon(), reservering.getBoek(), reservering.getReserveringStatus());
 	}
 
 	public void updateStatus(int id, ReserveringStatus status) {
@@ -37,16 +37,16 @@ public class ReserveringService {
 		repository.save(e);
 	}
 
-	    public List<ReserveringPersoonBoekDTO> alleReserveringenPersoonBoek() {
-	    	List<Reservering> reserveringen = repository.findAll();
-	    	List<ReserveringPersoonBoekDTO> reserveringenPersoonBoekDTO = new ArrayList<>();
-	    	for (Reservering reservering : reserveringen) {
-	    		ReserveringPersoonBoekDTO reserveringPersoonBoekDTO = new ReserveringPersoonBoekDTO(reservering,
-	    				reservering.getPersoon(),
-	    				reservering.getBoek());
-	    		reserveringenPersoonBoekDTO.add(reserveringPersoonBoekDTO);
-	    	}
-	        return reserveringenPersoonBoekDTO;
-	    }
+	// Haal alle reservering op die geen status hebben, i.e. nog open staan.
+	public List<ReserveringPersoonBoekDTO> alleReserveringenPersoonBoek() {
+		List<Reservering> reserveringen = repository.findByStatus(null);
+		List<ReserveringPersoonBoekDTO> reserveringenPersoonBoekDTO = new ArrayList<>();
+		for (Reservering reservering : reserveringen) {
+			ReserveringPersoonBoekDTO reserveringPersoonBoekDTO = new ReserveringPersoonBoekDTO(reservering,
+					reservering.getPersoon(), reservering.getBoek());
+			reserveringenPersoonBoekDTO.add(reserveringPersoonBoekDTO);
+		}
+		return reserveringenPersoonBoekDTO;
+	}
 
 }

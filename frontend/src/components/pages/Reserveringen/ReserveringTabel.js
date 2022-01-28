@@ -12,7 +12,6 @@ function MaakReserveringTabel() {
     const [opstarten, setOpstarten] = useState(false);
     const [nieuweUitlening, setNieuweUitlening] = useState(false);
     const [huidigPersoon, setHuidigPersoon] = useState(null);
-    const [uitleningToegevoegd, setUitleningToegevoegd] = useState(false);
     const [huidigBoek, setHuidigBoek] = useState(null);
     const [reserveringWeergeven, setReserveringWeergeven] = useState([]);
     const [filterWoord, setFilterWoord] = useState('');
@@ -55,14 +54,13 @@ function MaakReserveringTabel() {
     const setUitleningInfo = (persoonId, boekId, reserveringId) => {
         setNieuweUitlening(true);
         setHuidigPersoon(persoonId);
-        setUitleningToegevoegd(false);
         setHuidigBoek(boekId);
         setHuidigReserveringId(reserveringId);
     }
 
     useEffect(() => {
         laadData();
-    }, [opstarten])
+    }, [opstarten, nieuweUitlening])
 
     return (
         <div>

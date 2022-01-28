@@ -10,7 +10,7 @@ import com.WT.LibraryApp.Persoon.Persoon;
 import com.WT.LibraryApp.Reservering.Reservering.ReserveringStatus;
 
 public interface IReserveringRepository extends JpaRepository<Reservering, Integer>{
-    Optional<Reservering> findByPersoonAndBoek(Persoon persoon, Boek boek);
+    Optional<Reservering> findByPersoonAndBoekAndStatus(Persoon persoon, Boek boek, ReserveringStatus status);
 
-	List<Reservering> findStatus(ReserveringStatus status);
+	List<Reservering> findByStatus(ReserveringStatus status);
 }
