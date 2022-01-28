@@ -60,7 +60,7 @@ function UitleenHistorieTabel() {
             <h1 className = 'paragraph'>
             <input className= 'zoekveld' type="text" placeholder='Zoeken...' value={filterWoord}
                 onChange={e => zoekFunctie(e.target.value)}></input>                       
-            <button className= 'resetbtn' onClick={() => reset()}>Reset</button>
+            <button className= 'resetbtn' onClick={() => setOpstarten(!opstarten)}>Reset</button>
             </h1>
             <TableStyle>
                 <table>

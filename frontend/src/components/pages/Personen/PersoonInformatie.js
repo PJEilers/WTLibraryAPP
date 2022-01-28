@@ -96,9 +96,10 @@ function PersoonInformatie(props) {
                                 <td>
                                     {persoon.email}
                                 </td>
+                                {/* Dit wordt aangeroepen als je vanaf BoekTabel.js komt: */}
                                 {leenUitTabel(persoon, props.nieuweUitleningToevoegen, props.exemplaar)}
-                                {props.exemplaar ?
-                                    null :
+                                {/* Dit zie je als je van op PersoonInformatie.js zit:*/}
+                                {!props.exemplaar &&
                                     <td >
                                         <Button onClick={() => setUitleningInfo(persoon)}>Uitlenen</Button>
                                     </td>
@@ -126,7 +127,7 @@ const leenUitTabel = (persoon, nieuweUitleningToevoegen, exemplaar) => {
     if (exemplaar) {
         return (
             <td>
-                <Button onClick={() => nieuweUitleningToevoegen(persoon.id, exemplaar)}>Leen uit</Button>
+                <Button onClick={() => nieuweUitleningToevoegen(persoon.id, exemplaar, 0)}>Leen uit</Button>
             </td>
         );
     }

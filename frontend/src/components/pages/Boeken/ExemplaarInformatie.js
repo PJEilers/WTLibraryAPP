@@ -2,7 +2,6 @@ import './ExemplaarInformatie.css';
 import '../../Styling/Table.css';
 import React from "react";
 import { useState, useEffect } from "react";
-import { Button } from "../../Styling/Button"
 import Popup from 'reactjs-popup';
 import PersoonInformatie from '../Personen/PersoonInformatie';
 import { uitleningToevoegen, postRequest, connectieString } from '../../../Constanten.js'
@@ -22,26 +21,16 @@ function ExemplaarInformatie(props) {
     const [huidigExemplaar, setHuidigExemplaar] = useState(null);
     const [detectVerandering, setDetectVerandering] = useState(false);
 
-    const nieuwBoekId = (e) => {
-        setExemplaren([]);
-        setHoeveelExemplaren(0);
-        setSuccesBericht('');
-        setBoekId(e.target.value)
-    }
-
     const setUitleningInfo = (exemplaar) => {
         setNieuweUitlening(true);
         setHuidigExemplaar(exemplaar);
         setUitleningToegevoegd(false);
     }
 
+    // Als je niet van BoekTabel.js afkomt
     const setPersoonUitlening = (exemplaar) => {
         setHuidigExemplaar(exemplaar);
-        nieuweUitleningToevoegen(props.persoon, exemplaar);
-    }
-
-    const isUitgeleend = (status) => {
-        return status.charAt(0) + status.slice(1).toLowerCase();
+        nieuweUitleningToevoegen(props.persoon, exemplaar, props.reserveringId);
     }
 
     const selectDropdown = (exemplaar) => {
@@ -50,7 +39,7 @@ function ExemplaarInformatie(props) {
         }
         return (
             //maakt de dropdown selectie
-            <select className={exemplaar.status === "BESCHIKBAAR" ? "StatusBeschikbaar" : "StatusUitgeleend"} id={'select'+exemplaar.id} onChange={() => pasExemplaarStatusAan(exemplaar)}>
+            <select className={exemplaar.status === "BESCHIKBAAR" ? "StatusBeschikbaar" : "StatusUitgeleend"} id={'select' + exemplaar.id} onChange={() => pasExemplaarStatusAan(exemplaar)}>
                 <option value='none'>{exemplaar.status}</option>
                 {exemplaar.status === 'BESCHIKBAAR' ? //zorgt ervoor dat alleen de andere mogelijke statussen een keuze zijn
                     <>
@@ -81,8 +70,8 @@ function ExemplaarInformatie(props) {
         return total;
     }
 
-    const nieuweUitleningToevoegen = (persoonId, exemplaar) => {
-        if (uitleningToevoegen(persoonId, exemplaar)) {
+    const nieuweUitleningToevoegen = (persoonId, exemplaar, reserveringId) => {
+        if (uitleningToevoegen(persoonId, exemplaar, reserveringId)) {
             setUitleningToegevoegd(true);
             setNieuweUitlening(false);
             exemplaar.status = "UITGELEEND";
@@ -112,40 +101,36 @@ function ExemplaarInformatie(props) {
             )
     };
 
-    useEffect(() => {
-        setBoekId(props.boekId);
-        haalExemplarenOp(props.boekId);
-    }, []);
-
     //zorgt ervoor dat de exemplaar informatie tabel wordt aangepast als er iets verandert wordt door een user
     useEffect(() => {
         setBoekId(props.boekId);
         haalExemplarenOp(props.boekId);
-    }, [detectVerandering]);
+    }, [detectVerandering, props.boekId]);
 
-    
+
     const pasExemplaarStatusAan = (exemplaar) => {
-        var selectID = 'select'+exemplaar.id;
+        var selectID = 'select' + exemplaar.id;
         //als voor uitlenen is gekozen wordt de functie die het uitlenen regelt aangeroepen
         //de if statement checkt ook nog of een boek niet is uitgeleend als voor uitlenen wordt gekozen
-        if (document.getElementById(selectID).value === 'UITGELEEND' && 
+        if (document.getElementById(selectID).value === 'UITGELEEND' &&
             exemplaar.status !== 'UITGELEEND') {
-                {props.persoon ?
+            {
+                props.persoon ?
                     setPersoonUitlening(exemplaar)
                     :
                     setUitleningInfo(exemplaar);
-                }
-        //als voor beschikbaar of onbruikbaar is gekozen wordt de status van het exemplaar geupdate
+            }
+            //als voor beschikbaar of onbruikbaar is gekozen wordt de status van het exemplaar geupdate
         } else if (document.getElementById(selectID).value !== 'UITGELEEND') {
             exemplaar.status = document.getElementById(selectID).value;
-            postRequest(connectieString+'/updateexemplaarstatus', exemplaar)
-            .then(() => {
-                //zorgt ervoor dat de dropdown weer juist wordt weergegeven als er iets is aangepast
-                document.getElementById(selectID).value = 'none';
-                setDetectVerandering(!detectVerandering);
-            })
-            .catch(error => console.log(error));
-        //als er geprobeerd wordt een uitgeleend boek uit te lenen    
+            postRequest(connectieString + '/updateexemplaarstatus', exemplaar)
+                .then(() => {
+                    //zorgt ervoor dat de dropdown weer juist wordt weergegeven als er iets is aangepast
+                    document.getElementById(selectID).value = 'none';
+                    setDetectVerandering(!detectVerandering);
+                })
+                .catch(error => console.log(error));
+            //als er geprobeerd wordt een uitgeleend boek uit te lenen    
         } else {
             alert("Dit boek is al uitgeleend!");
         }
@@ -174,6 +159,7 @@ function ExemplaarInformatie(props) {
                                 </td>
                             </tr>
                         ))}
+                        {/* Wordt alleen aangeroepen vanuit BoekTabel.js als je een uitlening regelt */}
                         <Popup open={nieuweUitlening} modal onClose={() => setNieuweUitlening(false)}>
                             <div className="modal">
                                 <button className="close" onClick={() => setNieuweUitlening(false)}> &times; </button>

@@ -117,7 +117,7 @@ function BoekToevoegen() {
 
             </form>
             <p>{succesBericht}</p>
-            <ExemplarenToevoegen boekToegevoegd={boekToegevoegd} boektitel={boektitel}
+            <ExemplarenToevoegen boekToegevoegd={boekToegevoegd}
                 boekID={boekID} />
             <button onClick={() => reset()}>Nog een boek toevoegen</button>
         </div>

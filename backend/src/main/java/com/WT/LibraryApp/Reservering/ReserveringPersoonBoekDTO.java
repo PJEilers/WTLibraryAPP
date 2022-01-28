@@ -9,6 +9,8 @@ import com.WT.LibraryApp.Persoon.Persoon;
 public class ReserveringPersoonBoekDTO {
 	// State
 	int id;
+	int boekId;
+	int persoonId;
 	Date datum;
 	String naam;
 	String titel;
@@ -18,9 +20,27 @@ public class ReserveringPersoonBoekDTO {
 	public ReserveringPersoonBoekDTO(Reservering reservering, Persoon persoon, Boek boek) {
 		this.id = reservering.getId();
 		this.datum = reservering.getDatum();
-		this.naam = persoon.getNaam();
+		this.persoonId = persoon.getId();
+		this.naam = persoon.getNaam();	
+		this.boekId = boek.getId();
 		this.titel = boek.getTitel();
 		this.auteur = boek.getAuteur();
+	}
+
+	public int getBoekId() {
+		return boekId;
+	}
+
+	public void setBoekId(int boekId) {
+		this.boekId = boekId;
+	}
+
+	public int getPersoonId() {
+		return persoonId;
+	}
+
+	public void setPersoonId(int persoonId) {
+		this.persoonId = persoonId;
 	}
 
 	// Getters en setters
