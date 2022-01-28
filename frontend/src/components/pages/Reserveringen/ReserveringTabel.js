@@ -20,7 +20,7 @@ function MaakReserveringTabel() {
 
     const laadData = () => {
 
-        fetch('http://localhost:8080/reserveringMetPersoonEnBoek', { mode: 'cors' })
+        fetch('http://localhost:8080/reserveringenPersoonBoek', { mode: 'cors' })
             .then(response => response.json())
             .then(data => {
                 setReserveringen(data);

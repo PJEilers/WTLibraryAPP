@@ -1,13 +1,12 @@
 package com.WT.LibraryApp.Reservering;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.WT.LibraryApp.Exemplaar.Exemplaar;
-import com.WT.LibraryApp.Exemplaar.Exemplaar.Status;
 import com.WT.LibraryApp.Reservering.Reservering.ReserveringStatus;
 
 @Service
@@ -37,5 +36,17 @@ public class ReserveringService {
 		Reservering e = repository.getById(id);
 		repository.save(e);
 	}
+
+	    public List<ReserveringPersoonBoekDTO> alleReserveringenPersoonBoek() {
+	    	List<Reservering> reserveringen = repository.findAll();
+	    	List<ReserveringPersoonBoekDTO> reserveringenPersoonBoekDTO = new ArrayList<>();
+	    	for (Reservering reservering : reserveringen) {
+	    		ReserveringPersoonBoekDTO reserveringPersoonBoekDTO = new ReserveringPersoonBoekDTO(reservering,
+	    				reservering.getPersoon(),
+	    				reservering.getBoek());
+	    		reserveringenPersoonBoekDTO.add(reserveringPersoonBoekDTO);
+	    	}
+	        return reserveringenPersoonBoekDTO;
+	    }
 
 }
