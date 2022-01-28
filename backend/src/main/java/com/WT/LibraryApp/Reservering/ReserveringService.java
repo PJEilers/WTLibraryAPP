@@ -6,8 +6,6 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.WT.LibraryApp.Exemplaar.Exemplaar;
-import com.WT.LibraryApp.Exemplaar.Exemplaar.Status;
 import com.WT.LibraryApp.Reservering.Reservering.ReserveringStatus;
 
 @Service
@@ -36,6 +34,10 @@ public class ReserveringService {
 		repository.getById(id).setReserveringStatus(status);
 		Reservering e = repository.getById(id);
 		repository.save(e);
+	}
+
+	public List<Reservering> vindAlleOpenReserveringen() {
+		return repository.findStatus(null);
 	}
 
 }

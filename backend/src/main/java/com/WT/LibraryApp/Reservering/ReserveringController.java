@@ -58,7 +58,7 @@ public class ReserveringController {
 	// Haalt informatie van alle reserveringen op. Gebruik in ReserveringTabel.js
 	@RequestMapping(value = "/reserveringMetPersoonEnBoek")
 	public List<Map<String, Object>> vindReservering() {
-		List<Reservering> reserveringen = service.vindAlleReserveringen();
+		List<Reservering> reserveringen = service.vindAlleOpenReserveringen();
 		List<Map<String, Object>> reserveringArray = new ArrayList<>();
 		for (Reservering reservering : reserveringen) {
 			Map<String, Object> reserveringMap = new HashMap<>();
