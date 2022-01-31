@@ -31,7 +31,7 @@ public class PersoonService {
     // Verandert naam van een persoon naar "persoon", wordt gebruikt als persoon uit dienst gaat
 	public void veranderNaamNaarPersoon(int persoonId) {
 		Persoon persoon = repository.getById(persoonId);
-		persoon.setNaam("Persoon");
+		persoon.setNaam("persoon");
 		repository.save(persoon);
 	}
 

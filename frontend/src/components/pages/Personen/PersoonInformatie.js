@@ -70,6 +70,13 @@ function PersoonInformatie(props) {
         setUitleningToegevoegd(false);
     }
 
+    const veranderNaamInPersoon = (persoonId) => {
+        const response = fetch("http://localhost:8080/verandernaamnaarpersoon/" + persoonId, {
+            method: 'GET'
+        })
+        return response;
+    }
+
     return (
         <div>
             <h1 className = 'paragraph'>
@@ -84,6 +91,7 @@ function PersoonInformatie(props) {
                             <th>Naam</th>
                             <th>Email</th>
                             <th>Uitlenen</th>
+                            <th>Uit Dienst</th>
                             {/* {props.exemplaar ? <th></th> : null} */}
                         </tr>
                     </thead>
@@ -104,6 +112,9 @@ function PersoonInformatie(props) {
                                         <Button onClick={() => setUitleningInfo(persoon)}>Uitlenen</Button>
                                     </td>
                                 }
+                                <td>
+                                    <Button onClick={() => veranderNaamInPersoon(persoon.id)}>Uit Dienst</Button>
+                                </td>
                             </tr>
                         )
                         }
