@@ -22,6 +22,8 @@ function PersoonInformatie(props) {
     const [huidigPersoon, setHuidigPersoon] = useState(null);
     const [nieuweUitlening, setNieuweUitlening] = useState(false);
     const persoon = useContext(persoonContext);
+    const [uitDienstPopUp, setUitDienstPopUp] = useState(false);
+    const [uitDienstPersoon, setUitDienstPersoon] = useState(null);
 
 
     const haalPersonenOp = () => {
@@ -48,7 +50,9 @@ function PersoonInformatie(props) {
 
     useEffect(() => {
         haalPersonenOp();
-    }, []);
+    }, [uitDienstPopUp]);
+
+    
 
     const haalPersonenOpNaam = (naam) => {
         setNaam(naam);
@@ -70,10 +74,16 @@ function PersoonInformatie(props) {
         setUitleningToegevoegd(false);
     }
 
-    const veranderNaamInPersoon = (persoonId) => {
-        const response = fetch("http://localhost:8080/verandernaamnaarpersoon/" + persoonId, {
+    const setUitDienstInfo = (persoonId) => {
+        setUitDienstPopUp(true);
+        setUitDienstPersoon(persoonId);
+    }
+
+    const verwijderPersoonsGegevens = (persoonId) => {
+        const response = fetch("http://localhost:8080/uitdienst/" + persoonId, {
             method: 'GET'
         })
+        setUitDienstPopUp(false);
         return response;
     }
 
@@ -113,7 +123,7 @@ function PersoonInformatie(props) {
                                     </td>
                                 }
                                 <td>
-                                    <Button onClick={() => veranderNaamInPersoon(persoon.id)}>Uit Dienst</Button>
+                                    <button className = "Knop3" onClick={() => setUitDienstInfo(persoon.id)}>Uit Dienst</button>
                                 </td>
                             </tr>
                         )
@@ -125,6 +135,15 @@ function PersoonInformatie(props) {
                 <div className="modal">
                     <button className="close" onClick={() => setNieuweUitlening(false)}> &times; </button>
                     <MaakBoekTabel persoon = {huidigPersoon}/>
+                </div>
+            </Popup>
+
+            <Popup open={uitDienstPopUp} modal onClose={() => setUitDienstPopUp(false)} closeOnDocumentClick={false}>
+                <div className="dienstPopup">
+                    <button className="close" onClick={() => setUitDienstPopUp(false)}> &times; </button>
+                    <p className = "Vraag">Weet je het zeker?<br/>De naam en email van deze persoon worden uit de database verwijderd.</p>
+                    <button className = "Knop1" onClick={() => verwijderPersoonsGegevens(uitDienstPersoon)}>Ja</button>
+                    <button className = "Knop2" onClick={() => setUitDienstPopUp(false)}>Nee</button>
                 </div>
             </Popup>
         </div>

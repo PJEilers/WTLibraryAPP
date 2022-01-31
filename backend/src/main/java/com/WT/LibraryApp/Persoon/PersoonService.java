@@ -28,10 +28,11 @@ public class PersoonService {
         return repository.findByEmailAndWachtwoord(loginform.getEmail(), loginform.getWachtwoord());
     }
 
-    // Verandert naam van een persoon naar "persoon", wordt gebruikt als persoon uit dienst gaat
-	public void veranderNaamNaarPersoon(int persoonId) {
+    // Verwijdert persoonsgegevens en verandert deze in placeholders
+	public void uitDienst(int persoonId) {
 		Persoon persoon = repository.getById(persoonId);
-		persoon.setNaam("persoon");
+		persoon.setNaam("Uit dienst");
+		persoon.setEmail("Geen info voor persoon Id " + persoonId);
 		repository.save(persoon);
 	}
 

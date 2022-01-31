@@ -58,10 +58,10 @@ public class PersoonController {
         throw new incorrectException();
     }
 
-    // Verandert naam van een persoon naar "persoon", wordt gebruikt als persoon uit dienst gaat
-    @RequestMapping(method = RequestMethod.GET, value = "/verandernaamnaarpersoon/{persoonId}")
-    public void veranderNaamNaarPersoon(@PathVariable int persoonId) {
-    	service.veranderNaamNaarPersoon(persoonId);
+    // Verwijdert persoonsgegevens en verandert deze in placeholders
+    @RequestMapping(method = RequestMethod.GET, value = "/uitdienst/{persoonId}")
+    public void uitDienst(@PathVariable int persoonId) {
+    	service.uitDienst(persoonId);
     }
 
 }
