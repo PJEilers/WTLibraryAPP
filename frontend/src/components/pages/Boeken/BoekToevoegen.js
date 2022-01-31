@@ -48,7 +48,7 @@ function BoekToevoegen() {
                             setSuccesBericht('Dit boek staat al in de database, ga verder met exemplaren toevoegen');
                             setBoekID(nieuwBoek.bestaat.id)
                         } else {
-                            setSuccesBericht('Boek is toegevoegd aan de database');
+                            setSuccesBericht('Boek is toegevoegd aan de database!');
                             setBoekID(nieuwBoek.bestaatNiet.id)
                         }
                     });
@@ -120,9 +120,9 @@ function BoekToevoegen() {
             <p>{succesBericht}</p>
             <ExemplarenToevoegen boekToegevoegd={boekToegevoegd} boektitel={boektitel}
                 boekID={boekID} />
+            
             <button onClick={() => reset()}>Nog een boek toevoegen</button>
-            <h2></h2>
-        </span>
+            </span>
         </BoekToevoegenStyling>
     )
 }

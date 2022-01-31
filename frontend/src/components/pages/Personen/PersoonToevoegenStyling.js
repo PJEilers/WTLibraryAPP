@@ -1,6 +1,6 @@
 import styled from "styled-components";
 
-export const BoekToevoegenStyling = styled.div`
+export const PersoonToevoegenStyling = styled.div`
 span{
     display: block;
     width: 450px;
@@ -18,26 +18,15 @@ span{
 h1{
     font-size: 30px;
     position: relative;
-    left: 90px;
+    left: 80px;
     width: 375px;
-}
-
-h2 {
-    font-size: 18px;
-    color: black;
-    font-size: 15px;
-    width: 170px;
-}
-
-h3{
-    font-size: 18px;
 }
 
 label {
     color: black;
     font-weight: bold;
     display: block;
-    width: 90px;
+    width: 150px;
     text-align: left;
     float: left;
 }
@@ -53,6 +42,10 @@ form label:after{
     content: ":";
 }
 
+form #checkbox{
+    vertical-align: left;
+}
+
 form #stuur:after{
     content: "";
 }
@@ -60,7 +53,6 @@ form #stuur:after{
 input{
     display: grid;
     position: relative;
-    left: 50px;
     border: none;
     &:focus{
         outline:none;
@@ -70,7 +62,7 @@ input{
 button{
     background-color: black;
     position: relative;
-    left: 145px; 
+    left: 157px; 
     color: #fff;
     border-radius: 4px;
     border: 1px solid rgb(47, 211, 6);
@@ -97,35 +89,4 @@ button:hover{
     cursor: pointer;
 }
 
-.submit2{
-    background-color: black;
-    position: relative;
-    margin-top: 9px;
-    left: 80px;
-    color: #fff;
-    width: 100px;
-    height: 25px;
-    border-radius: 4px;
-    border: 1px solid rgb(47, 211, 6);
-}
-.submit2:hover{
-    color: rgb(47, 211, 6);
-    cursor: pointer;
-}
-
-.klikveld{
-    background-color: rgb(47, 211, 6,.1);
-    border: solid 2px black;
-    border-radius: 4px;
-    color: black;
-    position: absolute;
-    right: 80px; 
-    margin: auto;
-    margin-top: 9px;
-    height: 20px;
-    width: 40px;
-}
-
 `
-
-
