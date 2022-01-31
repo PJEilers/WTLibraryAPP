@@ -88,6 +88,8 @@ public class UitleningController {
 			map.put("eindDatum", uitlening.getEindDatum());			
 			map.put("exemplaarId", uitlening.getExemplaar().getIndividueelId());
 			map.put("boekId", uitlening.getExemplaar().getBoek().getId());
+			String label = "WT-" + uitlening.getExemplaar().getBoek().getId() + "." + uitlening.getExemplaar().getIndividueelId();
+			map.put("exemplaarLabel", label);
 			map.put("boek", uitlening.getExemplaar().getBoek().getTitel());
 			if (adminRechten) {
 				map.put("id", uitlening.getId());

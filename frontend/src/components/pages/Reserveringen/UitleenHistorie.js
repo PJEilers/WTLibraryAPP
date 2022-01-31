@@ -17,7 +17,7 @@ function UitleenHistorieTabel() {
         () => [
             {
                 Header: 'Exemplaar Label',
-                accessor: 'exemplaarId',
+                accessor: 'exemplaarLabel',
             },
             {
                 Header: 'Persoon',
