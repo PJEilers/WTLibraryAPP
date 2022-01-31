@@ -128,9 +128,9 @@ function PersoonInformatie(props) {
             <TableStyle>
                 {zetExemplaar()}
                 {props.exemplaar ?
-                    <BasicTable columns={columns1} data={gezochtePersonen}/>
+                    <BasicTable columns={columns1} data={gezochtePersonen} paginaLengte={5}/>
                     :
-                    <BasicTable columns={columns2} data={gezochtePersonen}/>
+                    <BasicTable columns={columns2} data={gezochtePersonen} paginaLengte={20}/>
                 }
             </TableStyle>
             <Popup open={nieuweUitlening} modal onClose={() => setNieuweUitlening(false)} closeOnDocumentClick={false}>
@@ -159,7 +159,7 @@ const leenUitTabel = (persoon, nieuweUitleningToevoegen, exemplaar) => {
 
 //niet optimaal om dit in deze file te zetten
 //maar maakt het een stuk makkelijker met de uitleen knop
-const BasicTable = ({ columns, data }) => {
+const BasicTable = ({ columns, data, paginaLengte }) => {
     const {
         getTableProps,
         getTableBodyProps,
@@ -181,7 +181,7 @@ const BasicTable = ({ columns, data }) => {
         {
           columns,
           data,
-          initialState: { pageSize: 20 },
+          initialState: { pageSize: paginaLengte },
         },
         usePagination
       )
