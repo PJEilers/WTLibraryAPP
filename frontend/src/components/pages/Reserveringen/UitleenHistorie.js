@@ -1,8 +1,10 @@
 import '../../Styling/ZoekveldStyling.css';
 import React, { useContext, useEffect } from 'react';
-import { useState } from 'react';
+import { useState, useMemo } from 'react';
 import { TableStyle } from '../../Styling/Table';
 import { permissionContext, persoonContext } from '../../../App';
+
+import {BasicTable} from '../../Styling/Pagination.js';
 
 function UitleenHistorieTabel() {
     const [uitleningen, setUitleningen] = useState([]);
@@ -11,6 +13,31 @@ function UitleenHistorieTabel() {
     const [uitleningenWeergeven, setUitleningenWeergeven] = useState([]);
     const [opstarten, setOpstarten] = useState(false);
     const [filterWoord, setFilterWoord] = useState('');
+
+    const columns = useMemo(
+        () => [
+            {
+                Header: 'Exemplaar Label',
+                accessor: 'exemplaarId',
+            },
+            {
+                Header: 'Persoon',
+                accessor: 'persoon',
+            },
+            {
+                Header: 'Boek',
+                accessor: 'boek',
+            },
+            {
+                Header: 'Begin Datum',
+                accessor: 'beginDatum',
+            },
+            {
+                Header: 'Eind Datum',
+                accessor: 'eindDatum',
+            },
+        ]
+    )
     
     const uitleenData = () => {
         fetch('http://localhost:8080/historie/' + persoonInfo.persoonId, { mode: 'cors' })
@@ -54,7 +81,6 @@ function UitleenHistorieTabel() {
         uitleenData();
     }, [opstarten])
 
-
     return (
         <div>
             <h1 className = 'paragraph'>
@@ -63,28 +89,7 @@ function UitleenHistorieTabel() {
             <button className= 'resetbtn' onClick={() => setOpstarten(!opstarten)}>Reset</button>
             </h1>
             <TableStyle>
-                <table>
-                    <thead>
-                        <tr>
-                            <th>Exemplaar Label</th>
-                            {permission && <th>Persoon</th>}
-                            <th>Boek</th>
-                            <th>Begin Datum</th>
-                            <th>Eind Datum</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {uitleningenWeergeven.map((uitlening, index) => (
-                            <tr key={index}>
-                                <td>WT-{uitlening.boekId}.{uitlening.exemplaarId}</td>
-                                {permission && <td>{uitlening.persoon}</td>} 
-                                <td>{uitlening.boek}</td>                                 
-                                <td>{uitlening.beginDatum}</td>
-                                <td>{uitlening.eindDatum}</td>
-                            </tr>
-                        ))}
-                    </tbody>
-                </table>
+                <BasicTable columns={columns} data={uitleningenWeergeven}/>
             </TableStyle>
         </div>
     );

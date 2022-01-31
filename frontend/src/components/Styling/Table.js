@@ -39,6 +39,10 @@ table {
             border-right: 0;
         }
     }
+
+    .pagination {
+        padding: 0.5rem;
+    }
 }
 `
 
