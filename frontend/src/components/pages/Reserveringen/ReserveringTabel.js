@@ -40,7 +40,9 @@ function MaakReserveringTabel() {
             },
             {
                 Header: ' ',
-                accessor: 'Button',
+                Cell: ({ cell }) => (
+                    <Button onClick={() => console.log(cell.row.original.persoonId + ", " + cell.row.original.boekId + ", " + cell.row.original.id)}>Uitlenen</Button>
+                )
             },
         ]
     );
@@ -104,7 +106,6 @@ function MaakReserveringTabel() {
             </h1>
 
             <TableStyle>
-                {zetButtonInData()}
                 <BasicTable columns={columns} data={reserveringWeergeven}/>
             </TableStyle>
         </div>
