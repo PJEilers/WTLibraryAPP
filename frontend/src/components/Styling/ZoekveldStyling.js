@@ -1,4 +1,7 @@
-.resetbtn{
+import styled from "styled-components";
+
+export const ZoekveldStyling = styled.div`
+button{
     color: #fff;
     font-size: 15px;
     border: 1px solid #25f025;
@@ -8,16 +11,17 @@
     width: 60px;
 
 }
-.resetbtn:hover{
+button:hover{
     color: black;
 }
-.paragraph{
+
+h1{
     margin-top: 0px;
     margin-bottom: 10px;
     text-align: center;
 }
 
-.zoekveld {
+input{
     color: black;
     font-size: 15px;
     border: 1px solid rgb(0, 0, 0);
@@ -26,3 +30,4 @@
     width: 150px;
 
 }
+`

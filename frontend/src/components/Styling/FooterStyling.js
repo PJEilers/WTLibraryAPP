@@ -7,7 +7,7 @@ export const Container = styled.div`
     left: 0;
     bottom: 0;
     right:0;
-    background: radial-gradient(circle, black 70%, #25f025 100%);
+    background: radial-gradient(circle, black 70%, rgb(47, 211, 6) 100%);
 `
 
 export const Wrapper = styled.div`
@@ -42,7 +42,7 @@ export const StyleLink = styled(Link)`
     text-decoration: none;
 
     &:hover{
-        color: #25f025;
+        color: rgb(47, 211, 6);
         cursor: pointer;
         transition: 0.1s ease-in;
     }
@@ -62,7 +62,7 @@ export const Item = styled.div`
 
 export const Title = styled.div`
     font-size: 1rem;
-    color: #25f025;
+    color: rgb(47, 211, 6);
     margin-bottom: 20px;
     font-weight: bold;
 

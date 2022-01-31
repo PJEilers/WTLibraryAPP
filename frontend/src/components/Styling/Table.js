@@ -9,7 +9,7 @@ table {
     width:100%;
 
     thead {
-        background-color: #25f025;
+        background-color: rgb(56, 226, 14);
     }
 
     tr {

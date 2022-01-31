@@ -8,6 +8,7 @@
 }
 
 .navbar-logo {
+    color: rgb(47, 211, 6);
     color: #25f025;
     justify-self: start;
     width: 230px;
@@ -49,7 +50,7 @@
 }
 
 .nav-links:hover {
-    color:#25f025;
+    color:rgb(47, 211, 6);
     /* background: #e95c1b; */
     transition: all 0.2s ease-in-out;
 }
@@ -105,7 +106,7 @@
     }
 
     .nav-links:hover{
-        background-color: #25f025; /*Color of the menuItem box when you hover over it in the hamburger menu*/
+        background-color: rgb(47, 211, 6); /*Color of the menuItem box when you hover over it in the hamburger menu*/
         /* right: 1; */
         position: center;
         border-radius: 4px;
@@ -145,14 +146,14 @@
         border-radius: 4px;
         width: 70%;
         position: absolute;
-        background: #25f025;
+        background: rgb(47, 211, 6);
         text-decoration: none;
         color: white;
         font-size:1.5rem;
     }
 
     .nav-links-mobile:hover{
-        background: #25f025;
+        background: rgb(47, 211, 6);
         color: black;
         transition: 250ms;
     }

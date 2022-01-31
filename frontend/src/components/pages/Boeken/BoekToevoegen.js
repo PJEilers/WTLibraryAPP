@@ -1,7 +1,7 @@
-import './BoekToevoegen.css';
+// import './BoekToevoegen.css';
 import { useState } from "react";
 import ExemplarenToevoegen from './ExemplarenToevoegen';
-
+import {BoekToevoegenStyling} from './BoekToevoegenStyling'
 function BoekToevoegen() {
 
     const [boektitel, setBoektitel] = useState('');
@@ -48,7 +48,7 @@ function BoekToevoegen() {
                             setSuccesBericht('Dit boek staat al in de database, ga verder met exemplaren toevoegen');
                             setBoekID(nieuwBoek.bestaat.id)
                         } else {
-                            setSuccesBericht('Boek is toegevoegd aan de database');
+                            setSuccesBericht('Boek is toegevoegd aan de database!');
                             setBoekID(nieuwBoek.bestaatNiet.id)
                         }
                     });
@@ -78,9 +78,10 @@ function BoekToevoegen() {
     }
 
     return (
-        <div key = {resetID}>
+        <BoekToevoegenStyling>
+        <span key = {resetID}>
             <h1>Voeg een boek toe</h1>
-            <form onSubmit={stuurOp} className='BoekToevoegen'>
+            <form onSubmit={stuurOp}>
 
                 <label>Boektitel</label>
                 <input type="text" required
@@ -112,15 +113,17 @@ function BoekToevoegen() {
                     disabled={uit} />
 
                 <label id="stuur"></label>
-                <input type="submit" disabled={uit} value="Maak nieuw boek aan" />
+                <input className = 'submit' type="submit" disabled={uit} value="Maak nieuw boek aan" />
 
 
             </form>
             <p>{succesBericht}</p>
             <ExemplarenToevoegen boekToegevoegd={boekToegevoegd}
                 boekID={boekID} />
+            
             <button onClick={() => reset()}>Nog een boek toevoegen</button>
-        </div>
+            </span>
+        </BoekToevoegenStyling>
     )
 }
 
