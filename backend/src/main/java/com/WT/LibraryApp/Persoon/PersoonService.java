@@ -27,4 +27,12 @@ public class PersoonService {
     public Optional<Persoon> login (LoginForm loginform) {
         return repository.findByEmailAndWachtwoord(loginform.getEmail(), loginform.getWachtwoord());
     }
+
+    // Verandert naam van een persoon naar "persoon", wordt gebruikt als persoon uit dienst gaat
+	public void veranderNaamNaarPersoon(int persoonId) {
+		Persoon persoon = repository.getById(persoonId);
+		persoon.setNaam("Persoon");
+		repository.save(persoon);
+	}
+
 }
