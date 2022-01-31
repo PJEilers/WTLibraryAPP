@@ -13,7 +13,6 @@ import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.DisabledException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -23,7 +22,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.WT.LibraryApp.Persoon.PersoonService;
 import com.WT.LibraryApp.jwt.JwtTokenUtil;
-import com.WT.LibraryApp.jwt.JwtUserDetails;
 
 @RestController
 @CrossOrigin(origins="http://localhost:3000")
@@ -31,9 +29,6 @@ public class JwtAuthenticationRestController {
 
   @Value("${jwt.http.request.header}")
   private String tokenHeader;
-  
-  @Autowired
-  private PersoonService persoonService;
 
   @Autowired
   private AuthenticationManager authenticationManager;
@@ -47,7 +42,7 @@ public class JwtAuthenticationRestController {
   // Dit zorgt ervoor dat uiteindelijk JwtInMemoryUserDetailsService gebruikt wordt hier.
   // https://stackoverflow.com/questions/12899372/spring-why-do-we-autowire-the-interface-and-not-the-implemented-class
   @Autowired
-  private UserDetailsService jwtInMemoryUserDetailsService;
+  private PersoonService persoonService;
 
   // url in application.properties
   // checkt of de user en password correct zijn.
@@ -59,15 +54,15 @@ public class JwtAuthenticationRestController {
     authenticate(authenticationRequest.getUsername(), authenticationRequest.getPassword());
 
     // Laad UserDetails
-    final UserDetails userDetails = jwtInMemoryUserDetailsService.loadUserByUsername(authenticationRequest.getUsername());
+    final UserDetails userDetails = persoonService.loadUserByUsername(authenticationRequest.getUsername());
     
     // Voor id
-    JwtUserDetails user = (JwtUserDetails) jwtInMemoryUserDetailsService.loadUserByUsername(authenticationRequest.getUsername());    
+    int persoonId = persoonService.vindPersoonIdEmail(authenticationRequest.getUsername());    
     
     final String token = jwtTokenUtil.generateToken(userDetails);
         
     //JwtTokenResponse accepteerd nu ook een id. Die kan je dus ophalen en hier erin zetten.
-    return ResponseEntity.ok(new JwtTokenResponse(token, user.getId()));
+    return ResponseEntity.ok(new JwtTokenResponse(token, persoonId));
   }
 
   // Refresht Token voor user.
@@ -77,12 +72,12 @@ public class JwtAuthenticationRestController {
     String authToken = request.getHeader(tokenHeader);
     final String token = authToken.substring(7);
     String username = jwtTokenUtil.getUsernameFromToken(token);
-    JwtUserDetails user = (JwtUserDetails) jwtInMemoryUserDetailsService.loadUserByUsername(username);
+    int persoonId = persoonService.vindPersoonIdEmail(username);    
 
 	// Hij checkt of hij ververst mag worden en geeft dan een nieuwe (refreshed) token terug
     if (jwtTokenUtil.canTokenBeRefreshed(token)) {
       String refreshedToken = jwtTokenUtil.refreshToken(token);
-      return ResponseEntity.ok(new JwtTokenResponse(refreshedToken, user.getId()));
+      return ResponseEntity.ok(new JwtTokenResponse(refreshedToken, persoonId));
     } else {
       return ResponseEntity.badRequest().body(null);
     }

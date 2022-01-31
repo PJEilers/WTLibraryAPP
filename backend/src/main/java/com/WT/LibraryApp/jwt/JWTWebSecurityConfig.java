@@ -13,85 +13,68 @@ import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.config.http.SessionCreationPolicy;
-import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+
+import com.WT.LibraryApp.Persoon.PersoonService;
 
 @Configuration
 @EnableWebSecurity
 @EnableGlobalMethodSecurity(prePostEnabled = true)
 public class JWTWebSecurityConfig extends WebSecurityConfigurerAdapter {
 
-    @Autowired
-    private JwtUnAuthorizedResponseAuthenticationEntryPoint jwtUnAuthorizedResponseAuthenticationEntryPoint;
+	@Autowired
+	private JwtUnAuthorizedResponseAuthenticationEntryPoint jwtUnAuthorizedResponseAuthenticationEntryPoint;
 
-    @Autowired
-    private UserDetailsService jwtInMemoryUserDetailsService;
+	@Autowired
+	private PersoonService persoonService;
 
-    @Autowired
-    private JwtTokenAuthorizationOncePerRequestFilter jwtAuthenticationTokenFilter;
+	@Autowired
+	private JwtTokenAuthorizationOncePerRequestFilter jwtAuthenticationTokenFilter;
 
-    @Value("${jwt.get.token.uri}")
-    private String authenticationPath;
+	@Value("${jwt.get.token.uri}")
+	private String authenticationPath;
 
-    @Autowired
-    public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
-        auth
-            .userDetailsService(jwtInMemoryUserDetailsService)
-            .passwordEncoder(new BCryptPasswordEncoder());
-    }
+	@Autowired
+	public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
+		// configure AuthenticationManager so that it knows from where to load
+		// user for matching credentials
+		// Use BCryptPasswordEncoder
+		auth.userDetailsService(persoonService).passwordEncoder(new BCryptPasswordEncoder());
+	}
 
-    //	Al gedefineerd hierboven
-    @Bean
-    public PasswordEncoder passwordEncoderBean() {
-        return new BCryptPasswordEncoder();
-    }
+	@Bean
+	public PasswordEncoder passwordEncoderBean() {
+		return new BCryptPasswordEncoder();
+	}
 
-    @Bean
-    @Override
-    public AuthenticationManager authenticationManagerBean() throws Exception {
-        return super.authenticationManagerBean();
-    }
+	@Bean
+	@Override
+	public AuthenticationManager authenticationManagerBean() throws Exception {
+		return super.authenticationManagerBean();
+	}
 
-    // Als de user unauthorized roep JwtUnAuthorizedResponseAuthenticationEntryPoint aan.
-    @Override
-    protected void configure(HttpSecurity httpSecurity) throws Exception {
-        httpSecurity
-            .csrf().disable()
-            .exceptionHandling().authenticationEntryPoint(jwtUnAuthorizedResponseAuthenticationEntryPoint).and()
-            .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and()
-            .authorizeRequests()
-            .anyRequest().authenticated(); //https://www.toptal.com/spring/spring-security-tutorial
-        
-        // Elk request moet door dit filter heen.
-       httpSecurity
-            .addFilterBefore(jwtAuthenticationTokenFilter, UsernamePasswordAuthenticationFilter.class);
-        
-        httpSecurity
-            .headers()
-            .frameOptions().sameOrigin()  //H2 Console Needs this setting
-            .cacheControl(); //disable caching
-    }
+	// Als user unauthorized roep JwtUnAuthorizedResponseAuthenticationEntryPoint
+	// aan.
+	@Override
+	protected void configure(HttpSecurity httpSecurity) throws Exception {
+		httpSecurity.csrf().disable().exceptionHandling()
+				.authenticationEntryPoint(jwtUnAuthorizedResponseAuthenticationEntryPoint).and().sessionManagement()
+				.sessionCreationPolicy(SessionCreationPolicy.STATELESS).and().authorizeRequests().anyRequest()
+				.authenticated(); // https://www.toptal.com/spring/spring-security-tutorial
 
-    @Override
-    public void configure(WebSecurity webSecurity) throws Exception {
-        webSecurity
-            .ignoring()
-            .antMatchers(
-                HttpMethod.POST,
-                authenticationPath
-            )
-            .antMatchers(HttpMethod.OPTIONS, "/**")
-            .and()
-            .ignoring()
-            .antMatchers(
-                HttpMethod.GET,
-                "/" //Other Stuff You want to Ignore
-            )
-            .and()
-            .ignoring()
-            .antMatchers("/h2-console/**/**");//Should not be in Production!
-    }
+		// Elk request moet door dit filter heen.
+		httpSecurity.addFilterBefore(jwtAuthenticationTokenFilter, UsernamePasswordAuthenticationFilter.class);
+
+		httpSecurity.headers().frameOptions().sameOrigin() // H2 Console Needs this setting
+				.cacheControl(); // disable caching
+	}
+
+	@Override
+	public void configure(WebSecurity webSecurity) throws Exception {
+		webSecurity.ignoring().antMatchers(HttpMethod.POST, authenticationPath).antMatchers(HttpMethod.OPTIONS, "/**")
+				.and().ignoring().antMatchers(HttpMethod.GET, "/" // Other Stuff You want to Ignore
+				).and().ignoring().antMatchers("/h2-console/**/**");// Should not be in Production!
+	}
 }
-

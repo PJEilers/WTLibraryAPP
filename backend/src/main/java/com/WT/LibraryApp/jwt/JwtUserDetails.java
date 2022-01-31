@@ -12,14 +12,15 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 
 // Om gebruik te maken van users moet je een implementation geven van UserDetails.
 // Dat is hier gedaan.
+
 public class JwtUserDetails implements UserDetails {
 
 	private static final long serialVersionUID = 5155720064139820502L;
 
-	private final Long id;
-	private final String username;
-	private final String password;
-	private final Collection<? extends GrantedAuthority> authorities;
+	private Long id;
+	private String username;
+	private String password;
+	private Collection<? extends GrantedAuthority> authorities;
 
 	public JwtUserDetails(Long id, String username, String password, String role) {
 		this.id = id;

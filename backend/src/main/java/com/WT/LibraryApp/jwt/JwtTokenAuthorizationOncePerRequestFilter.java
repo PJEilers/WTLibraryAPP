@@ -14,10 +14,11 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.web.authentication.WebAuthenticationDetailsSource;
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
+
+import com.WT.LibraryApp.Persoon.PersoonService;
 
 import io.jsonwebtoken.ExpiredJwtException;
 
@@ -28,7 +29,7 @@ public class JwtTokenAuthorizationOncePerRequestFilter extends OncePerRequestFil
     private final Logger logger = LoggerFactory.getLogger(this.getClass());
 
     @Autowired
-    private UserDetailsService jwtInMemoryUserDetailsService;
+    private PersoonService persoonService;
     
     @Autowired
     private JwtTokenUtil jwtTokenUtil;
@@ -68,7 +69,7 @@ public class JwtTokenAuthorizationOncePerRequestFilter extends OncePerRequestFil
         // Hier checkt hij of de user bestaat. Pas dit aan naar wat wij willen.
         /*TODO*/
         	// Haalt de user op username. (Zou in database kunnen?) /*TODO*/
-            UserDetails userDetails = this.jwtInMemoryUserDetailsService.loadUserByUsername(username);
+            UserDetails userDetails = this.persoonService.loadUserByUsername(username);
             
             // Checkt of de token inderdaad de username bevat.
             if (jwtTokenUtil.validateToken(jwtToken, userDetails)) {
