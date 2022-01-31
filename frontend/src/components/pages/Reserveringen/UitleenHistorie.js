@@ -38,6 +38,10 @@ function UitleenHistorieTabel() {
         ]
     )
     
+    if (!permission) {
+        columns.splice(1, 1);
+    }
+    
     const uitleenData = () => {
         fetch('http://localhost:8080/historie/' + persoonInfo.persoonId, { mode: 'cors' })
             .then(response => response.json())

@@ -1,5 +1,5 @@
 import { useTable, usePagination } from "react-table";
-import { Button, ButtonFade } from "../Styling/Button.js";
+import { Button } from "../Styling/Button.js";
 
 export const BasicTable = ({ columns, data }) => {
     const {
@@ -18,8 +18,7 @@ export const BasicTable = ({ columns, data }) => {
         gotoPage,
         nextPage,
         previousPage,
-        setPageSize,
-        state: { pageIndex, pageSize },
+        state: { pageIndex },
       } = useTable(
         {
           columns,
