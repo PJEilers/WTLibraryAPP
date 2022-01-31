@@ -11,14 +11,15 @@ export const postRequest = async(url,data) => {
     return response;
 }
 
-export const uitleningToevoegen = (persoonId, exemplaar) => {
+export const uitleningToevoegen = (persoonId, exemplaar, reserveringId) => {
     let output = true;
+    let reserveringId2 = reserveringId ? reserveringId : 0;
     const nieuweUitlening = {
         exemplaar: {id: exemplaar.id},
         persoon: {id: persoonId},
         beginDatum: new Date().toISOString().split('T')[0]
     }
-    postRequest(connectieString + '/maakuitleningaan/0', nieuweUitlening).then(response => {
+    postRequest(connectieString + '/maakuitleningaan/' + reserveringId2, nieuweUitlening).then(response => {
         if (response.ok) {
             response.json().then(uitlening => {                
                 output = true;
