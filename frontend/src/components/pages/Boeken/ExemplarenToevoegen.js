@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import { postRequest } from '../../../Constanten';
 import { BoekToevoegenStyling } from './BoekToevoegenStyling';
 
 function ExemplarenToevoegen(props) {
@@ -10,7 +11,7 @@ function ExemplarenToevoegen(props) {
 
     const bevestig = (e) => {
         setUit(true);
-        voegExemplarenToe("http://localhost:8080/opslaanexemplaar/" + props.boekID+ "/" +hoeveelheid, {}).then(response => {
+        postRequest("/opslaanexemplaar/" + props.boekID+ "/" +hoeveelheid, {}).then(response => {
             if (response.ok) {
                 response.json().then(ids => {
                     let labels = [];

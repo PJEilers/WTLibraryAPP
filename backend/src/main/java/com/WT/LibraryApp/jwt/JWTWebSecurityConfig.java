@@ -15,6 +15,7 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 @Configuration
@@ -41,11 +42,11 @@ public class JWTWebSecurityConfig extends WebSecurityConfigurerAdapter {
             .passwordEncoder(new BCryptPasswordEncoder());
     }
 
-    /*TODO*/
-    //@Bean
-    //public PasswordEncoder passwordEncoderBean() {
-    //    return new BCryptPasswordEncoder();
-    //}
+    //	Al gedefineerd hierboven
+    @Bean
+    public PasswordEncoder passwordEncoderBean() {
+        return new BCryptPasswordEncoder();
+    }
 
     @Bean
     @Override
@@ -61,7 +62,7 @@ public class JWTWebSecurityConfig extends WebSecurityConfigurerAdapter {
             .exceptionHandling().authenticationEntryPoint(jwtUnAuthorizedResponseAuthenticationEntryPoint).and()
             .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and()
             .authorizeRequests()
-            .anyRequest().authenticated();
+            .anyRequest().authenticated(); //https://www.toptal.com/spring/spring-security-tutorial
         
         // Elk request moet door dit filter heen.
        httpSecurity

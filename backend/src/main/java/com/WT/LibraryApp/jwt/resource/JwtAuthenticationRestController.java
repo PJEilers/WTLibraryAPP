@@ -21,15 +21,19 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.WT.LibraryApp.Persoon.PersoonService;
 import com.WT.LibraryApp.jwt.JwtTokenUtil;
 import com.WT.LibraryApp.jwt.JwtUserDetails;
 
 @RestController
-@CrossOrigin(origins="http://localhost:4200")
+@CrossOrigin(origins="http://localhost:3000")
 public class JwtAuthenticationRestController {
 
   @Value("${jwt.http.request.header}")
   private String tokenHeader;
+  
+  @Autowired
+  private PersoonService persoonService;
 
   @Autowired
   private AuthenticationManager authenticationManager;
@@ -56,10 +60,14 @@ public class JwtAuthenticationRestController {
 
     // Laad UserDetails
     final UserDetails userDetails = jwtInMemoryUserDetailsService.loadUserByUsername(authenticationRequest.getUsername());
-
+    
+    // Voor id
+    JwtUserDetails user = (JwtUserDetails) jwtInMemoryUserDetailsService.loadUserByUsername(authenticationRequest.getUsername());    
+    
     final String token = jwtTokenUtil.generateToken(userDetails);
-
-    return ResponseEntity.ok(new JwtTokenResponse(token));
+        
+    //JwtTokenResponse accepteerd nu ook een id. Die kan je dus ophalen en hier erin zetten.
+    return ResponseEntity.ok(new JwtTokenResponse(token, user.getId()));
   }
 
   // Refresht Token voor user.
@@ -74,7 +82,7 @@ public class JwtAuthenticationRestController {
 	// Hij checkt of hij ververst mag worden en geeft dan een nieuwe (refreshed) token terug
     if (jwtTokenUtil.canTokenBeRefreshed(token)) {
       String refreshedToken = jwtTokenUtil.refreshToken(token);
-      return ResponseEntity.ok(new JwtTokenResponse(refreshedToken));
+      return ResponseEntity.ok(new JwtTokenResponse(refreshedToken, user.getId()));
     } else {
       return ResponseEntity.badRequest().body(null);
     }

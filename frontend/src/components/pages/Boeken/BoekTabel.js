@@ -10,6 +10,7 @@ import '../../Styling/Table.css'
 import { permissionContext } from '../../../App.js';
 import ExemplaarInformatie from './ExemplaarInformatie';
 import { ZoekveldStyling } from '../../Styling/ZoekveldStyling';
+import { connectieString, getRequest } from "../../../Constanten";
 
 function MaakBoekTabel(props) {
     const [boeken, setBoeken] = useState([]);
@@ -22,8 +23,10 @@ function MaakBoekTabel(props) {
     const [filterWoord, setFilterWoord] = useState('');
 
     const laadData = () => {
-        fetch('http://localhost:8080/boeken', { mode: 'cors' })
-            .then(response => response.json())
+        getRequest('/boeken')
+            .then(response =>
+                response.json()
+            )
             .then(data => {
                 setBoeken(data);
                 setBoekenWeergeven(data);
@@ -62,13 +65,13 @@ function MaakBoekTabel(props) {
     return (
         <div>
             <ZoekveldStyling>
-            <h1>
-            <input type="text" placeholder='Zoeken...' value={filterWoord}
-                onChange={e => zoekFunctie(e.target.value)} />
-            <button onClick={() => setOpstarten(!opstarten)}>Reset</button>
-            </h1>
+                <h1>
+                    <input type="text" placeholder='Zoeken...' value={filterWoord}
+                        onChange={e => zoekFunctie(e.target.value)} />
+                    <button onClick={() => setOpstarten(!opstarten)}>Reset</button>
+                </h1>
             </ZoekveldStyling>
-            <TableStyle> 
+            <TableStyle>
                 <table>
                     <thead>
                         <tr>

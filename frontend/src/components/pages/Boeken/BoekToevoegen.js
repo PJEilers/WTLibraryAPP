@@ -2,6 +2,7 @@
 import { useState } from "react";
 import ExemplarenToevoegen from './ExemplarenToevoegen';
 import {BoekToevoegenStyling} from './BoekToevoegenStyling'
+import { postRequest } from "../../../Constanten";
 function BoekToevoegen() {
 
     const [boektitel, setBoektitel] = useState('');
@@ -34,13 +35,7 @@ function BoekToevoegen() {
             tags: tags,
         }
 
-        fetch("http://localhost:8080/maakboekaan", {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify(nieuwBoek)
-        })
+        postRequest("/maakboekaan", nieuwBoek)
             .then(response => {
                 if (response.ok) {
                     response.json().then(nieuwBoek => {

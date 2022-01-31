@@ -21,7 +21,8 @@ public class ReserveringController {
 	@Autowired
 	private ReserveringService service;
 
-	// Maakt een reservering aan als deze nog niet bestaat. Gebruikt in Reserveren.js
+	// Maakt een reservering aan als deze nog niet bestaat. Gebruikt in
+	// Reserveren.js
 	@RequestMapping(method = RequestMethod.POST, value = "/maakreserveringaan")
 	public Map<String, Object> maakReserveringAan(
 			@RequestBody @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) Reservering reservering) {
@@ -45,11 +46,12 @@ public class ReserveringController {
 
 	}
 
-	// Haalt informatie van alle reserveringen op met info over persoon en boek, via DTO. Gebruik in ReserveringTabel.js
-    @RequestMapping(method = RequestMethod.GET, value = "/reserveringenPersoonBoek")
-    public List<ReserveringPersoonBoekDTO> reserveringenPersoonBoek() {
-        List <ReserveringPersoonBoekDTO> reserveringenPersoonBoek = service.alleReserveringenPersoonBoek();
-        return reserveringenPersoonBoek;
-    }
+	// Haalt informatie van alle reserveringen op met info over persoon en boek, via
+	// DTO. Gebruik in ReserveringTabel.js
+	@RequestMapping(method = RequestMethod.GET, value = "/reserveringenPersoonBoek")
+	public List<ReserveringPersoonBoekDTO> reserveringenPersoonBoek() {
+		List<ReserveringPersoonBoekDTO> reserveringenPersoonBoek = service.alleReserveringenPersoonBoek();
+		return reserveringenPersoonBoek;
+	}
 
 }

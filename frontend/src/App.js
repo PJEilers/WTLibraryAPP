@@ -24,12 +24,12 @@ export const permissionContext = createContext(false);
 
 function App() {
 
-  const cookies = new Cookies();
-
   // Hier word de global variable persoon (gebruiker of admin) gemaakt
   const [persoonInfo, setPersoonInfo] = useState(() => {
-    if (cookies.get('persoonId')) {
-      return { persoonId: cookies.get('persoonId'), adminRechten: cookies.get('adminRechten') };
+
+    console.log(localStorage.getItem('persoonId'))
+    if (localStorage.getItem('persoonId')) {
+      return { persoonId: localStorage.getItem('persoonId')};
     }
     return null;
 
@@ -45,7 +45,8 @@ function App() {
   if (persoonInfo) {
     // Check of de persoon een admin is en maak dan een global boolean permission 
     if (!permissionLoaded) {
-      if ((persoonInfo.adminRechten === 'true' || (persoonInfo.adminRechten && persoonInfo.adminRechten !== 'false'))) {
+      //if ((persoonInfo.adminRechten === 'true' || (persoonInfo.adminRechten && persoonInfo.adminRechten !== 'false'))) {
+      if (true) {
         setPermission(true);
       } else {
         setPermission(false);

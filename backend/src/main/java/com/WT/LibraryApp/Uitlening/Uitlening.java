@@ -20,19 +20,19 @@ public class Uitlening {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int id;
-	
+
 	@ManyToOne(optional = false)
 	Exemplaar exemplaar;
-	
+
 	@ManyToOne(optional = false)
 	Persoon persoon;
-	
+
 	@Column(length = 10, nullable = false)
 	private Date beginDatum;
-	
+
 	@Column(length = 10, nullable = true)
 	private Date eindDatum;
-	
+
 	public int getId() {
 		return id;
 	}
@@ -64,7 +64,7 @@ public class Uitlening {
 	public void setBeginDatum(Date beginDatum) {
 		this.beginDatum = beginDatum;
 	}
-	
+
 	public Date getEindDatum() {
 		return eindDatum;
 	}

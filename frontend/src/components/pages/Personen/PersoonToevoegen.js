@@ -1,6 +1,6 @@
 import {PersoonToevoegenStyling} from './PersoonToevoegenStyling';
 // import "./PersoonToevoegen.css"
-import { emailPattern } from "../../../Constanten";
+import { postRequest } from "../../../Constanten";
 import { useState } from 'react'
 
 function PersoonToevoegen() {
@@ -21,7 +21,7 @@ function PersoonToevoegen() {
             adminRechten: adminRechten,
         };
 
-        maakNiewPersoonAan("http://localhost:8080/maakpersoonaan", nieuwPersoon).then(response => {
+        postRequest("/maakpersoonaan", nieuwPersoon).then(response => {
             if (response.ok) {
                 setSuccesBericht('Persoon is toegevoegd');
 
@@ -82,17 +82,6 @@ function PersoonToevoegen() {
         </span>
         </PersoonToevoegenStyling>
     )
-}
-
-const maakNiewPersoonAan = async (url, persoon) => {
-    const response = await fetch(url, {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json'
-        },
-        body: JSON.stringify(persoon)
-    })
-    return response;
 }
 
 export default PersoonToevoegen;

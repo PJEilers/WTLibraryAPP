@@ -4,7 +4,7 @@ import React from "react";
 import { useState, useEffect } from "react";
 import Popup from 'reactjs-popup';
 import PersoonInformatie from '../Personen/PersoonInformatie';
-import { uitleningToevoegen, postRequest, connectieString } from '../../../Constanten.js'
+import { uitleningToevoegen, postRequest, getRequest } from '../../../Constanten.js'
 import { TableStyle } from '../../Styling/Table';
 
 
@@ -79,8 +79,8 @@ function ExemplaarInformatie(props) {
     }
 
     const haalExemplarenOp = (boekId) => {
-        fetch("http://localhost:8080/boekexemplaren/" + boekId)
-            .then((res) => res.json())
+        getRequest("/boekexemplaren/" + boekId)
+            .then((response) => response.json())
             .then(
                 (result) => {
                     if (result.length > 0) {
@@ -123,7 +123,7 @@ function ExemplaarInformatie(props) {
             //als voor beschikbaar of onbruikbaar is gekozen wordt de status van het exemplaar geupdate
         } else if (document.getElementById(selectID).value !== 'UITGELEEND') {
             exemplaar.status = document.getElementById(selectID).value;
-            postRequest(connectieString + '/updateexemplaarstatus', exemplaar)
+            postRequest('/updateexemplaarstatus', exemplaar)
                 .then(() => {
                     //zorgt ervoor dat de dropdown weer juist wordt weergegeven als er iets is aangepast
                     document.getElementById(selectID).value = 'none';
