@@ -1,4 +1,5 @@
-import { useTable, usePagination } from "react-table"
+import { useTable, usePagination } from "react-table";
+import { Button, ButtonFade } from "../Styling/Button.js";
 
 export const BasicTable = ({ columns, data }) => {
     const {
@@ -27,7 +28,6 @@ export const BasicTable = ({ columns, data }) => {
         },
         usePagination
       )
-        console.log(pageSize);
       // Render the UI for your table
       return (
         <>
@@ -56,24 +56,25 @@ export const BasicTable = ({ columns, data }) => {
           </table>
 
         <div className="pagination">
-            <button onClick={() => gotoPage(0)} disabled={!canPreviousPage}>
+            <Button onClick={() => gotoPage(0)} disabled={!canPreviousPage}>
               {'<<'}
-            </button>{' '}
-            <button onClick={() => previousPage()} disabled={!canPreviousPage}>
+            </Button>{' '}
+            <Button onClick={() => previousPage()} disabled={!canPreviousPage}>
               {'<'}
-            </button>{' '}
-            <button onClick={() => nextPage()} disabled={!canNextPage}>
-              {'>'}
-            </button>{' '}
-            <button onClick={() => gotoPage(pageCount - 1)} disabled={!canNextPage}>
-              {'>>'}
-            </button>{' '}
+            </Button>{' '}
             <span>
               Page{' '}
               <strong>
                 {pageIndex + 1} of {pageOptions.length}
               </strong>{' '}
             </span>
+            <Button onClick={() => nextPage()} disabled={!canNextPage}>
+              {'>'}
+            </Button>{' '}
+            <Button onClick={() => gotoPage(pageCount - 1)} disabled={!canNextPage}>
+              {'>>'}
+            </Button>{' '}
+
 
         </div>
       </>

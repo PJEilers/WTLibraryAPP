@@ -40,9 +40,12 @@ table {
         }
     }
 
-    .pagination {
-        padding: 0.5rem;
-    }
+
+}
+
+.pagination {
+    padding: 0.5rem;
+    text-align: center;
 }
 `
 

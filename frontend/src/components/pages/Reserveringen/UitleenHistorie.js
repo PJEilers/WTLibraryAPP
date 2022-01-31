@@ -3,7 +3,6 @@ import React, { useContext, useEffect } from 'react';
 import { useState, useMemo } from 'react';
 import { TableStyle } from '../../Styling/Table';
 import { permissionContext, persoonContext } from '../../../App';
-
 import {BasicTable} from '../../Styling/Pagination.js';
 
 function UitleenHistorieTabel() {
