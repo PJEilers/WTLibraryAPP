@@ -27,6 +27,7 @@ export const BasicTable = ({ columns, data }) => {
         },
         usePagination
       )
+
       // Render the UI for your table
       return (
         <>
@@ -73,8 +74,6 @@ export const BasicTable = ({ columns, data }) => {
             <Button onClick={() => gotoPage(pageCount - 1)} disabled={!canNextPage}>
               {'>>'}
             </Button>{' '}
-
-
         </div>
       </>
     )

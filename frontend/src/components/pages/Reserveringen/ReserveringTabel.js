@@ -1,11 +1,14 @@
 import '../../Styling/ZoekveldStyling.css'
 import './ReserveringTabel.css';
-import { useState, useEffect } from "react";
+import { useState, useEffect, useMemo } from "react";
 import { TableStyle } from '../../Styling/Table';
 import { Button } from '../../Styling/Button'
 import Popup from 'reactjs-popup';
 import { uitleningToevoegen } from '../../../Constanten'
 import ExemplaarInformatie from '../Boeken/ExemplaarInformatie';
+
+import { useTable, usePagination } from "react-table";
+import {BasicTable} from '../../Styling/Pagination.js';
 
 function MaakReserveringTabel() {
     const [reserveringen, setReserveringen] = useState([]);
@@ -17,6 +20,30 @@ function MaakReserveringTabel() {
     const [filterWoord, setFilterWoord] = useState('');
     const [huidigReserveringId, setHuidigReserveringId] = useState(0);
 
+    const columns = useMemo(
+        () => [
+            {
+                Header: 'Boek Titel',
+                accessor: 'titel',
+            },
+            {
+                Header: 'Boek Auteur',
+                accessor: 'auteur',
+            },
+            {
+                Header: 'Naam',
+                accessor: 'naam',
+            },
+            {
+                Header: 'Datum',
+                accessor: 'datum',
+            },
+            {
+                Header: ' ',
+                accessor: 'Button',
+            },
+        ]
+    );
 
     const laadData = () => {
 
@@ -62,6 +89,12 @@ function MaakReserveringTabel() {
         laadData();
     }, [opstarten, nieuweUitlening])
 
+    const zetButtonInData = () => {
+        reserveringWeergeven.forEach(element => {
+            element.Button = <Button onClick={() => alert("test")}>Uitlenen</Button>;
+        })
+    }
+
     return (
         <div>
             <h1 className='paragraph'>
@@ -71,35 +104,8 @@ function MaakReserveringTabel() {
             </h1>
 
             <TableStyle>
-                <table>
-                    <thead>
-                        <tr>
-                            <th>Boek titel</th>
-                            <th>Boek auteur</th>
-                            <th>Naam</th>
-                            <th>Reserveringsdatum</th>
-                            <th></th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {reserveringWeergeven.map((reservering, index) => (
-                            <tr key={index}>
-                                <td>{reservering.titel}</td>
-                                <td>{reservering.auteur}</td>
-                                <td>{reservering.naam}</td>
-                                <td>{reservering.datum}</td>
-                                <td><Button onClick={() => setUitleningInfo(reservering.persoonId, reservering.boekId, reservering.id)}>Uitlenen</Button></td>
-                            </tr>
-                        ))}
-
-                        <Popup open={nieuweUitlening} modal onClose={() => setNieuweUitlening(false)}>
-                            <div className="modal">
-                                <button className="close" onClick={() => setNieuweUitlening(false)}> &times; </button>
-                                <ExemplaarInformatie persoon={huidigPersoon} boekId={huidigBoek} reserveringId={huidigReserveringId} />
-                            </div>
-                        </Popup>
-                    </tbody>
-                </table>
+                {zetButtonInData()}
+                <BasicTable columns={columns} data={reserveringWeergeven}/>
             </TableStyle>
         </div>
     );
