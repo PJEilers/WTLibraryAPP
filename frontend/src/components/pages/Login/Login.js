@@ -76,7 +76,8 @@ const postLogin = async (url, loginData) => {
     const response = await fetch(url, {
         method: 'POST',
         headers: {
-            'Content-Type': 'application/json'
+            'Content-Type': 'application/json',
+            'Authorization': 'Bearer ' + 'eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJpbjI4bWludXRlcyIsImV4cCI6MTY0NDIzNjMxMiwiaWF0IjoxNjQzNjMxNTEyfQ.mnG2YZ1C1Luu-BLHIlJH-QPWMnOF7NH2qrzdKmLKhdSXUCkarj5YZPZjgne5Ohk83DQMWMd-n79s_0T-XhPNQA'
         },
         body: JSON.stringify(loginData)
     })
