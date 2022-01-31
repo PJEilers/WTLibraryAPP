@@ -6,7 +6,6 @@ import { Button } from '../../Styling/Button'
 import Popup from 'reactjs-popup';
 import { uitleningToevoegen } from '../../../Constanten'
 import ExemplaarInformatie from '../Boeken/ExemplaarInformatie';
-
 import { useTable, usePagination } from "react-table";
 
 function MaakReserveringTabel() {
