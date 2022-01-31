@@ -4,9 +4,9 @@ export const ZoekveldStyling = styled.div`
 button{
     color: #fff;
     font-size: 15px;
-    border: 1px solid #25f025;
-    border-radius:4px;
-    background-color:#25f025;
+    border: 1px solid rgb(56, 226, 14);
+    border-radius:7px;
+    background-color:rgb(56, 226, 14);
     height: 30px;
     width: 60px;
 
@@ -25,7 +25,7 @@ input{
     color: black;
     font-size: 15px;
     border: 1px solid rgb(0, 0, 0);
-    border-radius:4px;
+    border-radius:7px;
     height: 25px;
     width: 150px;
 

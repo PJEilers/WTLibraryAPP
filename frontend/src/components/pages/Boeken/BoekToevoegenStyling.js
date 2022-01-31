@@ -60,6 +60,7 @@ form #stuur:after{
 input{
     display: grid;
     position: relative;
+    border-radius: 7px;
     left: 50px;
     border: none;
     &:focus{
@@ -72,7 +73,7 @@ button{
     position: relative;
     left: 145px; 
     color: #fff;
-    border-radius: 4px;
+    border-radius: 7px;
     border: 1px solid rgb(47, 211, 6);
     font-size: 15px;
     height: 40px;
@@ -89,7 +90,7 @@ button:hover{
     color: #fff;
     width: 150px;
     height: 25px;
-    border-radius: 4px;
+    border-radius: 7px;
     border: 1px solid rgb(47, 211, 6);
 }
 .submit:hover{

@@ -46,7 +46,7 @@ function PersoonToevoegen() {
     return (
         <PersoonToevoegenStyling>
         <span>
-            <h1>Voeg een persoon toe</h1>
+            <h1>Voeg een gebruiker toe</h1>
             <form onSubmit={nieuwPersoon}>
 
                 <label>Volledige naam</label>

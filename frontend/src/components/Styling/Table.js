@@ -6,7 +6,9 @@ export const TableStyle = styled.div`
 table {
     border-spacing: 0;
     border: 1px solid black;
-    width:100%;
+    width:99%;
+    margin-left: auto;
+    margin-right: auto;
 
     thead {
         background-color: rgb(56, 226, 14);
@@ -30,7 +32,7 @@ table {
         border-bottom: 1px solid black;
         border-right: 1px solid black;
         min-width:1px;
-        max-width:200px;
+        max-width:150px;
         white-space: nowrap;
         overflow: hidden;
         text-overflow: ellipsis;
