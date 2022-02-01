@@ -1,26 +1,26 @@
 :root {
-    --primary: #25f025;
+    --primary: rgb(56, 226, 14);
     }
 
 .btn {
-    padding: 8px 20px;
-    border-radius: 4px;
+    padding: 6px 28px;
+    border-radius: 7px;
     outline: none;
     border: none;
     cursor: pointer;
 }
 
 .btn:hover {
-    padding: 8px 20px;
+    padding: 6px 18px;
     transition: all 0.3s ease-out;
-    background: #25f025;
+    background: rgb(56, 226, 14);
     color: #000000;
     transition: 100ms;
 }
 .btn--small:hover {
     padding: 6px 16px;
     transition: all 0.3s ease-out;
-    background: #25f025;
+    background: rgb(56, 226, 14);
     color: #000000;
     transition: 100ms;
 }
@@ -33,28 +33,29 @@
     background-color: transparent;
     color: #fff;
     padding: 8px 20px;
-    border-radius: 4px;
+    border-radius: 7px;
     border: 1px solid var(--primary);
     transition: all 0.3s ease-out;
 }
 
 .btn--small {
     padding: 6px 16px;
-    border-radius: 2px;
+    border-radius: 7px;
     font-size: 14px;
     color: #fff;
 }
 
 .btn--medium {
-    padding: 8px 20px;
-    border-radius: 4px;
-    font-size: 18px;
+    padding: 6px 18px;
+    border-radius: 7px;
+    margin-right: 10px;
+    font-size: 16px;
     color: #fff;
 }
 
 .btn--large {
     padding: 12px 26px;
-    border-radius: 4px;
+    border-radius: 7px;
     font-size: 20px;
     color: #fff;
 }

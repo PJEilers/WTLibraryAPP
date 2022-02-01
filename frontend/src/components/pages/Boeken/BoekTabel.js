@@ -1,4 +1,3 @@
-import '../../Styling/ZoekveldStyling.css'; //voor zoekveld styling
 import React, { useEffect } from "react";
 import { useState, useContext } from "react";
 import Reserveren from '../Reserveringen/Reserveren';
@@ -10,6 +9,7 @@ import { TableStyle } from '../../Styling/Table';
 import '../../Styling/Table.css'
 import { permissionContext } from '../../../App.js';
 import ExemplaarInformatie from './ExemplaarInformatie';
+import { ZoekveldStyling } from '../../Styling/ZoekveldStyling';
 
 function MaakBoekTabel(props) {
     const [boeken, setBoeken] = useState([]);
@@ -61,12 +61,14 @@ function MaakBoekTabel(props) {
 
     return (
         <div>
-            <h1 className='paragraph'>
-                <input className='zoekveld' type="text" placeholder='Zoeken...' value={filterWoord}
-                    onChange={e => zoekFunctie(e.target.value)} />
-                <button className='resetbtn' onClick={() => setOpstarten(!opstarten)}>Reset</button>
+            <ZoekveldStyling>
+            <h1>
+            <input type="text" placeholder='Zoeken...' value={filterWoord}
+                onChange={e => zoekFunctie(e.target.value)} />
+            <button onClick={() => setOpstarten(!opstarten)}>Reset</button>
             </h1>
-            <TableStyle>
+            </ZoekveldStyling>
+            <TableStyle> 
                 <table>
                     <thead>
                         <tr>
@@ -103,7 +105,7 @@ function MaakBoekTabel(props) {
                                 {!props.persoon && <td><Reserveren boekId={boek.id} /></td>}
                                 {permission &&
                                     <td>
-                                        <Button onClick={() => { setNieuweExemplaren(true); setBoekId(boek.id); }}>Exemplaren Toevoegen</Button>
+                                        <Button onClick={() => { setNieuweExemplaren(true); setBoekId(boek.id); }}> Voeg exemplaar toe </Button>
                                     </td>
                                 }
 

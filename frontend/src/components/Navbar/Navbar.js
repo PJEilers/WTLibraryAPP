@@ -1,13 +1,12 @@
 
 import { useState, Component, useContext } from 'react';
-import { Button } from '../Styling/Button';
+//import { Button } from '../Styling/Button';
 import  Logout  from '../pages/Login/Logout'
 import './Navbar.css';
 import { Link, NavLink } from 'react-router-dom';
 import Dropdown from './Dropdown'
-import { GebruikerMenuItems } from './GebruikerMenuItems';
-import { BookMenuItems } from './BookMenuItems';
-import { ReserveringMenuItems } from './ReserveringMenuItems'
+//import { GebruikerMenuItems } from './GebruikerMenuItems';
+import { BookMenuItems } from './DropdownMenuItems';
 import { permissionContext, persoonContext } from '../../App';
 
 const DropDownMenu = ({navItem, url1 , menuItems1 }) => {
@@ -68,9 +67,27 @@ function Navbar(props) {
             <ul className={click2 ? 'nav-menu active' : 'nav-menu'}>
                 {permission &&
                     <>
-                        <DropDownMenu navItem='Boeken' url1={'/boeken'} menuItems1={BookMenuItems} />
-                        <DropDownMenu navItem='Reserveringen' url1={'/reserveringen'} menuItems1={ReserveringMenuItems} />
-                        <DropDownMenu navItem='Gebruikers' url1={'/gebruikers'} menuItems1={GebruikerMenuItems} />
+                    <li className='nav-item'>
+                    <NavLink to='/boekenlijst' className='nav-links' onClick={closeMobileMenu}>
+                        Boekenlijst
+                    </NavLink>
+                    </li>
+                    <li className='nav-item'>
+                    <NavLink to='/ReserveringTabel' className='nav-links' onClick={closeMobileMenu}>
+                        Reserveringen
+                    </NavLink>
+                    </li>
+                    <li className='nav-item'>
+                    <NavLink to='/uitleen-historie' className='nav-links' onClick={closeMobileMenu}>
+                        Uitleen Historie
+                    </NavLink>
+                    </li>
+                    <li className='nav-item'>
+                    <NavLink to='/persoonsinformatie' className='nav-links' onClick={closeMobileMenu}>
+                        Gebruikers 
+                    </NavLink>
+                    </li>
+                    <DropDownMenu navItem='Toevoegen' url1={'/toevoegen'} menuItems1={BookMenuItems} />
                     </>
                 }
                 {!permission && 
@@ -82,17 +99,14 @@ function Navbar(props) {
                             <Link to='/uitleen-historie' className='nav-links' onClick={closeMobileMenu}>
                                 Uitleen Historie
                             </Link>
+                            <NavLink to='/contact' className='nav-links' onClick={closeMobileMenu}>
+                                Contact
+                            </NavLink>
                         </li>
                     </>
                 }
-
-                <li className='nav-item'>
-                    <NavLink to='/contact' className='nav-links' onClick={closeMobileMenu}>
-                        Contact
-                    </NavLink>
-                </li>
-
             </ul>
+
             <Logout setPersoonInfo = {props.setPersoonInfo}/>
         </nav>
     );

@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import { BoekToevoegenStyling } from './BoekToevoegenStyling';
 
 function ExemplarenToevoegen(props) {
 
@@ -33,19 +34,21 @@ function ExemplarenToevoegen(props) {
 
     if (props.boekToegevoegd) {
         return (
+            <BoekToevoegenStyling>
             <div>
                 <form onSubmit={bevestig}>
-                    <h2>Hoeveel exemplaren wil je toevoegen</h2>
-                    <input type="number" value={hoeveelheid} min={1}
+                    <h2>Exemplaar hoeveelheid:</h2>
+                    <input className = 'klikveld' type="number" value={hoeveelheid} min={1}
                         disabled={uit}
                         onChange={e => setHoeveelheid(e.target.value)} />
-                    <input type ="submit" disabled={uit} value = "Bevestig"/>
+                    <input className='submit2' type ="submit" disabled={uit} value = "Bevestig"/>
                 </form>
                 <h3>Gegenereere labels:</h3>
                 <ul>
                     {labels.map((label, index) => <li key={index}>{label}</li>)}
                 </ul>
             </div>
+            </BoekToevoegenStyling>
         )
     } else {
         return null;

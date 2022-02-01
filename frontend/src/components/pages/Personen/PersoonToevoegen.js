@@ -1,4 +1,5 @@
-import "./PersoonToevoegen.css"
+import {PersoonToevoegenStyling} from './PersoonToevoegenStyling';
+// import "./PersoonToevoegen.css"
 import { emailPattern } from "../../../Constanten";
 import { useState } from 'react'
 
@@ -43,9 +44,10 @@ function PersoonToevoegen() {
 
 
     return (
-        <div>
-            <h1>Voeg een persoon toe</h1>
-            <form onSubmit={nieuwPersoon} className="PersoonToevoegen">
+        <PersoonToevoegenStyling>
+        <span>
+            <h1>Voeg een gebruiker toe</h1>
+            <form onSubmit={nieuwPersoon}>
 
                 <label>Volledige naam</label>
                 <input type="text" required
@@ -71,13 +73,14 @@ function PersoonToevoegen() {
                     onChange={e => setAdminRechten(e.target.checked)} />
 
                 <label id="stuur"></label>
-                <input type="submit" value="Voeg persoon toe" disabled={uit} />
+                <input className = 'submit' type="submit" value="Voeg persoon toe" disabled={uit} />
 
             </form>
             <p>{succesBericht}</p>
             <button onClick={() => reset()}>Nog een persoon aanmaken</button>
 
-        </div>
+        </span>
+        </PersoonToevoegenStyling>
     )
 }
 
