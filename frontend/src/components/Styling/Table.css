@@ -1,10 +1,12 @@
 .StatusUitgeleend {
     background-color: red;
     color: white;
+    border: 1px solid black;
 }
 
 .StatusBeschikbaar {
     background-color: lightgreen;
+    border: 1px solid black;
 }
 
 .Boek:hover {

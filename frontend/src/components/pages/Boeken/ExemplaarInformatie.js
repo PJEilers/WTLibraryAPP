@@ -46,7 +46,8 @@ function ExemplaarInformatie(props) {
         }
         return (
             //maakt de dropdown selectie
-            <select className={exemplaar.status === "BESCHIKBAAR" ? "StatusBeschikbaar" : "StatusUitgeleend"} id={'select' + exemplaar.id} onChange={() => setPopupInfo(exemplaar)}>
+            // <select className={exemplaar.status === "BESCHIKBAAR" ? "StatusBeschikbaar" : "StatusUitgeleend"} id={'select' + exemplaar.id} onChange={() => setPopupInfo(exemplaar)}> // voor bevestiging popup
+                <select className={exemplaar.status === "BESCHIKBAAR" ? "StatusBeschikbaar" : "StatusUitgeleend"} id={'select' + exemplaar.id} onChange={() => pasExemplaarStatusAan(exemplaar)}> 
                 <option value='none'>{exemplaar.status}</option>
                 {exemplaar.status === 'BESCHIKBAAR' ? //zorgt ervoor dat alleen de andere mogelijke statussen een keuze zijn
                     <>
