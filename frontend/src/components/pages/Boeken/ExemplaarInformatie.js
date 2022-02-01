@@ -5,7 +5,7 @@ import { useState, useEffect, useMemo } from "react";
 import Popup from 'reactjs-popup';
 import PersoonInformatie from '../Personen/PersoonInformatie';
 import { uitleningToevoegen, postRequest, connectieString } from '../../../Constanten.js'
-import { TableStyle } from '../../Styling/Table';
+import { TableStyleTemplate } from '../../Styling/Table';
 import { useTable, usePagination } from "react-table";
 import { Button } from '../../Styling/Button'
 
@@ -162,9 +162,9 @@ function ExemplaarInformatie(props) {
     return (
         <div>
             <p>Van de {hoeveelexemplaren} boeken zijn er {hoeveelheidUitgeleend(exemplaren)} uitgeleend</p>
-            <TableStyle>
+            <TableStyleTemplate>
                 <BasicTable columns={columns} data={exemplaren} paginaLengte={paginaLengte}/>
-            </TableStyle>
+            </TableStyleTemplate>
             <Popup open={nieuweUitlening} modal onClose={() => setNieuweUitlening(false)}>
                 <div className="modal">
                     <button className="close" onClick={() => setNieuweUitlening(false)}> &times; </button>
@@ -224,7 +224,7 @@ const BasicTable = ({ columns, data, paginaLengte }) => {
               {page.map((row, i) => {
                 prepareRow(row)
                 return (
-                  <tr {...row.getRowProps()}>
+                  <tr {...row.getRowProps()} className={row.original.status === "BESCHIKBAAR" ? "StatusBeschikbaar" : "StatusUitgeleend"}>
                     {row.cells.map(cell => {
                       return <td {...cell.getCellProps()}>{cell.render('Cell')}</td>
                     })}

@@ -1,7 +1,7 @@
 import styled from 'styled-components';
 
 // Tabel Style die kan worden overwritten via classes of zoals verder beneden.
-export const TableStyle = styled.div`
+export const TableStyleTemplate = styled.div`
 
 table {
     border-spacing: 0;
@@ -13,9 +13,6 @@ table {
     }
 
     tr {
-        :nth-child(even){
-            background-color: lightgrey;
-        }
         :last-child {
         td {
                 border-bottom: 0;
@@ -50,10 +47,20 @@ table {
 `
 
 // Zo kun je een overwrite doen. Moet je wel nog aanroepen in de tabel waar je de overwrite wil hebben
-export const TableStyleOverwritten = styled(TableStyle)`
+export const TableStyleOverwritten = styled(TableStyleTemplate)`
 table{
     thead {
         background-color: black;
     }
+}
+`
+
+export const TableStyle = styled(TableStyleTemplate)`
+
+table {
+    tr {
+        :nth-child(even){
+            background-color: lightgrey;
+        }
 }
 `
