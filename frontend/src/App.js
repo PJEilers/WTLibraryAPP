@@ -16,7 +16,6 @@ import Login from "./components/pages/Login/Login";
 import Home from './components/pages/Home';
 import Toevoegen from './components/pages/Toevoegen'
 import Contact from './components/pages/Contact';
-import Cookies from 'universal-cookie';
 
 
 export const persoonContext = createContext({});
@@ -25,12 +24,11 @@ export const permissionContext = createContext(false);
 
 function App() {
 
-  const cookies = new Cookies();
-
   // Hier word de global variable persoon (gebruiker of admin) gemaakt
   const [persoonInfo, setPersoonInfo] = useState(() => {
-    if (cookies.get('persoonId')) {
-      return { persoonId: cookies.get('persoonId'), adminRechten: cookies.get('adminRechten') };
+
+    if (localStorage.getItem('persoonId')) {
+      return {token: localStorage.getItem('token'),  persoonId: localStorage.getItem('persoonId'), role: localStorage.getItem('role')};
     }
     return null;
 
@@ -46,7 +44,8 @@ function App() {
   if (persoonInfo) {
     // Check of de persoon een admin is en maak dan een global boolean permission 
     if (!permissionLoaded) {
-      if ((persoonInfo.adminRechten === 'true' || (persoonInfo.adminRechten && persoonInfo.adminRechten !== 'false'))) {
+      console.log(persoonInfo.role);
+      if (JSON.parse(persoonInfo.role) === "ROLE_ADMIN") {
         setPermission(true);
       } else {
         setPermission(false);

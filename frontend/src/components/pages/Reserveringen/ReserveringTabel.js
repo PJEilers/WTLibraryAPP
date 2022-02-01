@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import { TableStyle } from '../../Styling/Table';
 import { Button } from '../../Styling/Button'
 import Popup from 'reactjs-popup';
-import { uitleningToevoegen } from '../../../Constanten'
+import { getRequest, uitleningToevoegen } from '../../../Constanten'
 import ExemplaarInformatie from '../Boeken/ExemplaarInformatie';
 import { ZoekveldStyling } from '../../Styling/ZoekveldStyling';
 
@@ -19,7 +19,7 @@ function MaakReserveringTabel() {
 
     const laadData = () => {
 
-        fetch('http://localhost:8080/reserveringenPersoonBoek', { mode: 'cors' })
+        getRequest('/reserveringenPersoonBoek')
             .then(response => response.json())
             .then(data => {
                 setReserveringen(data);

@@ -21,14 +21,17 @@ public class Persoon {
 	@Column(unique = true, length = 100, nullable = false)
 	private String email;
 
-    @Column(length = 100, nullable = false)
-    private String wachtwoord;
+	@Column(length = 100, nullable = false)
+	private String wachtwoord;
 
-    @Column
-    private Boolean adminRechten = false;
+	@Column(nullable = false)
+	private String role;
+	
+	private Boolean locked;
+	
+	private Boolean uitDienst;
 
-
-    public int getId() {
+	public int getId() {
 		return id;
 	}
 
@@ -53,20 +56,35 @@ public class Persoon {
 	}
 
 	public String getWachtwoord() {
-        return wachtwoord;
-    }
+		return wachtwoord;
+	}
 
-    public void setWachtwoord(String wachtwoord) {
-        this.wachtwoord = wachtwoord;
-    }
+	public void setWachtwoord(String wachtwoord) {
+		this.wachtwoord = wachtwoord;
+	}
 
-    public Boolean getAdminRechten() {
-        return adminRechten;
-    }
+	public String getRole() {
+		return role;
+	}
 
-    public void setAdminRechten(Boolean adminRechten) {
-        this.adminRechten = adminRechten;
-    }
+	public void setRole(String role) {
+		this.role = role;
+	}
+
+	public Boolean getLocked() {
+		return locked;
+	}
+
+	public void setLocked(Boolean locked) {
+		this.locked = locked;
+	}
+
+	public Boolean getUitDienst() {
+		return uitDienst;
+	}
+
+	public void setUitDienst(Boolean uitDienst) {
+		this.uitDienst = uitDienst;
+	}
 
 }
-

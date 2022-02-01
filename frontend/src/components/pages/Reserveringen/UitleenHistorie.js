@@ -3,6 +3,7 @@ import { useState } from 'react';
 import { TableStyle } from '../../Styling/Table';
 import { permissionContext, persoonContext } from '../../../App';
 import { ZoekveldStyling } from '../../Styling/ZoekveldStyling';
+import { getRequest } from '../../../Constanten';
 
 function UitleenHistorieTabel() {
     const [uitleningen, setUitleningen] = useState([]);
@@ -13,7 +14,7 @@ function UitleenHistorieTabel() {
     const [filterWoord, setFilterWoord] = useState('');
     
     const uitleenData = () => {
-        fetch('http://localhost:8080/historie/' + persoonInfo.persoonId, { mode: 'cors' })
+        getRequest('/historie/' + persoonInfo.persoonId)
             .then(response => response.json())
             .then(data => {
                 setUitleningen(data);

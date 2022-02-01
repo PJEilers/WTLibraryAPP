@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import './Login.css'
-import { emailPattern } from '../../../Constanten.js'
+import { connectieString, emailPattern } from '../../../Constanten.js'
 import Cookies from 'universal-cookie'
 
 function Login({ setPersoonInfo }) {
@@ -9,20 +9,20 @@ function Login({ setPersoonInfo }) {
     const [wachtwoord, setWachtwoord] = useState('');
     const [succesBericht, setSuccesBericht] = useState('');
 
-    const cookies = new Cookies();
-
     const login = (e) => {
-        postLogin("http://localhost:8080/login", {
-            email: email,
-            wachtwoord: wachtwoord
+        postLogin(connectieString +"/authenticate", {
+            username: email,
+            password: wachtwoord
         }).then(response => {
             if (response.ok) {
                 response.json().then(persoon => {
                     setEmail('');
                     setWachtwoord('');
-                    setPersoonInfo({ persoonId: persoon.id, adminRechten: persoon.adminRechten });
-                    cookies.set('persoonId', persoon.id, { path: '/' , secure: true, sameSite: true});
-                    cookies.set('adminRechten', persoon.adminRechten, { path: '/', secure: true, sameSite: true});
+                    setPersoonInfo({ token: JSON.stringify(persoon.token), persoonId: JSON.stringify(persoon.id), role: JSON.stringify(persoon.role)});
+                    localStorage.setItem('token', JSON.stringify(persoon.token));
+                    localStorage.setItem('persoonId', JSON.stringify(persoon.id));
+                    localStorage.setItem('role', JSON.stringify(persoon.role));
+                    // Hier moet nog de persoonId bijkomen
                 })
             } else {
                 setSuccesBericht("E-mailadres of wachtwoord onjuist");
@@ -51,13 +51,12 @@ function Login({ setPersoonInfo }) {
                             />
                             <label id="wachtwoord"></label>
                             <span></span>
-                            <input type="password"  onChange={e => setWachtwoord(e.target.value)} required
+                            <input type="password" onChange={e => setWachtwoord(e.target.value)} required
                                 value={wachtwoord}
                                 placeholder='Wachtwoord'
                                 onInvalid={e => e.target.setCustomValidity("Vul iets in")}
                                 onInput={e => e.target.setCustomValidity("")}
                             />
-                            
                         </div>
 
                     </div>
@@ -76,7 +75,7 @@ const postLogin = async (url, loginData) => {
     const response = await fetch(url, {
         method: 'POST',
         headers: {
-            'Content-Type': 'application/json'
+            'Content-Type': 'application/json',
         },
         body: JSON.stringify(loginData)
     })
