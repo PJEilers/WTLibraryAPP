@@ -27,4 +27,13 @@ public class PersoonService {
     public Optional<Persoon> login (LoginForm loginform) {
         return repository.findByEmailAndWachtwoord(loginform.getEmail(), loginform.getWachtwoord());
     }
+
+    // Verwijdert persoonsgegevens en verandert deze in placeholders
+	public void uitDienst(int persoonId) {
+		Persoon persoon = repository.getById(persoonId);
+		persoon.setNaam("Uit dienst");
+		persoon.setEmail("Geen info voor persoon Id " + persoonId);
+		repository.save(persoon);
+	}
+
 }
