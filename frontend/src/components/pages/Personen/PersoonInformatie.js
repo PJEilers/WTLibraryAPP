@@ -37,7 +37,6 @@ function PersoonInformatie(props) {
             {
                 Header: 'Uitlenen',
                 Cell: ({ cell }) => (
-                    {/* <Button onClick={() => setUitleningInfo(cell.row.original.id)}>Uitlenen</Button> */},
                     leenUitTabel(cell.row.original, cell.row.original.nieuweUitleningToevoegen, cell.row.original.exemplaar)
                 )
             }
