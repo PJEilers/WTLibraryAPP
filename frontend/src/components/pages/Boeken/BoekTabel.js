@@ -108,7 +108,7 @@ function MaakBoekTabel(props) {
                                 {!props.persoon && <td><Reserveren boekId={boek.id} /></td>}
                                 {permission &&
                                     <td>
-                                        <Button onClick={() => { setNieuweExemplaren(true); setBoekId(boek.id); }}>Exemplaren Toevoegen</Button>
+                                        <Button onClick={() => { setNieuweExemplaren(true); setBoekId(boek.id); }}> Voeg exemplaar toe </Button>
                                     </td>
                                 }
 

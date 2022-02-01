@@ -93,7 +93,6 @@ function PersoonToevoegen() {
                 </form>
                 <p>{succesBericht}</p>
                 <button onClick={() => reset()}>Nog een persoon aanmaken</button>
-
             </span>
         </PersoonToevoegenStyling>
     )

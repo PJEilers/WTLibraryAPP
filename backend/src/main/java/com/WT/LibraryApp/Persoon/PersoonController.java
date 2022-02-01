@@ -5,6 +5,7 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -39,5 +40,12 @@ public class PersoonController {
 		}
 		return gebruikers;
 	}
+
+  // Verwijdert persoonsgegevens en verandert deze in placeholders
+  @RequestMapping(method = RequestMethod.GET, value = "/uitdienst/{persoonId}")
+  public void uitDienst(@PathVariable int persoonId) {
+    service.uitDienst(persoonId);
+  }
+
 
 }

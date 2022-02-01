@@ -92,4 +92,16 @@ public class PersoonService implements UserDetailsService {
 			throw new UsernameNotFoundException("Persoon niet gevonden met email: " + email);
 		}
 	}
+
+
+    // Verwijdert persoonsgegevens en verandert deze in placeholders
+	public void uitDienst(int persoonId) {
+		Persoon persoon = repository.getById(persoonId);
+		persoon.setNaam("Uit dienst");
+		persoon.setEmail("Geen info voor persoon Id " + persoonId);
+    persoon.setUitDienst(true);
+		repository.save(persoon);
+	}
+
+
 }

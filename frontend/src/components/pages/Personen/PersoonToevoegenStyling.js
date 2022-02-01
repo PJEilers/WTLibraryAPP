@@ -18,7 +18,7 @@ span{
 h1{
     font-size: 30px;
     position: relative;
-    left: 80px;
+    left: 75px;
     width: 375px;
 }
 
@@ -54,6 +54,7 @@ input{
     display: grid;
     position: relative;
     border: none;
+    border-radius: 7px;
     &:focus{
         outline:none;
     }
@@ -64,7 +65,7 @@ button{
     position: relative;
     left: 157px; 
     color: #fff;
-    border-radius: 4px;
+    border-radius: 7px;
     border: 1px solid rgb(47, 211, 6);
     font-size: 15px;
     height: 40px;
@@ -78,10 +79,11 @@ button:hover{
 
 .submit{
     background-color: black;
+    font-size:1rem;
     color: #fff;
     width: 150px;
     height: 25px;
-    border-radius: 4px;
+    border-radius: 7px;
     border: 1px solid rgb(47, 211, 6);
 }
 .submit:hover{

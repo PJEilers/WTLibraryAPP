@@ -14,6 +14,7 @@ import UitleningToevoegen from "./components/pages/Reserveringen/UitleningToevoe
 import UitleenHistorieTabel from './components/pages/Reserveringen/UitleenHistorie';
 import Login from "./components/pages/Login/Login";
 import Home from './components/pages/Home';
+import Toevoegen from './components/pages/Toevoegen'
 import Contact from './components/pages/Contact';
 
 
@@ -71,6 +72,9 @@ function App() {
               </Route>
               <Route path='/ReserveringTabel' element={permission ? <Outlet /> : <Navigate to='/' />}>
                 <Route path='' element={<ReserveringTabel />} />
+              </Route>
+              <Route path='/Toevoegen' element={permission ? <Outlet /> : <Navigate to='/' />}>
+                <Route path='' element={<Toevoegen />} />
               </Route>
               <Route path='/uitleen-historie' element={<UitleenHistorieTabel />} />
               <Route path='/contact' element={<Contact />} />
