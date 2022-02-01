@@ -101,7 +101,9 @@ function PersoonInformatie(props) {
                             <th>Naam</th>
                             <th>Email</th>
                             <th>Uitlenen</th>
+                            {!props.exemplaar &&
                             <th>Uit Dienst</th>
+                            }
                             {/* {props.exemplaar ? <th></th> : null} */}
                         </tr>
                     </thead>
@@ -122,9 +124,11 @@ function PersoonInformatie(props) {
                                         <Button onClick={() => setUitleningInfo(persoon)}>Uitlenen</Button>
                                     </td>
                                 }
+                                {!props.exemplaar &&
                                 <td>
                                     <button className = "Knop3" onClick={() => setUitDienstInfo(persoon.id)}>Uit Dienst</button>
                                 </td>
+                                }
                             </tr>
                         )
                         }
