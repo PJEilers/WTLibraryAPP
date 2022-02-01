@@ -90,7 +90,6 @@ public class JwtAuthenticationRestController {
   }
 
   // Hier checkt hij of de username en password correct is.
-  /*TODO*/
   private void authenticate(String username, String password) {
     Objects.requireNonNull(username);
     Objects.requireNonNull(password);

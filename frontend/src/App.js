@@ -27,7 +27,6 @@ function App() {
   // Hier word de global variable persoon (gebruiker of admin) gemaakt
   const [persoonInfo, setPersoonInfo] = useState(() => {
 
-    console.log(localStorage.getItem('persoonId'))
     if (localStorage.getItem('persoonId')) {
       return { persoonId: localStorage.getItem('persoonId')};
     }

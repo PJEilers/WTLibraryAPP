@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -58,9 +59,12 @@ public class PersoonService implements UserDetailsService {
 	@Override
 	public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
 		Optional<Persoon> persoon = repository.findByEmail(email);
+		List<SimpleGrantedAuthority> authorities = new ArrayList<SimpleGrantedAuthority>();
+		
 		if (persoon.isPresent()) {
+			authorities.add(new SimpleGrantedAuthority(persoon.get().getRole()));
 			return new org.springframework.security.core.userdetails.User(persoon.get().getEmail(),
-					persoon.get().getWachtwoord(), new ArrayList<>());
+					persoon.get().getWachtwoord(), authorities);
 		} else {
 			throw new UsernameNotFoundException("Persoon niet gevonden met email: " + email);
 		}

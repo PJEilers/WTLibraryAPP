@@ -16,7 +16,7 @@ import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.impl.DefaultClock;
 
-// Get details from tokens and creates tokens.
+// Haal informatie uit tokens en/of maak ze.
 @Component
 public class JwtTokenUtil implements Serializable {
 
@@ -67,6 +67,7 @@ public class JwtTokenUtil implements Serializable {
 		return doGenerateToken(claims, userDetails.getUsername());
 	}
 
+	// Hier word het Token gemaakt. Zie de secret die wordt geimplementeerd!
 	private String doGenerateToken(Map<String, Object> claims, String subject) {
 		final Date createdDate = clock.now();
 		final Date expirationDate = calculateExpirationDate(createdDate);

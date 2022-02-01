@@ -72,6 +72,7 @@ public class JwtTokenAuthorizationOncePerRequestFilter extends OncePerRequestFil
             UserDetails userDetails = this.persoonService.loadUserByUsername(username);
             
             // Checkt of de token inderdaad de username bevat.
+            // Vervolgens haalt hij alle authorities op die gebruikt worden in de SecurityContextHolder
             if (jwtTokenUtil.validateToken(jwtToken, userDetails)) {
                 UsernamePasswordAuthenticationToken usernamePasswordAuthenticationToken = new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
                 usernamePasswordAuthenticationToken.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));

@@ -3,12 +3,13 @@ import Cookies from 'universal-cookie';
 
 function Logout({ setPersoonInfo }) {
 
-    const cookies = new Cookies();
+    // const cookies = new Cookies();
 
     const logout = () => {
         setPersoonInfo(null);
-        cookies.remove('persoonId');
-        cookies.remove('adminRechten');
+        localStorage.clear();
+        // cookies.remove('persoonId');
+        // cookies.remove('adminRechten');
     }
 
     return (
