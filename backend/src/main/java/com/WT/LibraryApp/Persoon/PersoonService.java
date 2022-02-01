@@ -27,7 +27,8 @@ public class PersoonService implements UserDetailsService {
 		persoon.setLocked(false);
 		persoon.setUitDienst(false);
 		repository.save(persoon);
-		PersoonDTO persoonDTO = new PersoonDTO(persoon.getNaam(), persoon.getEmail(), persoon.getRole());
+		PersoonDTO persoonDTO = new PersoonDTO(persoon.getNaam(), persoon.getEmail(), persoon.getRole(),
+				persoon.getId());
 
 		return persoonDTO;
 	}
@@ -36,7 +37,7 @@ public class PersoonService implements UserDetailsService {
 		List<Persoon> personen = repository.findAll();
 		List<PersoonDTO> personenDTO = new ArrayList<>();
 		for (Persoon persoon : personen) {
-			personenDTO.add(new PersoonDTO(persoon.getNaam(), persoon.getEmail(), persoon.getRole()));
+			personenDTO.add(new PersoonDTO(persoon.getNaam(), persoon.getEmail(), persoon.getRole(), persoon.getId()));
 		}
 		return personenDTO;
 
@@ -93,15 +94,13 @@ public class PersoonService implements UserDetailsService {
 		}
 	}
 
-
-    // Verwijdert persoonsgegevens en verandert deze in placeholders
+	// Verwijdert persoonsgegevens en verandert deze in placeholders
 	public void uitDienst(int persoonId) {
 		Persoon persoon = repository.getById(persoonId);
 		persoon.setNaam("Uit dienst");
 		persoon.setEmail("Geen info voor persoon Id " + persoonId);
-    persoon.setUitDienst(true);
+		persoon.setUitDienst(true);
 		repository.save(persoon);
 	}
-
 
 }

@@ -41,11 +41,10 @@ public class PersoonController {
 		return gebruikers;
 	}
 
-  // Verwijdert persoonsgegevens en verandert deze in placeholders
-  @RequestMapping(method = RequestMethod.GET, value = "/uitdienst/{persoonId}")
-  public void uitDienst(@PathVariable int persoonId) {
-    service.uitDienst(persoonId);
-  }
-
+	// Verwijdert persoonsgegevens en verandert deze in placeholders
+	@RequestMapping(method = RequestMethod.GET, value = "/uitdienst/{persoonId}")
+	public void uitDienst(@PathVariable int persoonId) {
+		service.uitDienst(persoonId);
+	}
 
 }

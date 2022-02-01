@@ -16,7 +16,6 @@ export const postRequest = async(url,data) => {
 }
 
 export const getRequest = async(url) => {
-    //console.log(localStorage.getItem('token'))
     const response = await fetch(connectieString + url, {
         method: 'GET',
         headers: {

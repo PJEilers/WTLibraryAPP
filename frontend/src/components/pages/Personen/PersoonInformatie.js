@@ -23,7 +23,6 @@ function PersoonInformatie(props) {
     const [nieuweUitlening, setNieuweUitlening] = useState(false);
     const [uitDienstPopUp, setUitDienstPopUp] = useState(false);
     const [uitDienstPersoon, setUitDienstPersoon] = useState(null);
-    const persoon = useContext(persoonContext);
 
     const haalPersonenOp = () => {
         getRequest("/personen/")
@@ -51,8 +50,6 @@ function PersoonInformatie(props) {
         haalPersonenOp();
     }, [uitDienstPopUp]);
 
-    
-
     const haalPersonenOpNaam = (naam) => {
         setNaam(naam);
 
@@ -79,21 +76,18 @@ function PersoonInformatie(props) {
     }
 
     const verwijderPersoonsGegevens = (persoonId) => {
-        const response = fetch("http://localhost:8080/uitdienst/" + persoonId, {
-            method: 'GET'
-        })
-        setUitDienstPopUp(false);
-        return response;
+        getRequest("/uitdienst/" + persoonId)
+        setTimeout(setUitDienstPopUp(false), 10000);  
     }
 
     return (
         <div>
             <ZoekveldStyling>
-            <h1>
-            <input type="string" placeholder='Zoek op naam ...' defaultValue={naam}
-                onChange={e => { haalPersonenOpNaam(e.target.value) }} />
-            <button onClick={() => haalPersonenOpNaam()}>Zoek</button>
-            </h1>
+                <h1>
+                    <input type="string" placeholder='Zoek op naam ...' defaultValue={naam}
+                        onChange={e => { haalPersonenOpNaam(e.target.value) }} />
+                    <button onClick={() => haalPersonenOpNaam()}>Zoek</button>
+                </h1>
             </ZoekveldStyling>
             <TableStyle>
                 <table>
@@ -104,13 +98,13 @@ function PersoonInformatie(props) {
                             <th>Uitlenen</th>
                             {/* Dit zie je alleen als je op PersoonInformatie.js zit:*/}
                             {!props.exemplaar &&
-                            <th>Uit Dienst</th>
+                                <th>Uit Dienst</th>
                             }
                             {/* {props.exemplaar ? <th></th> : null} */}
                         </tr>
                     </thead>
                     <tbody>
-                        {gezochtePersonen.map((persoon,index) =>
+                        {gezochtePersonen.map((persoon, index) =>
                             <tr key={index}>
                                 <td>
                                     {persoon.naam}
@@ -127,9 +121,9 @@ function PersoonInformatie(props) {
                                     </td>
                                 }
                                 {!props.exemplaar &&
-                                <td>
-                                    <button className = "Knop3" onClick={() => setUitDienstInfo(persoon.id)}>Uit Dienst</button>
-                                </td>
+                                    <td>
+                                        <button className="Knop3" onClick={() => setUitDienstInfo(persoon.id)}>Uit Dienst</button>
+                                    </td>
                                 }
                             </tr>
                         )
@@ -140,16 +134,16 @@ function PersoonInformatie(props) {
             <Popup open={nieuweUitlening} modal onClose={() => setNieuweUitlening(false)} closeOnDocumentClick={false}>
                 <div className="modal">
                     <button className="close" onClick={() => setNieuweUitlening(false)}> &times; </button>
-                    <MaakBoekTabel persoon = {huidigPersoon}/>
+                    <MaakBoekTabel persoon={huidigPersoon} />
                 </div>
             </Popup>
 
             <Popup open={uitDienstPopUp} modal onClose={() => setUitDienstPopUp(false)} closeOnDocumentClick={false}>
                 <div className="dienstPopup">
                     <button className="close" onClick={() => setUitDienstPopUp(false)}> &times; </button>
-                    <p className = "Vraag">Weet je het zeker?<br/>De naam en email van deze persoon worden uit de database verwijderd.</p>
-                    <button className = "Knop1" onClick={() => verwijderPersoonsGegevens(uitDienstPersoon)}>Ja</button>
-                    <button className = "Knop2" onClick={() => setUitDienstPopUp(false)}>Nee</button>
+                    <p className="Vraag">Weet je het zeker?<br />De naam en email van deze persoon worden uit de database verwijderd.</p>
+                    <button className="Knop1" onClick={() => verwijderPersoonsGegevens(uitDienstPersoon)}>Ja</button>
+                    <button className="Knop2" onClick={() => setUitDienstPopUp(false)}>Nee</button>
                 </div>
             </Popup>
         </div>
