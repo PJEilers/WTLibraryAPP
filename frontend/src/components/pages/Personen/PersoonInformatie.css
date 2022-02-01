@@ -2,27 +2,6 @@
     font-size: 20px;
 }
 
-.Knop1 {
-    /* margin: auto;
-    position: relative;
-    left: 10px; */
-    margin: 30px;
-    background-color: green;
-    color: white;
-    font-size: 30px;
-    height: 50px;
-    width: 150px;
-}
-
-.Knop2 {
-    margin : 30px;
-    background-color: red;
-    color: white;
-    font-size: 30px;
-    height: 50px;
-    width: 150px;
-}
-
 .Knop3 {
     background-color: red;
     color: white;

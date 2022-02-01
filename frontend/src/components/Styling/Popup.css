@@ -1,14 +1,17 @@
 .modal {
     font-size: 12px;
-    background: white;
-    width: 100%;
-    border-bottom: 1px solid gray;
+    background: rgb(3, 218, 14);
+    width: 450px;
+    /* border-bottom: 1px solid gray; */
+    border: 2px solid black;
+    border-radius: 15px;
     padding: 10px 5px;
     text-align: center;
     margin: auto;
 }
 
-.modal > .close {  
+/* .modal > .close {   */
+.close{
     cursor: pointer;
     position: absolute;
     display: block;
@@ -20,4 +23,73 @@
     background: #ffffff;
     border-radius: 18px;
     border: 1px solid #cfcece;
+}
+
+.bevestiging {
+    font-size: 12px;
+    background: white;
+    height: 125px;
+    width: 200px;
+    /* border-bottom: 1px solid gray; */
+    border: 2px solid black;
+    border-radius: 15px;
+    padding: 10px 5px;
+    text-align: center;
+    margin: auto;
+}
+
+.knop1 {
+    border-radius: 7px;
+    outline: none;
+    border: none;
+    cursor: pointer;
+    background-color: rgb(56, 226, 14);;
+    color: white;
+    margin-right: 10px;
+    height: 25px;
+    width: 50px;
+    text-align: center;
+}
+
+.knop1:hover {
+    transition: all 0.3s ease-out;
+    background: green;
+    /* color: #000000; */
+    transition: 100ms;
+}
+
+.knop2 {
+    border-radius: 7px;
+    outline: none;
+    border: none;
+    cursor: pointer;
+    background-color: rgb(255, 50, 50);
+    color: white;
+    margin-left: 10px;
+    height: 25px;
+    width: 50px;
+    text-align: center;
+}
+
+.knop2:hover {
+    transition: all 0.3s ease-out;
+    background: rgb(160, 0, 0);
+    /* color: #000000; */
+    transition: 100ms;
+}
+
+.vraag {
+    font-size: 1rem;
+}
+
+.boekPopup {
+    font-size: 12px;
+    background: white;
+    width: 900px;
+    /* border-bottom: 1px solid gray; */
+    border: 2px solid black;
+    border-radius: 15px;
+    padding: 10px 5px;
+    text-align: center;
+    margin: auto;
 }

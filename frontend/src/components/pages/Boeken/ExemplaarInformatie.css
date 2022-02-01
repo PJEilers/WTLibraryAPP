@@ -1,0 +1,11 @@
+.modal2 {
+    font-size: 12px;
+    background: white;
+    width: 450px;
+    /* border-bottom: 1px solid gray; */
+    border: 2px solid black;
+    border-radius: 15px;
+    padding: 10px 5px;
+    text-align: center;
+    margin: auto;
+}
