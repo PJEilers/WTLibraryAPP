@@ -7,6 +7,7 @@ import ExemplaarInformatie from '../Boeken/ExemplaarInformatie';
 import { TableStyle } from '../../Styling/Table';
 import MaakBoekTabel from '../Boeken/BoekTabel';
 import { ZoekveldStyling } from '../../Styling/ZoekveldStyling';
+import { persoonContext } from '../../../App';
 
 
 function PersoonInformatie(props) {
@@ -22,6 +23,7 @@ function PersoonInformatie(props) {
     const [nieuweUitlening, setNieuweUitlening] = useState(false);
     const [uitDienstPopUp, setUitDienstPopUp] = useState(false);
     const [uitDienstPersoon, setUitDienstPersoon] = useState(null);
+    const persoon = useContext(persoonContext);
 
     const haalPersonenOp = () => {
         getRequest("/personen/")

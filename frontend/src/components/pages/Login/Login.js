@@ -18,7 +18,7 @@ function Login({ setPersoonInfo }) {
                 response.json().then(persoon => {
                     setEmail('');
                     setWachtwoord('');
-                    setPersoonInfo({ token: persoon.token, persoonId: persoon.id, role: persoon.role});
+                    setPersoonInfo({ token: JSON.stringify(persoon.token), persoonId: JSON.stringify(persoon.id), role: JSON.stringify(persoon.role)});
                     localStorage.setItem('token', JSON.stringify(persoon.token));
                     localStorage.setItem('persoonId', JSON.stringify(persoon.id));
                     localStorage.setItem('role', JSON.stringify(persoon.role));

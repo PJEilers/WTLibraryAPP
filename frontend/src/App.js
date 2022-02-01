@@ -28,7 +28,7 @@ function App() {
   const [persoonInfo, setPersoonInfo] = useState(() => {
 
     if (localStorage.getItem('persoonId')) {
-      return { persoonId: localStorage.getItem('persoonId'), role: localStorage.getItem('role')};
+      return {token: localStorage.getItem('token'),  persoonId: localStorage.getItem('persoonId'), role: localStorage.getItem('role')};
     }
     return null;
 
@@ -44,7 +44,8 @@ function App() {
   if (persoonInfo) {
     // Check of de persoon een admin is en maak dan een global boolean permission 
     if (!permissionLoaded) {
-      if (persoonInfo.role === "ROLE_ADMIN") {
+      console.log(persoonInfo.role);
+      if (JSON.parse(persoonInfo.role) === "ROLE_ADMIN") {
         setPermission(true);
       } else {
         setPermission(false);
