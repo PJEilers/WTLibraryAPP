@@ -101,6 +101,7 @@ function PersoonInformatie(props) {
                             <th>Naam</th>
                             <th>Email</th>
                             <th>Uitlenen</th>
+                            {/* Dit zie je alleen als je op PersoonInformatie.js zit:*/}
                             {!props.exemplaar &&
                             <th>Uit Dienst</th>
                             }
