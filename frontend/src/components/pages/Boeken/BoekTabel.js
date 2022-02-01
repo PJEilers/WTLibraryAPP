@@ -62,6 +62,15 @@ function MaakBoekTabel(props) {
             )
         },
         {
+            Header: 'Uitlenen',
+            Cell: ({ cell }) => (
+                <Button onClick={() => { 
+                    setExemplarenLijst(true); setBoekId(cell.row.original.id); }}>
+                        Uitlenen
+                </Button>
+            )
+        },
+        {
             Header: 'Exemplaar Toevoegen',
             Cell: ({ cell }) => (
                 <Button onClick={() => { 
@@ -125,6 +134,7 @@ function MaakBoekTabel(props) {
             setColumns(temp);
             setPaginaLengte(5);
         } else {
+            temp.splice(9, 1);
             temp.splice(8, 1);
             temp.splice(6, 1);
             setColumns(temp);
