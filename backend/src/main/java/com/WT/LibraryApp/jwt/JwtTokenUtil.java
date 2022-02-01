@@ -93,8 +93,6 @@ public class JwtTokenUtil implements Serializable {
 
 	// checkt of de Token de username bevat of dat hij expired is.
 	public Boolean validateToken(String token, UserDetails userDetails) {
-	//Persoon persoon = 
-    //JwtUserDetails user = (JwtUserDetails) userDetails;
     final String username = getUsernameFromToken(token);
     return (username.equals(userDetails.getUsername()) && !isTokenExpired(token));
   }

@@ -16,12 +16,9 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.WT.LibraryApp.Exemplaar.Exemplaar.Status;
 import com.WT.LibraryApp.Exemplaar.ExemplaarService;
-
+import com.WT.LibraryApp.Persoon.PersoonService;
 import com.WT.LibraryApp.Reservering.Reservering.ReserveringStatus;
 import com.WT.LibraryApp.Reservering.ReserveringService;
-
-import com.WT.LibraryApp.Persoon.PersoonService;
-
 
 @RestController
 @CrossOrigin(maxAge = 3600)
@@ -30,24 +27,29 @@ public class UitleningController {
 	@Autowired
 	private UitleningService service;
 
-	//Nodig voor Status update
+	// Nodig voor Status update
 	@Autowired
 	private ExemplaarService exemplaarService;
 
-	//Nodig voor andere Status update, bij reservering
+	// Nodig voor andere Status update, bij reservering
 	@Autowired
 	private ReserveringService reserveringService;
-	
-  @Autowired
+
+	@Autowired
 	private PersoonService persoonService;
-  
-	// Maakt een uitlening aan, met reservering id, en zet de status van het exemplaar, en in reservering, naar uitgeleend. Gebruikt in UitleningToevoegen.js, Constanten.js -> PersoonInformatie.js?, ExemplaarInformatie.js
+
+	// Maakt een uitlening aan, met reservering id, en zet de status van het
+	// exemplaar, en in reservering, naar uitgeleend. Gebruikt in
+	// UitleningToevoegen.js, Constanten.js -> PersoonInformatie.js?,
+	// ExemplaarInformatie.js
 	@RequestMapping(method = RequestMethod.POST, value = "/maakuitleningaan/{reserveringId}")
-	public Uitlening maakUitleningAan(@PathVariable int reserveringId, @RequestBody @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) Uitlening uitlening) {
+	public Uitlening maakUitleningAan(@PathVariable int reserveringId,
+			@RequestBody @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) Uitlening uitlening) {
 
 		// Status moet via ExemplaarService worden aangepast naar Uitgeleend:
 		exemplaarService.updateStatus(uitlening.getExemplaar().getId(), Status.UITGELEEND);
-		// Reservering status moet via ReserveringService worden aangepast naar Uitgeleend:
+		// Reservering status moet via ReserveringService worden aangepast naar
+		// Uitgeleend:
 		if (reserveringId != 0) {
 			reserveringService.updateStatus(reserveringId, ReserveringStatus.UITGELEEND);
 		}
@@ -72,24 +74,25 @@ public class UitleningController {
 	@RequestMapping(value = "/historie/{persoonId}")
 	public List<Map<String, Object>> uitleenHistorie(@PathVariable int persoonId) {
 		List<Uitlening> uitleningen = new ArrayList<>();
-		
+
 		// Check of de persoon een admin is. Niet echt veilig.
-		Boolean adminRechten = persoonService.vindPersoon(persoonId).get().getAdminRechten();
-		if (adminRechten) {
+		String role = persoonService.vindPersoon(persoonId).get().getRole();
+
+		if (role.equals("ROLE_ADMIN")) {
 			uitleningen = service.vindAlleUitleningen();
 		} else {
 			uitleningen = service.vindUitleningenMetPersoon(persoonId);
 		}
-		
+
 		List<Map<String, Object>> output = new ArrayList<Map<String, Object>>();
 		for (Uitlening uitlening : uitleningen) {
 			Map<String, Object> map = new HashMap<>();
 			map.put("beginDatum", uitlening.getBeginDatum());
-			map.put("eindDatum", uitlening.getEindDatum());			
+			map.put("eindDatum", uitlening.getEindDatum());
 			map.put("exemplaarId", uitlening.getExemplaar().getIndividueelId());
 			map.put("boekId", uitlening.getExemplaar().getBoek().getId());
 			map.put("boek", uitlening.getExemplaar().getBoek().getTitel());
-			if (adminRechten) {
+			if (role.equals("ROLE_ADMIN")) {
 				map.put("id", uitlening.getId());
 				map.put("persoon", uitlening.getPersoon().getNaam());
 			}

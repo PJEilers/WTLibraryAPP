@@ -12,26 +12,34 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
+// De implements UserDetailsService zorgt ervoor dat je de koppeling kunt maken met JWT.
 @Service
 public class PersoonService implements UserDetailsService {
 
 	@Autowired
 	private IPersoonRepository repository;
 
-//	@Autowired
-//	private PasswordEncoder bcryptEncoder;
-	
 	private BCryptPasswordEncoder bcryptEncoder = new BCryptPasswordEncoder();
 
-	public Persoon maakPersoonAan(Persoon persoon) {
+	public PersoonDTO maakPersoonAan(Persoon persoon) {
 		String wachtwoord = persoon.getWachtwoord();
 		persoon.setWachtwoord(bcryptEncoder.encode(wachtwoord));
+		persoon.setLocked(false);
+		persoon.setUitDienst(false);
+		repository.save(persoon);
+		PersoonDTO persoonDTO = new PersoonDTO(persoon.getNaam(), persoon.getEmail(), persoon.getRole());
 
-		return repository.save(persoon);
+		return persoonDTO;
 	}
 
-	public List<Persoon> vindAllePersonen() {
-		return repository.findAll();
+	public List<PersoonDTO> vindAllePersonen() {
+		List<Persoon> personen = repository.findAll();
+		List<PersoonDTO> personenDTO = new ArrayList<>();
+		for (Persoon persoon : personen) {
+			personenDTO.add(new PersoonDTO(persoon.getNaam(), persoon.getEmail(), persoon.getRole()));
+		}
+		return personenDTO;
+
 	}
 
 	public Optional<Persoon> vindPersoon(int id) {
@@ -55,16 +63,31 @@ public class PersoonService implements UserDetailsService {
 		return repository.findByEmail(email);
 	}
 
-	// Dit maakt de koppeling tussen onze database en de jwt implementatie
+	// Dit maakt de koppeling tussen onze database en de JWT implementatie
 	@Override
 	public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
 		Optional<Persoon> persoon = repository.findByEmail(email);
 		List<SimpleGrantedAuthority> authorities = new ArrayList<SimpleGrantedAuthority>();
-		
+
 		if (persoon.isPresent()) {
 			authorities.add(new SimpleGrantedAuthority(persoon.get().getRole()));
 			return new org.springframework.security.core.userdetails.User(persoon.get().getEmail(),
 					persoon.get().getWachtwoord(), authorities);
+		} else {
+			throw new UsernameNotFoundException("Persoon niet gevonden met email: " + email);
+		}
+	}
+
+	// Haal de uitdienst status op van een persoon
+	public boolean vindPersoonUitDienst(String email) {
+		Optional<Persoon> persoon = repository.findByEmail(email);
+		return persoon.get().getUitDienst();
+	}
+
+	public String vindPersoonRoleEmail(String email) {
+		Optional<Persoon> persoon = repository.findByEmail(email);
+		if (persoon.isPresent()) {
+			return persoon.get().getRole();
 		} else {
 			throw new UsernameNotFoundException("Persoon niet gevonden met email: " + email);
 		}

@@ -15,7 +15,6 @@ import UitleenHistorieTabel from './components/pages/Reserveringen/UitleenHistor
 import Login from "./components/pages/Login/Login";
 import Home from './components/pages/Home';
 import Contact from './components/pages/Contact';
-import Cookies from 'universal-cookie';
 
 
 export const persoonContext = createContext({});
@@ -28,7 +27,7 @@ function App() {
   const [persoonInfo, setPersoonInfo] = useState(() => {
 
     if (localStorage.getItem('persoonId')) {
-      return { persoonId: localStorage.getItem('persoonId')};
+      return { persoonId: localStorage.getItem('persoonId'), role: localStorage.getItem('role')};
     }
     return null;
 
@@ -44,8 +43,7 @@ function App() {
   if (persoonInfo) {
     // Check of de persoon een admin is en maak dan een global boolean permission 
     if (!permissionLoaded) {
-      //if ((persoonInfo.adminRechten === 'true' || (persoonInfo.adminRechten && persoonInfo.adminRechten !== 'false'))) {
-      if (true) {
+      if (persoonInfo.role === "ROLE_ADMIN") {
         setPermission(true);
       } else {
         setPermission(false);

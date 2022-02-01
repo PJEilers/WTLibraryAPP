@@ -1,5 +1,6 @@
 import "./UitleningToevoegen.css"
 import {useState} from 'react'
+import { postRequest } from "../../../Constanten"
 
 function UitleningToevoegen () {
     const [exemplaarId, setExemplaarId] = useState(1)
@@ -13,7 +14,7 @@ function UitleningToevoegen () {
             beginDatum: beginDatum
         }
 
-        maakUitleningAan("http://localhost:8080/maakuitleningaan", nieuwUitlening)
+        postRequest("/maakuitleningaan", nieuwUitlening)
             .then(response => {
                 alert("Is goed gegaan")
             })
@@ -40,17 +41,6 @@ function UitleningToevoegen () {
             <button onClick={() => stuurOp()}>Maak uitlening aan</button>
         </div>
     )
-}
-
-const maakUitleningAan = async(url, uitlening) =>  {
-    const response = await fetch(url, {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json'
-        },
-        body: JSON.stringify(uitlening)
-    })
-    return response;
 }
 
 export default UitleningToevoegen;

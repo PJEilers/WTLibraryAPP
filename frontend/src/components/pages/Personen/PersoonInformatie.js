@@ -88,8 +88,8 @@ function PersoonInformatie(props) {
                         </tr>
                     </thead>
                     <tbody>
-                        {gezochtePersonen.map(persoon =>
-                            <tr key={persoon.id}>
+                        {gezochtePersonen.map((persoon,index) =>
+                            <tr key={index}>
                                 <td>
                                     {persoon.naam}
                                 </td>

@@ -1,9 +1,19 @@
 package com.WT.LibraryApp.Persoon;
 
+// Wordt gebruikt om tegen te houden dat het encrypted password wordt teruggestuurd.
 public class PersoonDTO {
 	private String naam;
 	private String email;
-	private String wachtwoord;
+	private String role;
+
+	
+	
+	public PersoonDTO(String naam, String email, String role) {
+		super();
+		this.naam = naam;
+		this.email = email;
+		this.role = role;
+	}
 
 	public String getNaam() {
 		return naam;
@@ -21,12 +31,13 @@ public class PersoonDTO {
 		this.email = email;
 	}
 
-	public String getWachtwoord() {
-		return wachtwoord;
+	public String getRole() {
+		return role;
 	}
 
-	public void setWachtwoord(String wachtwoord) {
-		this.wachtwoord = wachtwoord;
+	public void setRole(String role) {
+		this.role = role;
 	}
+
 
 }

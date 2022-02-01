@@ -8,10 +8,12 @@ public class JwtTokenResponse implements Serializable {
 
 	private final String token;
 	private final long id;
+	private final String role;
 
-	public JwtTokenResponse(String token, long id) {
+	public JwtTokenResponse(String token, long id, String role) {
 		this.token = token;
 		this.id = id;
+		this.role = role;
 	}
 
 	public String getToken() {
@@ -20,6 +22,10 @@ public class JwtTokenResponse implements Serializable {
 
 	public long getId() {
 		return this.id;
+	}
+
+	public String getRole() {
+		return role;
 	}
 
 }

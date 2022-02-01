@@ -6,32 +6,8 @@ import Cookies from 'universal-cookie'
 function Login({ setPersoonInfo }) {
 
     const [email, setEmail] = useState('');
-    const [naam, setNaam] = useState('');
     const [wachtwoord, setWachtwoord] = useState('');
     const [succesBericht, setSuccesBericht] = useState('');
-
-    const cookies = new Cookies();
-
-    // const login = (e) => {
-    //     postLogin("http://localhost:8080/login", {
-    //         naam: naam,
-    //         password: wachtwoord
-    //     }).then(response => {
-    //         if (response.ok) {
-    //             response.json().then(persoon => {
-    //                 setEmail('');
-    //                 setWachtwoord('');
-    //                 setPersoonInfo({ persoonId: persoon.id, adminRechten: persoon.adminRechten });
-    //                 cookies.set('persoonId', persoon.id, { path: '/' , secure: true, sameSite: true});
-    //                 cookies.set('adminRechten', persoon.adminRechten, { path: '/', secure: true, sameSite: true});
-    //             })
-    //         } else {
-    //             setSuccesBericht("E-mailadres of wachtwoord onjuist");
-    //         }
-    //     })
-
-    //     e.preventDefault();
-    // }
 
     const login = (e) => {
         postLogin(connectieString +"/authenticate", {
@@ -42,10 +18,10 @@ function Login({ setPersoonInfo }) {
                 response.json().then(persoon => {
                     setEmail('');
                     setWachtwoord('');
-                    setPersoonInfo({ token: persoon.token, persoonId: persoon.id});
+                    setPersoonInfo({ token: persoon.token, persoonId: persoon.id, role: persoon.role});
                     localStorage.setItem('token', JSON.stringify(persoon.token));
-                    localStorage.setItem('persoonId', JSON.stringify(persoon.id))
-                    console.log(persoon.id)
+                    localStorage.setItem('persoonId', JSON.stringify(persoon.id));
+                    localStorage.setItem('role', JSON.stringify(persoon.role));
                     // Hier moet nog de persoonId bijkomen
                 })
             } else {

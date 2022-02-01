@@ -24,83 +24,89 @@ import com.WT.LibraryApp.Persoon.PersoonService;
 import com.WT.LibraryApp.jwt.JwtTokenUtil;
 
 @RestController
-@CrossOrigin(origins="http://localhost:3000")
+@CrossOrigin(origins = "http://localhost:3000")
 public class JwtAuthenticationRestController {
 
-  @Value("${jwt.http.request.header}")
-  private String tokenHeader;
+	@Value("${jwt.http.request.header}")
+	private String tokenHeader;
 
-  @Autowired
-  private AuthenticationManager authenticationManager;
+	@Autowired
+	private AuthenticationManager authenticationManager;
 
-  @Autowired
-  private JwtTokenUtil jwtTokenUtil;
+	@Autowired
+	private JwtTokenUtil jwtTokenUtil;
 
-  // JwtInMemoryUserDetailsService implements UserDetailsService.
-  // Dus als Spring gaat zoeken dankzij Autowired naar een implementation en die is de component(service) JwtInMemoryUserDetailsService.
-  // E.g. Spring zoekt een (interface,implementation) pair.
-  // Dit zorgt ervoor dat uiteindelijk JwtInMemoryUserDetailsService gebruikt wordt hier.
-  // https://stackoverflow.com/questions/12899372/spring-why-do-we-autowire-the-interface-and-not-the-implemented-class
-  @Autowired
-  private PersoonService persoonService;
+	// PersoonService implements UserDetailsService.
+	// Dus als Spring gaat zoeken dankzij Autowired naar een implementation en die
+	// is de component(service) PersoonService.
+	// E.g. Spring zoekt een (interface,implementation) pair.
+	// Dit zorgt ervoor dat uiteindelijk PersoonService gebruikt wordt hier zelfs al
+	// zou je hier UserDetailsService gebruiken.
+	// https://stackoverflow.com/questions/12899372/spring-why-do-we-autowire-the-interface-and-not-the-implemented-class
+	// Voor onze duidelijkheid heb ik hier gewoon PersoonService gebruikt.
+	@Autowired
+	private PersoonService persoonService;
 
-  // url in application.properties
-  // checkt of de user en password correct zijn.
-  // Zoja, dan maakt hij een Token aan en stuurt die terug.
-  @RequestMapping(value = "${jwt.get.token.uri}", method = RequestMethod.POST)
-  public ResponseEntity<?> createAuthenticationToken(@RequestBody JwtTokenRequest authenticationRequest)
-      throws AuthenticationException {
+	// url in application.properties
+	// checkt of de user en password correct zijn.
+	// Zoja, dan maakt hij een Token aan en stuurt die terug.
+	@RequestMapping(value = "${jwt.get.token.uri}", method = RequestMethod.POST)
+	public ResponseEntity<?> createAuthenticationToken(@RequestBody JwtTokenRequest authenticationRequest)
+			throws AuthenticationException {
 
-    authenticate(authenticationRequest.getUsername(), authenticationRequest.getPassword());
+		authenticate(authenticationRequest.getUsername(), authenticationRequest.getPassword());
 
-    // Laad UserDetails
-    final UserDetails userDetails = persoonService.loadUserByUsername(authenticationRequest.getUsername());
-    
-    // Voor id
-    int persoonId = persoonService.vindPersoonIdEmail(authenticationRequest.getUsername());    
-    
-    final String token = jwtTokenUtil.generateToken(userDetails);
-        
-    //JwtTokenResponse accepteerd nu ook een id. Die kan je dus ophalen en hier erin zetten.
-    return ResponseEntity.ok(new JwtTokenResponse(token, persoonId));
-  }
+		// Laad UserDetails
+		final UserDetails userDetails = persoonService.loadUserByUsername(authenticationRequest.getUsername());
 
-  // Refresht Token voor user.
-  @RequestMapping(value = "${jwt.refresh.token.uri}", method = RequestMethod.GET)
-  public ResponseEntity<?> refreshAndGetAuthenticationToken(HttpServletRequest request) {
-	// Refresh token haalt eerst de username uit de token. Vervolgend laad hij deze.
-    String authToken = request.getHeader(tokenHeader);
-    final String token = authToken.substring(7);
-    String username = jwtTokenUtil.getUsernameFromToken(token);
-    int persoonId = persoonService.vindPersoonIdEmail(username);    
+		// Vind id en Role
+		int persoonId = persoonService.vindPersoonIdEmail(authenticationRequest.getUsername());
+		String persoonRole = persoonService.vindPersoonRoleEmail(authenticationRequest.getUsername());
 
-	// Hij checkt of hij ververst mag worden en geeft dan een nieuwe (refreshed) token terug
-    if (jwtTokenUtil.canTokenBeRefreshed(token)) {
-      String refreshedToken = jwtTokenUtil.refreshToken(token);
-      return ResponseEntity.ok(new JwtTokenResponse(refreshedToken, persoonId));
-    } else {
-      return ResponseEntity.badRequest().body(null);
-    }
-  }
+		final String token = jwtTokenUtil.generateToken(userDetails);
 
-  // Exception de gerunt wordt als authentication fails
-  @ExceptionHandler({ AuthenticationException.class })
-  public ResponseEntity<String> handleAuthenticationException(AuthenticationException e) {
-    return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(e.getMessage());
-  }
+		// JwtTokenResponse accepteerd nu ook een id en role. Die kan je dus ophalen en
+		// hier erin zetten.
+		return ResponseEntity.ok(new JwtTokenResponse(token, persoonId, persoonRole));
+	}
 
-  // Hier checkt hij of de username en password correct is.
-  private void authenticate(String username, String password) {
-    Objects.requireNonNull(username);
-    Objects.requireNonNull(password);
+	// Refresht Token voor user.
+	@RequestMapping(value = "${jwt.refresh.token.uri}", method = RequestMethod.GET)
+	public ResponseEntity<?> refreshAndGetAuthenticationToken(HttpServletRequest request) {
+		// Refresh token haalt eerst de username uit de token. Vervolgend laad hij deze.
+		String authToken = request.getHeader(tokenHeader);
+		final String token = authToken.substring(7);
+		String username = jwtTokenUtil.getUsernameFromToken(token);
+		int persoonId = persoonService.vindPersoonIdEmail(username);
+		String persoonRole = persoonService.vindPersoonRoleEmail(username);
 
-    try {
-      authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(username, password));
-    } catch (DisabledException e) {
-      throw new AuthenticationException("USER_DISABLED", e);
-    } catch (BadCredentialsException e) {
-      throw new AuthenticationException("INVALID_CREDENTIALS", e);
-    }
-  }
+		// Hij checkt of hij ververst mag worden en geeft dan een nieuwe (refreshed)
+		// token terug
+		if (jwtTokenUtil.canTokenBeRefreshed(token)) {
+			String refreshedToken = jwtTokenUtil.refreshToken(token);
+			return ResponseEntity.ok(new JwtTokenResponse(refreshedToken, persoonId, persoonRole));
+		} else {
+			return ResponseEntity.badRequest().body(null);
+		}
+	}
+
+	// Exception de gerunt wordt als authentication fails
+	@ExceptionHandler({ AuthenticationException.class })
+	public ResponseEntity<String> handleAuthenticationException(AuthenticationException e) {
+		return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(e.getMessage());
+	}
+
+	// Hier checkt hij of de username en password correct is.
+	private void authenticate(String username, String password) {
+		Objects.requireNonNull(username);
+		Objects.requireNonNull(password);
+
+		try {
+			authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(username, password));
+		} catch (DisabledException e) {
+			throw new AuthenticationException("USER_DISABLED", e);
+		} catch (BadCredentialsException e) {
+			throw new AuthenticationException("INVALID_CREDENTIALS", e);
+		}
+	}
 }
-
