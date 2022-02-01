@@ -1,11 +1,13 @@
 import './ExemplaarInformatie.css';
 import '../../Styling/Table.css';
 import React from "react";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useMemo } from "react";
 import Popup from 'reactjs-popup';
 import PersoonInformatie from '../Personen/PersoonInformatie';
 import { uitleningToevoegen, postRequest, connectieString } from '../../../Constanten.js'
 import { TableStyle } from '../../Styling/Table';
+import { useTable, usePagination } from "react-table";
+import { Button } from '../../Styling/Button'
 
 
 function ExemplaarInformatie(props) {
@@ -20,6 +22,26 @@ function ExemplaarInformatie(props) {
     const [uitleningToegevoegd, setUitleningToegevoegd] = useState(false);
     const [huidigExemplaar, setHuidigExemplaar] = useState(null);
     const [detectVerandering, setDetectVerandering] = useState(false);
+    const [paginaLengte, setPaginaLengte] = useState(5);
+
+    const columns = useMemo(() => [
+        {
+            Header: 'Label',
+            Cell: ({ cell }) => (
+                bepaalLabel(cell.row.original.individueelId)
+            )
+        },
+        {
+            Header: 'Status',
+            Cell: ({ cell }) => (
+                selectDropdown(cell.row.original)
+            )
+        }
+    ])
+
+    const bepaalLabel = (individueelId) => {
+        return ("WT-" + boekId + "." + individueelId);
+    }
 
     const setUitleningInfo = (exemplaar) => {
         setNieuweUitlening(true);
@@ -141,39 +163,99 @@ function ExemplaarInformatie(props) {
         <div>
             <p>Van de {hoeveelexemplaren} boeken zijn er {hoeveelheidUitgeleend(exemplaren)} uitgeleend</p>
             <TableStyle>
-                <table>
-                    <thead>
-                        <tr>
-                            <th>Label</th>
-                            <th>Status</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {exemplaren.map(exemplaar => (
-                            <tr key={exemplaar.id}>
-                                <td>
-                                    {"WT-" + boekId + "." + exemplaar.individueelId}
-                                </td>
-                                <td className={exemplaar.status === "BESCHIKBAAR" ? "StatusBeschikbaar" : "StatusUitgeleend"}>
-                                    {selectDropdown(exemplaar)}
-                                </td>
-                            </tr>
-                        ))}
-                        {/* Wordt alleen aangeroepen vanuit BoekTabel.js als je een uitlening regelt */}
-                        <Popup open={nieuweUitlening} modal onClose={() => setNieuweUitlening(false)}>
-                            <div className="modal">
-                                <button className="close" onClick={() => setNieuweUitlening(false)}> &times; </button>
-                                <PersoonInformatie nieuweUitleningToevoegen={nieuweUitleningToevoegen}
-                                    exemplaar={huidigExemplaar} />
-                            </div>
-                        </Popup>
-                    </tbody>
-                </table>
+                <BasicTable columns={columns} data={exemplaren} paginaLengte={paginaLengte}/>
             </TableStyle>
-
+            <Popup open={nieuweUitlening} modal onClose={() => setNieuweUitlening(false)}>
+                <div className="modal">
+                    <button className="close" onClick={() => setNieuweUitlening(false)}> &times; </button>
+                    <PersoonInformatie nieuweUitleningToevoegen={nieuweUitleningToevoegen}
+                        exemplaar={huidigExemplaar} />
+                </div>
+            </Popup>
         </div>
     );
 
 
 }
+
+//niet optimaal om dit in deze file te zetten
+//maar maakt het een stuk makkelijker met de uitleen knop
+const BasicTable = ({ columns, data, paginaLengte }) => {
+    const {
+        getTableProps,
+        getTableBodyProps,
+        headerGroups,
+        prepareRow,
+        page, // Instead of using 'rows', we'll use page,
+        // which has only the rows for the active page
+    
+        // The rest of these things are super handy, too ;)
+        canPreviousPage,
+        canNextPage,
+        pageOptions,
+        pageCount,
+        gotoPage,
+        nextPage,
+        previousPage,
+        state: { pageIndex },
+      } = useTable(
+        {
+          columns,
+          data,
+          initialState: { pageSize: paginaLengte },
+        },
+        usePagination
+      )
+
+      // Render the UI for your table
+      return (
+        <>
+          <table {...getTableProps()}>
+            <thead>
+              {headerGroups.map(headerGroup => (
+                <tr {...headerGroup.getHeaderGroupProps()}>
+                  {headerGroup.headers.map(column => (
+                    <th {...column.getHeaderProps()}>{column.render('Header')}</th>
+                  ))}
+                </tr>
+              ))}
+            </thead>
+            <tbody {...getTableBodyProps()}>
+              {page.map((row, i) => {
+                prepareRow(row)
+                return (
+                  <tr {...row.getRowProps()}>
+                    {row.cells.map(cell => {
+                      return <td {...cell.getCellProps()}>{cell.render('Cell')}</td>
+                    })}
+                  </tr>
+                )
+              })}
+            </tbody>
+          </table>
+
+        <div className="pagination">
+            <Button onClick={() => gotoPage(0)} disabled={!canPreviousPage}>
+              {'<<'}
+            </Button>{' '}
+            <Button onClick={() => previousPage()} disabled={!canPreviousPage}>
+              {'<'}
+            </Button>{' '}
+            <span>
+              Page{' '}
+              <strong>
+                {pageIndex + 1} of {pageOptions.length}
+              </strong>{' '}
+            </span>
+            <Button onClick={() => nextPage()} disabled={!canNextPage}>
+              {'>'}
+            </Button>{' '}
+            <Button onClick={() => gotoPage(pageCount - 1)} disabled={!canNextPage}>
+              {'>>'}
+            </Button>{' '}
+        </div>
+      </>
+    )
+  }
+
 export default ExemplaarInformatie;
