@@ -6,6 +6,7 @@ import Popup from 'reactjs-popup';
 import PersoonInformatie from '../Personen/PersoonInformatie';
 import { uitleningToevoegen, postRequest, connectieString } from '../../../Constanten.js'
 import { TableStyle } from '../../Styling/Table';
+import {BoekToevoegenStyling} from './BoekToevoegenStyling'
 
 
 function ExemplaarInformatie(props) {
@@ -20,6 +21,7 @@ function ExemplaarInformatie(props) {
     const [uitleningToegevoegd, setUitleningToegevoegd] = useState(false);
     const [huidigExemplaar, setHuidigExemplaar] = useState(null);
     const [detectVerandering, setDetectVerandering] = useState(false);
+    const [popup, setPopup] = useState(false);
 
     const setUitleningInfo = (exemplaar) => {
         setNieuweUitlening(true);
@@ -33,13 +35,19 @@ function ExemplaarInformatie(props) {
         nieuweUitleningToevoegen(props.persoon, exemplaar, props.reserveringId);
     }
 
+    const setPopupInfo = (exemplaar) => {
+        setPopup(true);
+        setHuidigExemplaar(exemplaar);
+    }
+
     const selectDropdown = (exemplaar) => {
         if (uitleningToegevoegd && exemplaar === huidigExemplaar) {
             return <>Uitlening toegevoegd</>;//als een uitlening net is gemaakt wordt dit ipv dropdown weergegeven
         }
         return (
             //maakt de dropdown selectie
-            <select className={exemplaar.status === "BESCHIKBAAR" ? "StatusBeschikbaar" : "StatusUitgeleend"} id={'select' + exemplaar.id} onChange={() => pasExemplaarStatusAan(exemplaar)}>
+            // <select className={exemplaar.status === "BESCHIKBAAR" ? "StatusBeschikbaar" : "StatusUitgeleend"} id={'select' + exemplaar.id} onChange={() => setPopupInfo(exemplaar)}> // voor bevestiging popup
+                <select className={exemplaar.status === "BESCHIKBAAR" ? "StatusBeschikbaar" : "StatusUitgeleend"} id={'select' + exemplaar.id} onChange={() => pasExemplaarStatusAan(exemplaar)}> 
                 <option value='none'>{exemplaar.status}</option>
                 {exemplaar.status === 'BESCHIKBAAR' ? //zorgt ervoor dat alleen de andere mogelijke statussen een keuze zijn
                     <>
@@ -167,13 +175,21 @@ function ExemplaarInformatie(props) {
                                     exemplaar={huidigExemplaar} />
                             </div>
                         </Popup>
+
+                        <Popup open={popup} modal onClose={() => setPopup(false)} closeOnDocumentClick={false}>
+                            <div className = "bevestiging">
+                                <button className = "close" onClick={() => setPopup(false)}> &times; </button>
+                                <p className = "vraag">Weet je het zeker?</p>
+                                <button className = "knop1" onClick={() => {pasExemplaarStatusAan(huidigExemplaar); setPopup(false)}}>Ja</button>
+                                <button className = "knop2"onClick={() => setPopup(false)}>Nee</button>
+                            </div>
+                        </Popup>
                     </tbody>
                 </table>
             </TableStyle>
 
         </div>
     );
-
 
 }
 export default ExemplaarInformatie;

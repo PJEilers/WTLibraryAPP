@@ -8,6 +8,7 @@ import { TableStyle } from '../../Styling/Table';
 import MaakBoekTabel from '../Boeken/BoekTabel';
 import { persoonContext } from '../../../App';
 import { ZoekveldStyling } from '../../Styling/ZoekveldStyling';
+import '../../Styling/Popup.css'
 
 
 function PersoonInformatie(props) {
@@ -139,18 +140,18 @@ function PersoonInformatie(props) {
                 </table>
             </TableStyle>
             <Popup open={nieuweUitlening} modal onClose={() => setNieuweUitlening(false)} closeOnDocumentClick={false}>
-                <div className="modal">
+                <div className="boekPopup">
                     <button className="close" onClick={() => setNieuweUitlening(false)}> &times; </button>
                     <MaakBoekTabel persoon = {huidigPersoon}/>
                 </div>
             </Popup>
 
             <Popup open={uitDienstPopUp} modal onClose={() => setUitDienstPopUp(false)} closeOnDocumentClick={false}>
-                <div className="dienstPopup">
-                    <button className="close" onClick={() => setUitDienstPopUp(false)}> &times; </button>
-                    <p className = "Vraag">Weet je het zeker?<br/>De naam en email van deze persoon worden uit de database verwijderd.</p>
-                    <button className = "Knop1" onClick={() => verwijderPersoonsGegevens(uitDienstPersoon)}>Ja</button>
-                    <button className = "Knop2" onClick={() => setUitDienstPopUp(false)}>Nee</button>
+                <div className = "bevestiging">
+                    <button className = "close" onClick={() => setUitDienstPopUp(false)}> &times; </button>
+                    <p className = "vraag">Weet je het zeker dat je de naam en email wil verwijderen?</p>
+                    <button className = "knop1" onClick={() => verwijderPersoonsGegevens(uitDienstPersoon)}>Ja</button>
+                    <button className = "knop2" onClick={() => setUitDienstPopUp(false)}>Nee</button>
                 </div>
             </Popup>
         </div>
